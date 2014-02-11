@@ -1,11 +1,8 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-unsigned regs[4];
-
-#include "instruction_set.h"
+#include "globals.h"
 #include "instructions.h"
-#include "instructions.c"
 #include "instruction_helpers.h"
 
 int pc;
