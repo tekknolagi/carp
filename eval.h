@@ -15,6 +15,10 @@ void eval (int instr, int arg1, int arg2, int arg3) {
     regs[arg3] = regs[arg1] + regs[arg2];
     break;
 
+  case INSTR_INCR:
+    regs[arg1]++;
+    break;
+
   case INSTR_SHOW:
     printf("r: %d\n", regs[arg1]);
     break;
