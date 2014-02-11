@@ -2,12 +2,12 @@
 #define INSTRUCTION_HELPERS_H
 
 /*
- * structure of an instruction (8 bits):
+ * structure of a word (16 bits):
  * 
- * 2 for instr name
- * 2 for arg1
- * 2 for arg2
- * 2 for arg3
+ * 4 for instr name
+ * 4 for arg1
+ * 4 for arg2
+ * 4 for arg3
  */
 
 void printbits (unsigned num) {
@@ -24,6 +24,10 @@ void printbits (unsigned num) {
     n++;
   }
   printf("\n");
+}
+
+void eval (int instr, int arg1, int arg2, int arg3) {
+  instructions[instr](arg1, arg2, arg3);
 }
 
 unsigned encode (int instr, int arg1, int arg2, int arg3) {

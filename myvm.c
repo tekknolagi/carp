@@ -1,15 +1,12 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#include "registers.h"
+unsigned regs[4];
 
 #include "instruction_set.h"
 #include "instructions.h"
-#include "instruction_helpers.h"
-
 #include "instructions.c"
-
-#include "eval.h"
+#include "instruction_helpers.h"
 
 int pc;
 int running = 1;
