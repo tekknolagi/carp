@@ -1,9 +1,14 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#include "instruction_set.h"
 #include "registers.h"
+
+#include "instruction_set.h"
+#include "instructions.h"
 #include "instruction_helpers.h"
+
+#include "instructions.c"
+
 #include "eval.h"
 
 int pc;
