@@ -15,9 +15,9 @@ $(PROG):	$(OBJS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-install:
-	rm -f $(INSTALL_DIR)/$(PROG)	; \
-	cp $(PROG) $(INSTALL_DIR)	;
+#install:
+#	rm -f $(INSTALL_DIR)/$(PROG)	; \
+#	cp $(PROG) $(INSTALL_DIR)	;
 
 clean:
 	rm -f *.0	; \
