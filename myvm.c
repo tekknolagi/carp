@@ -15,8 +15,8 @@ int main () {
     encode(INSTR_LOADI,  1, 11,  0), // loadi r1 11
     encode(INSTR_INCR ,  1,  0,  0), // incr r1
     encode(INSTR_ADD  ,  0,  1,  2), // add r0 r1 r2
-    encode(INSTR_SHOW ,  2,  0,  0), // disp r2
-    encode(INSTR_HALT ,  0,  0,  0), // halt
+    encode(INSTR_SHOW ,  2,  0,  0), // show r2
+    encode(INSTR_HALT ,  0,  0,  0), // halt 0
   };
 
   int instr, arg1, arg2, arg3;
