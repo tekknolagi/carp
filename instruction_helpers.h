@@ -10,8 +10,9 @@
  * 4 for arg3
  */
 
+definstr (next);
 void printbits  (unsigned);
-void eval       (machine_state*);
+definstr (eval);
 unsigned encode (int, int, int, int);
 void decode     (unsigned, machine_state*);
 

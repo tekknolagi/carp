@@ -30,6 +30,7 @@ enum instruction_enum {
 enum register_enum {
   // instruction pointer
   EIP  ,
+
   // regs 0 through 14 used... normally?
   REG0 ,
   REG1 ,

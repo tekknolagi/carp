@@ -4,8 +4,8 @@
 #include "globals.h"
 
 #include "stack/stack.c"
-#include "instructions.c"
 #include "instruction_helpers.c"
+#include "instructions.c"
 #include "init.c"
 
 int main (int argc, char **argv) {
@@ -23,7 +23,7 @@ int main (int argc, char **argv) {
     encode(INSTR_HALT ,     0,     0,     0), // halt 0
   };
 
-  for (mstate.regs[EIP] = 0; mstate.running; mstate.regs[EIP]++) {
+  for (; mstate.running ;) {
     // print the "encoded" groups of 4 bits
     printf("i: "); printbits(program[mstate.regs[EIP]]);
 

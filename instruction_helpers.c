@@ -1,3 +1,4 @@
+#include "instructions.h"
 #include "instruction_helpers.h"
 
 void printbits (unsigned num) {
@@ -14,6 +15,10 @@ void printbits (unsigned num) {
     n++;
   }
   printf("\n");
+}
+
+definstr (next) {
+  m->regs[EIP]++;
 }
 
 // get and execute the instruction

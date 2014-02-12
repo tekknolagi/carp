@@ -38,6 +38,8 @@ void (*instructions[NUM_INSTRS]) (machine_state*)  = {
   instr_show ,
   instr_push ,
   instr_pop  ,
+  instr_jz   ,
+  instr_jnz  ,
 };
 
 #endif
