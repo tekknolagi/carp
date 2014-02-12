@@ -17,4 +17,7 @@ enum instruction_enum {
 
 unsigned regs[4];
 
+int pc;
+int running = 1;
+
 #endif

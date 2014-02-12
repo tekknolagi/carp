@@ -1,12 +1,9 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#include "instructions.h"
 #include "globals.h"
-#include "instruction_helpers.h"
-
-int pc;
-int running = 1;
+#include "instructions.c"
+#include "instruction_helpers.c"
 
 int main (int argc, char **argv) {
   unsigned program[] = {
