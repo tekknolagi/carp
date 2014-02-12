@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #define VM_STACK_HEIGHT 100
+#define definstr(x) void instr_##x (machine_state*)
 
 enum instruction_enum {
   INSTR_HALT ,
@@ -16,6 +17,8 @@ enum instruction_enum {
   INSTR_SHOW ,
   INSTR_PUSH ,
   INSTR_POP  ,
+  INSTR_JZ   ,
+  INSTR_JNZ  ,
   NUM_ITEMS
 };
 
