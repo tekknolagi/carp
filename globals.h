@@ -15,9 +15,11 @@ enum instruction_enum {
   NUM_ITEMS
 };
 
-unsigned regs[4];
-
-int pc;
-int running = 1;
+typedef struct machine_state {
+  unsigned regs[4];
+  int instr, arg1, arg2, arg3;
+  int pc;
+  int running;
+} machine_state;
 
 #endif

@@ -11,8 +11,8 @@
  */
 
 void printbits     (unsigned);
-void eval          (int, int, int, int);
+void eval          (machine_state*);
 unsigned encode    (int, int, int, int);
-void decode        (unsigned, int*, int*, int*, int*);
+void decode        (unsigned, machine_state*);
 
 #endif

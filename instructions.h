@@ -1,18 +1,18 @@
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
 
-void instr_halt  (int, int, int);
-void instr_loadi (int, int, int);
-void instr_mov   (int, int, int);
-void instr_add   (int, int, int);
-void instr_sub   (int, int, int);
-void instr_mul   (int, int, int);
-void instr_div   (int, int, int);
-void instr_incr  (int, int, int);
-void instr_decr  (int, int, int);
-void instr_show  (int, int, int);
+void instr_halt  (machine_state*);
+void instr_loadi (machine_state*);
+void instr_mov   (machine_state*);
+void instr_add   (machine_state*);
+void instr_sub   (machine_state*);
+void instr_mul   (machine_state*);
+void instr_div   (machine_state*);
+void instr_incr  (machine_state*);
+void instr_decr  (machine_state*);
+void instr_show  (machine_state*);
 
-void (*instructions[NUM_ITEMS]) (int, int, int)  = {
+void (*instructions[NUM_ITEMS]) (machine_state*)  = {
   instr_halt ,
   instr_loadi,
   instr_mov  ,
