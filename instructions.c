@@ -60,22 +60,26 @@ definstr (pop) {
   instr_next(m);
 }
 
+definstr (cmp) {
+  m->regs[EAX] = m->regs[m->arg1] - m->regs[m->arg2];
+}
+
 definstr (jz) {
   // TODO
+  if (!m->regs[EAX]) {
+
+  }
+  else {
+
+  }
 }
 
 definstr (jnz) {
   // TODO
-}
+  if (m->regs[EAX]) {
 
-definstr (je) {
-  // TODO
-}
+  }
+  else {
 
-definstr (jne) {
-  // TODO
-}
-
-definstr (cmp) {
-  // TODO
+  }
 }

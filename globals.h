@@ -21,11 +21,9 @@ enum instruction_enum {
   INSTR_SHOW ,
   INSTR_PUSH ,
   INSTR_POP  ,
+  INSTR_CMP  ,
   INSTR_JZ   ,
   INSTR_JNZ  ,
-  INSTR_JE   ,
-  INSTR_JNE  ,
-  INSTR_CMP  ,
   NUM_INSTRS ,
 };
 
@@ -34,7 +32,7 @@ enum register_enum {
   // instruction pointer
   EIP  ,
 
-  // regs 0 through 14 used... normally?
+  // regs 0 through 14 for general use
   REG0 ,
   REG1 ,
   REG2 ,
@@ -50,6 +48,11 @@ enum register_enum {
   REG12,
   REG13,
   REG14,
+
+  // regs used for cmp, et al
+  EAX  ,
+  EDX  ,
+
   NUM_REGS,
 };
 
