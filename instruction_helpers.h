@@ -10,9 +10,9 @@
  * 4 for arg3
  */
 
-void printbits     (unsigned);
-void eval          (machine_state*);
-unsigned encode    (int, int, int, int);
-void decode        (unsigned, machine_state*);
+void printbits  (unsigned);
+void eval       (machine_state*);
+unsigned encode (int, int, int, int);
+void decode     (unsigned, machine_state*);
 
 #endif

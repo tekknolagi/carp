@@ -16,10 +16,12 @@ void printbits (unsigned num) {
   printf("\n");
 }
 
+// get and execute the instruction
 void eval (machine_state *m) {
   instructions[m->instr](m);
 }
 
+// "encode" the instruction & 3 args into a 16 bit integer
 unsigned encode (int instr, int arg1, int arg2, int arg3) {
   unsigned encoded = 0;
   encoded += (instr << 12) & 0xF000;
@@ -29,6 +31,7 @@ unsigned encode (int instr, int arg1, int arg2, int arg3) {
   return encoded;
 }
 
+// "decode" the instruction & 3 args into machine state
 void decode (unsigned encoded, machine_state *m) {
   m->instr = (encoded & 0xF000) >> 12;
   m->arg1  = (encoded & 0x0F00) >>  8;

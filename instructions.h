@@ -1,6 +1,7 @@
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
 
+// this is where the declaration/definition macro comes in handy
 definstr (halt);
 
 definstr (loadi);
