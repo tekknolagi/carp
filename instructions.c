@@ -1,58 +1,58 @@
 #include "instructions.h"
 
-definstr(halt) {
+definstr (halt) {
   StackDestroy(&m->stack);
   exit(m->arg1); // exit code
 }
 
-definstr(loadi) {
+definstr (loadi) {
   m->regs[m->arg1] = m->arg2;
 }
 
-definstr(mov) {
+definstr (mov) {
   m->regs[m->arg1] = m->regs[m->arg2];
 }
 
-definstr(add) {
+definstr (add) {
   m->regs[m->arg3] = m->regs[m->arg1] + m->regs[m->arg2]; // end = 1 + 2
 }
 
-definstr(sub) {
+definstr (sub) {
   m->regs[m->arg3] = m->regs[m->arg1] - m->regs[m->arg2]; // end = 1 - 2
 }
 
-definstr(mul) {
+definstr (mul) {
   m->regs[m->arg3] = m->regs[m->arg1] * m->regs[m->arg2]; // end = 1 * 2
 }
 
-definstr(div) {
+definstr (div) {
   m->regs[m->arg3] = m->regs[m->arg1] / m->regs[m->arg2]; // end = 1 / 2
 }
 
-definstr(incr) {
+definstr (incr) {
   m->regs[m->arg1]++;
 }
 
-definstr(decr) {
+definstr (decr) {
   m->regs[m->arg1]--;
 }
 
-definstr(show) {
+definstr (show) {
   printf("r: %d\n", m->regs[m->arg1]);
 }
 
-definstr(push) {
+definstr (push) {
   StackPush(&m->stack, m->arg1); // push 1
 }
 
-definstr(pop) {
+definstr (pop) {
   m->regs[m->arg1] = StackPop(&m->stack); // pop top into 1
 }
 
-definstr(jz) {
+definstr (jz) {
   // TODO
 }
 
-definstr(jnz) {
+definstr (jnz) {
   // TODO
 }
