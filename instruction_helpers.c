@@ -22,7 +22,7 @@ definstr (next) {
 }
 
 // get and execute the instruction
-void eval (machine_state *m) {
+definstr (eval) {
   instructions[m->instr](m);
 }
 
