@@ -6,12 +6,11 @@
 #include "stack/stack.c"
 #include "instructions.c"
 #include "instruction_helpers.c"
+#include "init.c"
 
 int main (int argc, char **argv) {
   machine_state mstate;
-  mstate.pc = 0;
-  mstate.running = 1;
-  StackInit(&mstate.stack, VM_STACK_HEIGHT);
+  init_vm(&mstate);
 
   unsigned program[] = {
     encode(INSTR_LOADI,  0, 12,  0), // loadi r0 12
