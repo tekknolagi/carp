@@ -1,4 +1,4 @@
-void init_vm (machine_state *ms) {
+void init_vm (machine_state *m) {
   // set program counter to 0
   m->pc = 0;
 
