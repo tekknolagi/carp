@@ -25,7 +25,7 @@ int main (int argc, char **argv) {
 
   for (; mstate.running ;) {
     // print the "encoded" groups of 4 bits
-    printf("i: "); printbits(program[mstate.regs[EIP]]);
+    // printf("i: "); printbits(program[mstate.regs[EIP]]);
 
     // decode the instruction and set state
     decode(program[mstate.regs[EIP]], &mstate);

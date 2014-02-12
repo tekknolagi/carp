@@ -12,7 +12,7 @@
 
 definstr (next);
 void printbits  (unsigned);
-definstr (eval);
+void eval       (machine_state*);
 unsigned encode (int, int, int, int);
 void decode     (unsigned, machine_state*);
 

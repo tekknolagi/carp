@@ -23,6 +23,9 @@ enum instruction_enum {
   INSTR_POP  ,
   INSTR_JZ   ,
   INSTR_JNZ  ,
+  INSTR_JE   ,
+  INSTR_JNE  ,
+  INSTR_CMP  ,
   NUM_INSTRS ,
 };
 

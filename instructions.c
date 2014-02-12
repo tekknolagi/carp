@@ -62,9 +62,20 @@ definstr (pop) {
 
 definstr (jz) {
   // TODO
-  // need to implement instruction pointers and whatnot
 }
 
 definstr (jnz) {
+  // TODO
+}
+
+definstr (je) {
+  // TODO
+}
+
+definstr (jne) {
+  // TODO
+}
+
+definstr (cmp) {
   // TODO
 }

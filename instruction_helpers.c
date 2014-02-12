@@ -17,12 +17,13 @@ void printbits (unsigned num) {
   printf("\n");
 }
 
+// increment instruction pointer
 definstr (next) {
   m->regs[EIP]++;
 }
 
 // get and execute the instruction
-definstr (eval) {
+void eval (machine_state *m) {
   instructions[m->instr](m);
 }
 
