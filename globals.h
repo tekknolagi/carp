@@ -2,7 +2,7 @@
 #define GLOBALS_H
 
 #define VM_STACK_HEIGHT 100
-#define definstr(x) void instr_##x (machine_state*)
+#define definstr(x) void instr_##x (machine_state* m)
 
 enum instruction_enum {
   INSTR_HALT ,
