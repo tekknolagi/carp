@@ -1,6 +1,7 @@
 #include "instructions.h"
 
 void instr_halt (machine_state *m) {
+  StackDestroy(&m->stack);
   exit(m->arg1); // exit code
 }
 
@@ -38,4 +39,12 @@ void instr_decr (machine_state *m) {
 
 void instr_show (machine_state *m) {
   printf("r: %d\n", m->regs[m->arg1]);
+}
+
+void instr_push (machine_state *m) {
+  StackPush(&m->stack, m->arg1); // push 1
+}
+
+void instr_pop (machine_state *m) {
+  m->regs[m->arg1] = StackPop(&m->stack); // pop top into 1
 }

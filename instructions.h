@@ -11,6 +11,8 @@ void instr_div   (machine_state*);
 void instr_incr  (machine_state*);
 void instr_decr  (machine_state*);
 void instr_show  (machine_state*);
+void instr_push  (machine_state*);
+void instr_pop   (machine_state*);
 
 void (*instructions[NUM_ITEMS]) (machine_state*)  = {
   instr_halt ,
@@ -23,6 +25,8 @@ void (*instructions[NUM_ITEMS]) (machine_state*)  = {
   instr_incr ,
   instr_decr ,
   instr_show ,
+  instr_push ,
+  instr_pop  ,
 };
 
 #endif
