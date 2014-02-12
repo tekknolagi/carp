@@ -48,3 +48,11 @@ void instr_push (machine_state *m) {
 void instr_pop (machine_state *m) {
   m->regs[m->arg1] = StackPop(&m->stack); // pop top into 1
 }
+
+void instr_jz (machine_state *m) {
+  // TODO
+}
+
+void instr_jnz (machine_state *m) {
+  // TODO
+}
