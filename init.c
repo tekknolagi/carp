@@ -1,6 +1,6 @@
 void init_vm (machine_state *m) {
-  // set program counter to 0
-  m->pc = 0;
+  // set instruction pointer to 0
+  m->regs[EIP] = 0;
 
   // "turn VM on"
   m->running = 1;

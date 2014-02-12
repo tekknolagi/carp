@@ -28,11 +28,24 @@ enum instruction_enum {
 
 // make register numbers easier on the eyes
 enum register_enum {
+  // instruction pointer
+  EIP  ,
+  // regs 0 through 14 used... normally?
   REG0 ,
   REG1 ,
   REG2 ,
   REG3 ,
-  EIP  ,
+  REG4 ,
+  REG5 ,
+  REG6 ,
+  REG7 ,
+  REG8 ,
+  REG9 ,
+  REG10,
+  REG11,
+  REG12,
+  REG13,
+  REG14,
   NUM_REGS,
 };
 

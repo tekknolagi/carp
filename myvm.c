@@ -20,15 +20,15 @@ int main (int argc, char **argv) {
     encode(INSTR_ADD  ,  REG0,  REG1,  REG2), // add r0 r1 r2
     encode(INSTR_DECR ,  REG2,     0,     0), // decr r2
     encode(INSTR_SHOW ,  REG2,     0,     0), // show r2
-    encode(INSTR_HALT ,  0,        0,     0), // halt 0
+    encode(INSTR_HALT ,     0,     0,     0), // halt 0
   };
 
-  for (mstate.pc = 0; mstate.running; mstate.pc++) {
+  for (mstate.regs[EIP] = 0; mstate.running; mstate.regs[EIP]++) {
     // print the "encoded" groups of 4 bits
-    printf("i: "); printbits(program[mstate.pc]);
+    printf("i: "); printbits(program[mstate.regs[EIP]]);
 
     // decode the instruction and set state
-    decode(program[mstate.pc], &mstate);
+    decode(program[mstate.regs[EIP]], &mstate);
 
     eval(&mstate);
   }
