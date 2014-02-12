@@ -10,7 +10,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(SRCS) $(PROG)
 
 $(PROG):	$(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
+	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@.out
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
@@ -20,5 +20,6 @@ $(PROG):	$(OBJS)
 #	cp $(PROG) $(INSTALL_DIR)	;
 
 clean:
-	rm -f *.0	; \
+	rm -f *.o	; \
+	rm -f *.out	; \
 	rm -f $(PROG)
