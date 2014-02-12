@@ -22,7 +22,9 @@ definstr (pop);
 definstr (jz);
 definstr (jnz);
 
-void (*instructions[NUM_ITEMS]) (machine_state*)  = {
+// create an array of function pointers to the instructions --
+// this is useful in `eval`
+void (*instructions[NUM_INSTRS]) (machine_state*)  = {
   instr_halt ,
   instr_loadi,
   instr_mov  ,

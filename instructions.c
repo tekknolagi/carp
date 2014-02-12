@@ -51,6 +51,7 @@ definstr (pop) {
 
 definstr (jz) {
   // TODO
+  // need to implement instruction pointers and whatnot
 }
 
 definstr (jnz) {
