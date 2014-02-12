@@ -5,6 +5,10 @@ definstr (halt) {
   exit(m->arg1); // exit code
 }
 
+definstr (nop) {
+  ;
+}
+
 definstr (loadi) {
   m->regs[m->arg1] = m->arg2;
   instr_next(m);
@@ -65,21 +69,41 @@ definstr (cmp) {
 }
 
 definstr (jz) {
-  // TODO
+  // zero
   if (!m->regs[EAX]) {
-
+    m->regs[EIP] = m->arg1;
   }
   else {
-
+    instr_nop(m);
   }
 }
 
 definstr (jnz) {
-  // TODO
+  // not zero
   if (m->regs[EAX]) {
-
+    m->regs[EIP] = m->arg1;
   }
   else {
+    instr_nop(m);
+  }
+}
 
+definstr (rjz) {
+  // zero
+  if (!m->regs[EAX]) {
+    m->regs[EIP] += m->arg1;
+  }
+  else {
+    instr_nop(m);
+  }
+}
+
+definstr (rjnz) {
+  // not zero
+  if (m->regs[EAX]) {
+    m->regs[EIP] += m->arg1;
+  }
+  else {
+    instr_nop(m);
   }
 }

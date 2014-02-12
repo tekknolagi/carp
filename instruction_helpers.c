@@ -30,10 +30,10 @@ void eval (machine_state *m) {
 // "encode" the instruction & 3 args into a 16 bit integer
 unsigned encode (int instr, int arg1, int arg2, int arg3) {
   unsigned encoded = 0;
-  encoded += (instr << 12) & 0xF000;
-  encoded += (arg1  <<  8) & 0xF00;
-  encoded += (arg2  <<  4) & 0xF0;
-  encoded += arg3;
+  encoded += (instr & 0xF) << 12;
+  encoded += (arg1  & 0xF) << 8;
+  encoded += (arg2  & 0xF) << 4;
+  encoded += (arg3  & 0xF);
   return encoded;
 }
 

@@ -7,9 +7,14 @@
 // shortcut so I don't have to keep copy/pasting declarations & definitions
 #define definstr(x) void instr_##x (machine_state* m)
 
+enum bools {
+  FLAG_FALSE, FLAG_TRUE,
+};
+
 // make instruction numbers easier on the eyes
 enum instruction_enum {
   INSTR_HALT ,
+  INSTR_NOP  ,
   INSTR_LOADI,
   INSTR_MOV  ,
   INSTR_ADD  ,
@@ -24,6 +29,8 @@ enum instruction_enum {
   INSTR_CMP  ,
   INSTR_JZ   ,
   INSTR_JNZ  ,
+  INSTR_RJZ  ,
+  INSTR_RJNZ ,
   NUM_INSTRS ,
 };
 

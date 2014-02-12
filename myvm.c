@@ -23,7 +23,7 @@ int main (int argc, char **argv) {
     encode(INSTR_HALT ,     0,     0,     0), // halt 0
   };
 
-  for (; mstate.running ;) {
+  while(mstate.running) {
     // print the "encoded" groups of 4 bits
     // printf("i: "); printbits(program[mstate.regs[EIP]]);
 

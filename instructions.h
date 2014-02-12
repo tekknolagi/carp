@@ -3,6 +3,7 @@
 
 // this is where the declaration/definition macro comes in handy
 definstr (halt);
+definstr (nop);
 
 definstr (loadi);
 definstr (mov);
@@ -25,10 +26,14 @@ definstr (cmp);
 definstr (jz);
 definstr (jnz);
 
+definstr (rjz);
+definstr (rjnz);
+
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
 void (*instructions[NUM_INSTRS]) (machine_state*)  = {
   [INSTR_HALT]  = instr_halt ,
+  [INSTR_NOP]   = instr_nop  ,
   [INSTR_LOADI] = instr_loadi,
   [INSTR_MOV]   = instr_mov  ,
   [INSTR_ADD]   = instr_add  ,
@@ -43,6 +48,8 @@ void (*instructions[NUM_INSTRS]) (machine_state*)  = {
   [INSTR_CMP]   = instr_cmp  ,
   [INSTR_JZ]    = instr_jz   ,
   [INSTR_JNZ]   = instr_jnz  ,
+  [INSTR_RJZ]   = instr_rjz  ,
+  [INSTR_RJNZ]  = instr_rjnz ,
 };
 
 #endif
