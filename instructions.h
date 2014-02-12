@@ -28,21 +28,21 @@ definstr (jnz);
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
 void (*instructions[NUM_INSTRS]) (machine_state*)  = {
-  instr_halt ,
-  instr_loadi,
-  instr_mov  ,
-  instr_add  ,
-  instr_sub  ,
-  instr_mul  ,
-  instr_div  ,
-  instr_incr ,
-  instr_decr ,
-  instr_show ,
-  instr_push ,
-  instr_pop  ,
-  instr_cmp  ,
-  instr_jz   ,
-  instr_jnz  ,
+  [INSTR_HALT]  = instr_halt ,
+  [INSTR_LOADI] = instr_loadi,
+  [INSTR_MOV]   = instr_mov  ,
+  [INSTR_ADD]   = instr_add  ,
+  [INSTR_SUB]   = instr_sub  ,
+  [INSTR_MUL]   = instr_mul  ,
+  [INSTR_DIV]   = instr_div  ,
+  [INSTR_INCR]  = instr_incr ,
+  [INSTR_DECR]  = instr_decr ,
+  [INSTR_SHOW]  = instr_show ,
+  [INSTR_PUSH]  = instr_push ,
+  [INSTR_POP]   = instr_pop  ,
+  [INSTR_CMP]   = instr_cmp  ,
+  [INSTR_JZ]    = instr_jz   ,
+  [INSTR_JNZ]   = instr_jnz  ,
 };
 
 #endif
