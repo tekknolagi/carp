@@ -22,8 +22,8 @@ int main (int argc, char **argv) {
     encode(INSTR_DECR ,  REG2,     0,     0), // decr r2
     encode(INSTR_SHOW ,  REG2,     0,     0), // show r2
     encode(INSTR_CMP  ,  REG0,  REG0,     0), // cmp r0 r0
-    encode(INSTR_RJZ  ,     2,     0,     0), // rjnz 1 (jump forward +1 if
-                                              // eax is 0
+    encode(INSTR_RJZ  ,     2,     0,     0), // rjnz 1 (jump forward +2 if eax is 0)
+                                              // that is, to the halt instruction
     encode(INSTR_SHOW ,  REG2,     0,     0), // see if skipped
     encode(INSTR_HALT ,     0,     0,     0), // halt 0
   };
