@@ -81,20 +81,20 @@ definstr (jz) {
   }
 }
 
-definstr (jnz) {
-  // not zero
-  if (m->regs[EAX]) {
-    m->regs[EIP] = m->args[0];
+definstr (rjz) {
+  // zero
+  if (!m->regs[EAX]) {
+    m->regs[EIP] += m->args[0];
   }
   else {
     instr_nop(m);
   }
 }
 
-definstr (rjz) {
-  // zero
-  if (!m->regs[EAX]) {
-    m->regs[EIP] += m->args[0];
+definstr (jnz) {
+  // not zero
+  if (m->regs[EAX]) {
+    m->regs[EIP] = m->args[0];
   }
   else {
     instr_nop(m);
@@ -109,4 +109,12 @@ definstr (rjnz) {
   else {
     instr_nop(m);
   }
+}
+
+definstr (jmp) {
+  m->regs[EIP] = m->args[0];
+}
+
+definstr (rjmp) {
+  m->regs[EIP] += m->args[0];
 }

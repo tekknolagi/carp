@@ -24,10 +24,13 @@ definstr (pop);
 definstr (cmp);
 
 definstr (jz);
-definstr (jnz);
-
 definstr (rjz);
+
+definstr (jnz);
 definstr (rjnz);
+
+definstr (jmp);
+definstr (rjmp);
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
@@ -47,9 +50,11 @@ void (*instructions[NUM_INSTRS]) (machine_state*)  = {
   [INSTR_POP]   = instr_pop  ,
   [INSTR_CMP]   = instr_cmp  ,
   [INSTR_JZ]    = instr_jz   ,
-  [INSTR_JNZ]   = instr_jnz  ,
   [INSTR_RJZ]   = instr_rjz  ,
+  [INSTR_JNZ]   = instr_jnz  ,
   [INSTR_RJNZ]  = instr_rjnz ,
+  [INSTR_JMP]   = instr_jmp  ,
+  [INSTR_RJMP]  = instr_rjmp ,
 };
 
 #endif

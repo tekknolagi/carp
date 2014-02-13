@@ -31,9 +31,11 @@ enum instruction_enum {
   INSTR_POP  ,
   INSTR_CMP  ,
   INSTR_JZ   ,
-  INSTR_JNZ  ,
   INSTR_RJZ  ,
+  INSTR_JNZ  ,
   INSTR_RJNZ ,
+  INSTR_JMP  ,
+  INSTR_RJMP ,
   NUM_INSTRS ,
 };
 
