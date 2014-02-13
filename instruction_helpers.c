@@ -59,6 +59,6 @@ instruction encode (int instr, long long arg1, long long arg2, long long arg3) {
 
 // "decode" the instruction & 3 args into machine state
 void decode (instruction* i, machine_state* m) {
-  m->instr    = i->instr;
+  m->instr = i->instr;
   memcpy(m->args, i->args, sizeof(long long[NUM_ARGS]));
 }

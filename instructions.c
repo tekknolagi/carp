@@ -1,6 +1,7 @@
 #include "instructions.h"
 
 definstr (halt) {
+  puts("halting...");
   StackDestroy(&m->stack);
   exit((int) m->args[0]); // exit code
 }
@@ -51,7 +52,7 @@ definstr (decr) {
 }
 
 definstr (show) {
-  printf("r: %lld\n", m->regs[(int) m->args[0]]);
+  printf("r%d: %lld\n", (int) m->args[0], m->regs[(int) m->args[0]]);
   instr_next(m);
 }
 
@@ -67,6 +68,7 @@ definstr (pop) {
 
 definstr (cmp) {
   m->regs[EAX] = m->regs[(int) m->args[0]] - m->regs[(int) m->args[1]];
+  instr_next(m);
 }
 
 definstr (jz) {
