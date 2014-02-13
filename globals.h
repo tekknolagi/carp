@@ -1,12 +1,15 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#define NUM_ARGS 3
+
 // max height of VM (initial)
 #define VM_STACK_HEIGHT 100
 
 // shortcut so I don't have to keep copy/pasting declarations & definitions
 #define definstr(x) void instr_##x (machine_state* m)
 
+typedef char bool;
 enum bools {
   FLAG_FALSE, FLAG_TRUE,
 };
@@ -36,9 +39,6 @@ enum instruction_enum {
 
 // make register numbers easier on the eyes
 enum register_enum {
-  // instruction pointer
-  EIP  ,
-
   // regs 0 through 14 for general use
   REG0 ,
   REG1 ,
@@ -60,13 +60,23 @@ enum register_enum {
   EAX  ,
   EDX  ,
 
+  // instruction pointer
+  EIP  ,
+
   NUM_REGS,
 };
 
+typedef struct instruction {
+  int instr;
+  long long args[NUM_ARGS];
+} instruction;
+
 typedef struct machine_state {
-  unsigned regs[NUM_REGS];
-  int instr, arg1, arg2, arg3;
-  int pc, running;
+  bool running;
+  int instr, pc;
+  long long args[NUM_ARGS];
+
+  long long regs[NUM_REGS];
   stackT stack;
 } machine_state;
 

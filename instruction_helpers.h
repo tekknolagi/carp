@@ -11,9 +11,11 @@
  */
 
 definstr (next);
-void printbits  (unsigned);
-void eval       (machine_state*);
-unsigned encode (int, int, int, int);
-void decode     (unsigned, machine_state*);
+void print_args      (long long []);
+void print_instr     (instruction*, machine_state*);
+void printbits_num   (long long);
+void eval            (machine_state*);
+instruction encode   (int, long long, long long, long long);
+void decode          (instruction*, machine_state*);
 
 #endif
