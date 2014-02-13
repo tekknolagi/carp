@@ -3,7 +3,7 @@ LIBS = -Wall
 PROG = myvm
 CFLAGS = -c
 LDFLAGS = 
-INSTALL_DIR = /usr/bin
+INSTALL_DIR = /usr/local/bin
 SRCS = myvm.c
 OBJS = $(SRCS:.c=.o)
 
@@ -15,9 +15,12 @@ $(PROG):	$(OBJS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-#install:
-#	rm -f $(INSTALL_DIR)/$(PROG)	; \
-#	cp $(PROG) $(INSTALL_DIR)	;
+install:
+	rm -f $(INSTALL_DIR)/$(PROG)		; \
+	cp $(PROG:=.out) $(INSTALL_DIR)/$(PROG)	;
+
+uninstall:
+	rm -f $(INSTALL_DIR)/$(PROG)
 
 clean:
 	rm -f *.o	; \
