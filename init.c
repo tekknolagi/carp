@@ -8,5 +8,5 @@ void init_vm (machine_state *m) {
   m->running = FLAG_TRUE;
 
   // initialize stack
-  StackInit(&m->stack, VM_STACK_HEIGHT);
+  stack_init(&m->stack, VM_STACK_HEIGHT);
 }

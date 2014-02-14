@@ -79,7 +79,7 @@ typedef struct machine_state {
   long long args[NUM_ARGS];
 
   long long regs[NUM_REGS];
-  stackT stack;
+  stack_type stack;
 } machine_state;
 
 #endif

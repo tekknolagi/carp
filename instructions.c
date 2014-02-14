@@ -2,7 +2,7 @@
 
 definstr (HALT) {
   puts("halting...");
-  StackDestroy(&m->stack);
+  stack_destroy(&m->stack);
   exit((int) m->args[0]); // exit code
 }
 
@@ -56,12 +56,12 @@ definstr (SHOW) {
 }
 
 definstr (PUSH) {
-  StackPush(&m->stack, m->args[0]); // push 1
+  stack_push(&m->stack, m->args[0]); // push 1
   instr_NEXT(m);
 }
 
 definstr (POP) {
-  m->regs[(int) m->args[0]] = StackPop(&m->stack); // pop top into 1
+  m->regs[(int) m->args[0]] = stack_pop(&m->stack); // pop top into 1
   instr_NEXT(m);
 }
 
