@@ -1,32 +1,32 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#include "stack.h"
+#include "carp_stack.h"
 
-void stack_init(stack_type* s, long max_height) {
+void carp_stack_init(carp_stack_type* s, long max_height) {
   s->height = 0;
   s->max_height = max_height;
   long long* contents = (long long *) malloc(max_height * sizeof(long long));
   if (contents == NULL) {
-    fprintf(stderr, "Not enough memory to initialize stack.");
+    fprintf(stderr, "Not enough memory to initialize carp_stack.");
     exit(1);
   }
   s->contents = contents;
 }
 
-char stack_empty(stack_type* s) {
+char carp_stack_empty(carp_stack_type* s) {
   return s->height == 0;
 }
 
-char stack_full(stack_type* s) {
+char carp_stack_full(carp_stack_type* s) {
   return s->height == s->max_height;
 }
 
-void stack_push(stack_type* s, long long i) {
-  if (stack_full(s)) {
+void carp_stack_push(carp_stack_type* s, long long i) {
+  if (carp_stack_full(s)) {
     long long* contents = (long long *) realloc(s->contents, 5);
     if (contents == NULL) {
-      fprintf(stderr, "Not enough memory to add to stack.");
+      fprintf(stderr, "Not enough memory to add to carp_stack.");
       exit(1);
     }
     s->contents = contents;
@@ -37,9 +37,9 @@ void stack_push(stack_type* s, long long i) {
   }
 }
 
-long long stack_pop (stack_type* s) {
-  if (stack_empty(s)) {
-    fprintf(stderr, "Stack is empty.");
+long long carp_stack_pop (carp_stack_type* s) {
+  if (carp_stack_empty(s)) {
+    fprintf(stderr, "Carp_Stack is empty.");
     exit(1);
   }
   else {
@@ -50,7 +50,7 @@ long long stack_pop (stack_type* s) {
   }
 }
 
-void stack_destroy (stack_type* s) {
+void carp_stack_destroy (carp_stack_type* s) {
   free(s->contents);
   s->contents = NULL;
   s->max_height = 0;

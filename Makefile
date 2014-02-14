@@ -1,10 +1,10 @@
 CC = gcc
 LIBS = -Wall -std=c99
-PROG = myvm
+PROG = carp
 CFLAGS = -c
 LDFLAGS = 
 INSTALL_DIR = /usr/local/bin
-SRCS = myvm.c
+SRCS = carp.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(SRCS) $(PROG)
@@ -15,15 +15,17 @@ $(PROG):	$(OBJS)
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-install:
-	rm -f $(INSTALL_DIR)/$(PROG)		; \
+#	rm -f $(INSTALL_DIR)/$(PROG)		; \
 	cp $(PROG:=.out) $(INSTALL_DIR)/$(PROG)	; \
-	rm -rf /usr/local/include/myvm		; \
-	mkdir /usr/local/include/myvm		; \
-	cp -r . /usr/local/include/myvm
+
+install:
+	rm -rf /usr/local/include/carp		; \
+	mkdir /usr/local/include/carp		; \
+	cp -r . /usr/local/include/carp
 
 uninstall:
-	rm -f $(INSTALL_DIR)/$(PROG)
+	rm -f $(INSTALL_DIR)/$(PROG)		; \
+	rm -r /usr/local/include/carp
 
 clean:
 	rm -f *.o	; \
