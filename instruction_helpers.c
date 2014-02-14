@@ -2,7 +2,7 @@
 #include "instruction_helpers.h"
 
 // increment instruction pointer
-definstr (next) {
+definstr (NEXT) {
   m->regs[EIP]++;
 }
 

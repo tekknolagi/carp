@@ -1,13 +1,13 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+// shortcut so I don't have to keep copy/pasting declarations & definitions
+#define definstr(x) void instr_##x (machine_state* m)
+
 #define NUM_ARGS 3
 
 // max height of VM (initial)
 #define VM_STACK_HEIGHT 100
-
-// shortcut so I don't have to keep copy/pasting declarations & definitions
-#define definstr(x) void instr_##x (machine_state* m)
 
 typedef char bool;
 enum bools {

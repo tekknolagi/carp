@@ -10,7 +10,7 @@
  * 4 for arg3
  */
 
-definstr (next);
+definstr (NEXT);
 void print_args      (long long []);
 void print_instr     (instruction*, machine_state*);
 void printbits_num   (long long);

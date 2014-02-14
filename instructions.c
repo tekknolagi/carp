@@ -1,120 +1,119 @@
 #include "instructions.h"
 
-definstr (halt) {
+definstr (HALT) {
   puts("halting...");
   StackDestroy(&m->stack);
   exit((int) m->args[0]); // exit code
 }
 
-definstr (nop) {
-  ;
-  instr_next(m);
+definstr (NOP) {
+  instr_NEXT(m);
 }
 
-definstr (loadi) {
+definstr (LOADI) {
   m->regs[(int) m->args[0]] = m->args[1];
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (mov) {
+definstr (MOV) {
   m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]];
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (add) {
+definstr (ADD) {
   m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] + m->regs[(int) m->args[2]]; // end = 1 + 2
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (sub) {
+definstr (SUB) {
   m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] - m->regs[(int) m->args[2]]; // end = 1 - 2
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (mul) {
+definstr (MUL) {
   m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] * m->regs[(int) m->args[12]]; // end = 1 * 2
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (div) {
+definstr (DIV) {
   m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] / m->regs[(int) m->args[2]]; // end = 1 / 2
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (incr) {
+definstr (INCR) {
   m->regs[(int) m->args[0]]++;
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (decr) {
+definstr (DECR) {
   m->regs[(int) m->args[0]]--;
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (show) {
+definstr (SHOW) {
   printf("r%d: %lld\n", (int) m->args[0], m->regs[(int) m->args[0]]);
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (push) {
+definstr (PUSH) {
   StackPush(&m->stack, m->args[0]); // push 1
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (pop) {
+definstr (POP) {
   m->regs[(int) m->args[0]] = StackPop(&m->stack); // pop top into 1
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (cmp) {
+definstr (CMP) {
   m->regs[EAX] = m->regs[(int) m->args[0]] - m->regs[(int) m->args[1]];
-  instr_next(m);
+  instr_NEXT(m);
 }
 
-definstr (jz) {
+definstr (JZ) {
   // zero
   if (!m->regs[EAX]) {
     m->regs[EIP] = m->args[0];
   }
   else {
-    instr_nop(m);
+    instr_NOP(m);
   }
 }
 
-definstr (rjz) {
+definstr (RJZ) {
   // zero
   if (!m->regs[EAX]) {
     m->regs[EIP] += m->args[0];
   }
   else {
-    instr_nop(m);
+    instr_NOP(m);
   }
 }
 
-definstr (jnz) {
+definstr (JNZ) {
   // not zero
   if (m->regs[EAX]) {
     m->regs[EIP] = m->args[0];
   }
   else {
-    instr_nop(m);
+    instr_NOP(m);
   }
 }
 
-definstr (rjnz) {
+definstr (RJNZ) {
   // not zero
   if (m->regs[EAX]) {
     m->regs[EIP] += m->args[0];
   }
   else {
-    instr_nop(m);
+    instr_NOP(m);
   }
 }
 
-definstr (jmp) {
+definstr (JMP) {
   m->regs[EIP] = m->args[0];
 }
 
-definstr (rjmp) {
+definstr (RJMP) {
   m->regs[EIP] += m->args[0];
 }
