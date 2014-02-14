@@ -22,8 +22,8 @@ void stack_push(stack_type* s, long long i) {
     s->contents = (long long *) realloc(s->contents, 5);
   }
   else {
-    s->height++;
     s->contents[s->height] = i;
+    s->height++;
   }
 }
 
