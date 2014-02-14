@@ -9,11 +9,11 @@ void stack_init(stack_type* s, long max_height) {
   s->contents = (long long *) malloc(max_height * sizeof(long long));
 }
 
-bool stack_empty(stack_type* s) {
+char stack_empty(stack_type* s) {
   return s->height == 0;
 }
 
-bool stack_full(stack_type* s) {
+char stack_full(stack_type* s) {
   return s->height == s->max_height;
 }
 
@@ -30,7 +30,7 @@ void stack_push(stack_type* s, long long i) {
 long long stack_pop (stack_type* s) {
   if (stack_empty(s)) {
     fprintf(stderr, "Stack is empty.");
-    return NULL;
+    exit(1);
   }
   else {
     long long i = s->contents[s->height];
