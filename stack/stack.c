@@ -6,7 +6,12 @@
 void stack_init(stack_type* s, long max_height) {
   s->height = 0;
   s->max_height = max_height;
-  s->contents = (long long *) malloc(max_height * sizeof(long long));
+  long long* contents = (long long *) malloc(max_height * sizeof(long long));
+  if (contents == NULL) {
+    fprintf(stderr, "Not enough memory to initialize stack.");
+    exit(1);
+  }
+  s->contents = contents;
 }
 
 char stack_empty(stack_type* s) {
@@ -19,7 +24,12 @@ char stack_full(stack_type* s) {
 
 void stack_push(stack_type* s, long long i) {
   if (stack_full(s)) {
-    s->contents = (long long *) realloc(s->contents, 5);
+    long long* contents = (long long *) realloc(s->contents, 5);
+    if (contents == NULL) {
+      fprintf(stderr, "Not enough memory to add to stack.");
+      exit(1);
+    }
+    s->contents = contents;
   }
   else {
     s->contents[s->height] = i;

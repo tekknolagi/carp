@@ -1,5 +1,5 @@
 CC = gcc
-LIBS = -Wall
+LIBS = -Wall -std=c99
 PROG = myvm
 CFLAGS = -c
 LDFLAGS = 

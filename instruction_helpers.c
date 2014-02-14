@@ -50,9 +50,9 @@ void eval (machine_state *m) {
 instruction encode (int instr, long long arg1, long long arg2, long long arg3) {
   instruction i;
   i.instr = instr;
-  i.args[0] = arg1;
-  i.args[1] = arg2;
-  i.args[2] = arg3;
+  memcpy(i.args,
+	 ((long long[NUM_ARGS]){arg1, arg2, arg3}), // need extra parentheses otherwise memcpy macro barfs
+	 sizeof(long long[NUM_ARGS]));
 
   return i;
 }
