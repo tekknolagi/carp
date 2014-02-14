@@ -1,4 +1,6 @@
+#include "stdio.h"
 #include "stdlib.h"
+
 #include "stack.h"
 
 void stack_init(stack_type* s, long max_height) {
@@ -16,7 +18,7 @@ bool stack_full(stack_type* s) {
 }
 
 void stack_push(stack_type* s, long long i) {
-  if (s->height == s->max_height) {
+  if (stack_full(s)) {
     s->contents = (long long *) realloc(s->contents, 5);
   }
   else {
@@ -26,10 +28,16 @@ void stack_push(stack_type* s, long long i) {
 }
 
 long long stack_pop (stack_type* s) {
-  long long i = s->contents[s->height];
-  s->height--;
-
-  return i;
+  if (stack_empty(s)) {
+    fprintf(stderr, "Stack is empty.");
+    return NULL;
+  }
+  else {
+    long long i = s->contents[s->height];
+    s->height--;
+    
+    return i;
+  }
 }
 
 void stack_destroy (stack_type* s) {
