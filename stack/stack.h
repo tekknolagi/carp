@@ -8,6 +8,8 @@ typedef struct stack_type {
 } stack_type;
 
 void stack_init (stack_type*, long);
+bool stack_empty (stack_type*);
+bool stack_full (stack_type*);
 void stack_push (stack_type*, long long);
 long long stack_pop (stack_type*);
 void stack_destroy (stack_type*);

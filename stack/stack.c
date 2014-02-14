@@ -7,6 +7,14 @@ void stack_init(stack_type* s, long max_height) {
   s->contents = (long long *) malloc(max_height * sizeof(long long));
 }
 
+bool stack_empty(stack_type* s) {
+  return s->height == 0;
+}
+
+bool stack_full(stack_type* s) {
+  return s->height == s->max_height;
+}
+
 void stack_push(stack_type* s, long long i) {
   if (s->height == s->max_height) {
     s->contents = (long long *) realloc(s->contents, 5);
