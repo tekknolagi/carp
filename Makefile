@@ -17,7 +17,10 @@ $(PROG):	$(OBJS)
 
 install:
 	rm -f $(INSTALL_DIR)/$(PROG)		; \
-	cp $(PROG:=.out) $(INSTALL_DIR)/$(PROG)	;
+	cp $(PROG:=.out) $(INSTALL_DIR)/$(PROG)	; \
+	rm -rf /usr/local/include/myvm		; \
+	mkdir /usr/local/include/myvm		; \
+	cp -r . /usr/local/include/myvm
 
 uninstall:
 	rm -f $(INSTALL_DIR)/$(PROG)

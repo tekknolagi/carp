@@ -62,3 +62,32 @@ void decode (instruction* i, machine_state* m) {
   m->instr = i->instr;
   memcpy(m->args, i->args, sizeof(long long[NUM_ARGS]));
 }
+
+void init_vm (machine_state *m) {
+  // set instruction pointer to 0
+  for (int i = 0; i < NUM_REGS; i++) {
+    m->regs[i] = 0;
+  }
+
+  // "turn VM on"
+  m->running = FLAG_TRUE;
+
+  // initialize stack
+  stack_init(&m->stack, VM_STACK_HEIGHT);
+}
+
+void vm_do (instruction program[]) {
+  machine_state mstate;
+  init_vm(&mstate);
+
+  while(mstate.running) {
+    instruction i = program[mstate.regs[EIP]];
+    // decode the instruction and set state
+    decode(&i, &mstate);
+
+    // print the "encoded" groups of 16 bits
+    // print_instr(&i, &mstate);
+
+    eval(&mstate);
+  }
+}

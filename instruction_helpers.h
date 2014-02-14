@@ -17,5 +17,7 @@ void printbits_num   (long long);
 void eval            (machine_state*);
 instruction encode   (int, long long, long long, long long);
 void decode          (instruction*, machine_state*);
+void init_vm         (machine_state*);
+void vm_do           (instruction[]);
 
 #endif
