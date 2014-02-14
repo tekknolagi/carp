@@ -33,8 +33,8 @@ long long stack_pop (stack_type* s) {
     exit(1);
   }
   else {
-    long long i = s->contents[s->height];
     s->height--;
+    long long i = s->contents[s->height];
     
     return i;
   }
