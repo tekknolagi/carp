@@ -1,4 +1,4 @@
-#include "carp/carp.h"
+#include "carp.h"
 
 int main (int argc, char **argv) {
   carp_instruction program[] = {

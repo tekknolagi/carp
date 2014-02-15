@@ -19,15 +19,17 @@ $(PROG):	$(OBJS)
 	cp $(PROG:=.out) $(INSTALL_DIR)/$(PROG)	; \
 
 install:
-	rm -rf /usr/local/include/carp		; \
-	mkdir /usr/local/include/carp		; \
-	cp -r . /usr/local/include/carp
+	rm -rf /usr/local/include/carp*.h	; \
+	rm -rf /usr/local/include/carp*.c	; \
+	cp -r . /usr/local/include
 
 uninstall:
-	rm -f $(INSTALL_DIR)/$(PROG)		; \
-	rm -r /usr/local/include/carp
+	rm -rf /usr/local/include/carp*.h	; \
+	rm -rf /usr/local/include/carp*.c
 
 clean:
 	rm -f *.o	; \
 	rm -f *.out	; \
+	rm -f *.js*	; \
+	rm -f *.html*	; \
 	rm -f $(PROG)
