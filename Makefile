@@ -1,8 +1,8 @@
-CC = gcc
-LIBS = -Wall -std=c99
-PROG = carp
-CFLAGS = -c
-LDFLAGS = 
+CC ?= clang
+LIBS ?= -Wall -std=c99
+PROG ?= carp
+CFLAGS ?= -c 
+LDFLAGS ?= 
 INSTALL_DIR = /usr/local/bin
 SRCS = carp.c
 OBJS = $(SRCS:.c=.o)
@@ -10,7 +10,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(SRCS) $(PROG)
 
 $(PROG):	$(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@.out
+	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
@@ -32,4 +32,5 @@ clean:
 	rm -f *.out	; \
 	rm -f *.js*	; \
 	rm -f *.html*	; \
+	rm -f *.bc	; \
 	rm -f $(PROG)
