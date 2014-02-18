@@ -25,6 +25,9 @@ install:
 	mkdir /usr/local/include/carp		; \
 	cp -r . /usr/local/include/carp
 
+js:
+	emcc $(SRCS)
+
 uninstall:
 	rm -rf /usr/local/include/carp*.h	; \
 	rm -rf /usr/local/include/carp*.c	; \
