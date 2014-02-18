@@ -17,15 +17,15 @@ void carp_vm_init (carp_machine_state *m) {
 }
 
 void carp_vm_do (carp_machine_state* m, carp_instruction program[]) {
-  while(mstate.running) {
-    carp_instruction i = program[mstate.regs[CARP_EIP]];
+  while(m->running) {
+    carp_instruction i = program[m->regs[CARP_EIP]];
     // decode the instruction and set state
-    carp_decode(&i, &mstate);
+    carp_decode(&i, m);
 
-    carp_eval(&mstate);
+    carp_eval(m);
   }
 
-  carp_vm_exit(&mstate, 0);
+  carp_vm_exit(m, 0);
 }
 
 void carp_vm_cleanup (carp_machine_state* m) {
