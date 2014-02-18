@@ -1,9 +1,17 @@
 #ifndef CARP_INSTRUCTIONS_H
 #define CARP_INSTRUCTIONS_H
 
+#include "stdio.h"
+
+#include "carp_globals.h"
+#include "carp_types.h"
+#include "carp_machine.h"
+#include "carp_stack.h"
+
 // this is where the declaration/definition macro comes in handy
 definstr (HALT);
 definstr (NOP);
+definstr (NEXT);
 definstr (LOADI);
 definstr (MOV);
 definstr (ADD);
@@ -22,12 +30,15 @@ definstr (JNZ);
 definstr (RJNZ);
 definstr (JMP);
 definstr (RJMP);
+definstr (DBS);
+definstr (DBG);
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
 void (*carp_instructions[CARP_NUM_INSTRS]) (carp_machine_state*)  = {
   [CARP_INSTR_HALT]  = carp_instr_HALT ,
   [CARP_INSTR_NOP]   = carp_instr_NOP  ,
+  [CARP_INSTR_NEXT]  = carp_instr_NEXT ,
   [CARP_INSTR_LOADI] = carp_instr_LOADI,
   [CARP_INSTR_MOV]   = carp_instr_MOV  ,
   [CARP_INSTR_ADD]   = carp_instr_ADD  ,
@@ -46,6 +57,8 @@ void (*carp_instructions[CARP_NUM_INSTRS]) (carp_machine_state*)  = {
   [CARP_INSTR_RJNZ]  = carp_instr_RJNZ ,
   [CARP_INSTR_JMP]   = carp_instr_JMP  ,
   [CARP_INSTR_RJMP]  = carp_instr_RJMP ,
+  [CARP_INSTR_DBS]   = carp_instr_DBS  ,
+  [CARP_INSTR_DBG]   = carp_instr_DBG  ,
 };
 
 #endif

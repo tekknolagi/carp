@@ -1,6 +1,7 @@
-#include "carp.h"
+#include "carp/carp.h"
 
-int main (int argc, char **argv) {
+int main (int argc, char** argv) {
+  // array of structs
   carp_instruction program[] = {
     // compute 5 factorial
     {CARP_INSTR_LOADI, {CARP_REG0, 1}}, // loadi r0 1

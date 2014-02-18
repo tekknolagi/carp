@@ -1,6 +1,7 @@
-#include "carp.h"
+#include "carp/carp.h"
 
-int main (int argc, char **argv) {
+int main (int argc, char** argv) {
+  // array of structs
   carp_instruction program[] = {
     // sum numbers from 1 to 100
     {CARP_INSTR_LOADI, {CARP_REG0, 0}}, // loadi r0 0

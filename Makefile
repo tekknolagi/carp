@@ -21,11 +21,14 @@ $(PROG):	$(OBJS)
 install:
 	rm -rf /usr/local/include/carp*.h	; \
 	rm -rf /usr/local/include/carp*.c	; \
-	cp -r . /usr/local/include
+	rm -rf /usr/local/include/carp		; \
+	mkdir /usr/local/include/carp		; \
+	cp -r . /usr/local/include/carp
 
 uninstall:
 	rm -rf /usr/local/include/carp*.h	; \
-	rm -rf /usr/local/include/carp*.c
+	rm -rf /usr/local/include/carp*.c	; \
+	rm -rf /usr/local/include/carp
 
 clean:
 	rm -f *.o	; \

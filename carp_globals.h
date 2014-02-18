@@ -5,8 +5,10 @@
 #define definstr(x) void carp_instr_##x (carp_machine_state* m)
 
 #define CARP_NUM_ARGS 3
+#define CARP_NUM_STRING_ARGS 1
+#define CARP_NAME_LENGTH 32
 
-// max height of VM (initial)
+// max stack height of VM (initial)
 #define CARP_STACK_HEIGHT 100
 
 enum carp_bools {
@@ -17,6 +19,7 @@ enum carp_bools {
 enum carp_instruction_enum {
   CARP_INSTR_HALT ,
   CARP_INSTR_NOP  ,
+  CARP_INSTR_NEXT ,
   CARP_INSTR_LOADI,
   CARP_INSTR_MOV  ,
   CARP_INSTR_ADD  ,
@@ -35,6 +38,8 @@ enum carp_instruction_enum {
   CARP_INSTR_RJNZ ,
   CARP_INSTR_JMP  ,
   CARP_INSTR_RJMP ,
+  CARP_INSTR_DBS  ,
+  CARP_INSTR_DBG  ,
   CARP_NUM_INSTRS ,
 };
 
@@ -66,19 +71,5 @@ enum carp_register_enum {
 
   CARP_NUM_REGS,
 };
-
-typedef struct carp_instruction {
-  int instr;
-  long long args[CARP_NUM_ARGS];
-} carp_instruction;
-
-typedef struct carp_machine_state {
-  char running; // boolean
-  int instr, pc;
-  long long args[CARP_NUM_ARGS];
-
-  long long regs[CARP_NUM_REGS];
-  carp_stack_type stack;
-} carp_machine_state;
 
 #endif
