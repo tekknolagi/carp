@@ -16,10 +16,7 @@ void carp_vm_init (carp_machine_state *m) {
   m->vars = NULL;
 }
 
-void carp_vm_do (carp_instruction program[]) {
-  carp_machine_state mstate;
-  carp_init_vm(&mstate);
-
+void carp_vm_do (carp_machine_state* m, carp_instruction program[]) {
   while(mstate.running) {
     carp_instruction i = program[mstate.regs[CARP_EIP]];
     // decode the instruction and set state
