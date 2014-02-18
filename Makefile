@@ -1,7 +1,7 @@
 CC ?= clang
-LIBS ?= -Wall -std=c99
+LIBS ?= 
 PROG ?= carp
-CFLAGS ?= -c 
+CFLAGS ?= -c -std=c99 -Wall
 LDFLAGS ?= 
 INSTALL_DIR = /usr/local/bin
 SRCS = carp.c
