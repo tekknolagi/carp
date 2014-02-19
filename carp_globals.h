@@ -16,7 +16,7 @@ enum carp_bools {
 };
 
 // make instruction numbers easier on the eyes
-enum carp_instruction_enum {
+typedef enum {
   CARP_INSTR_HALT ,
   CARP_INSTR_NOP  ,
   CARP_INSTR_NEXT ,
@@ -41,10 +41,10 @@ enum carp_instruction_enum {
   CARP_INSTR_DBS  ,
   CARP_INSTR_DBG  ,
   CARP_NUM_INSTRS ,
-};
+} carp_instruction;
 
 // make register numbers easier on the eyes
-enum carp_register_enum {
+typedef enum {
   // regs 0 through 14 for general use
   CARP_REG0 ,
   CARP_REG1 ,
@@ -70,6 +70,6 @@ enum carp_register_enum {
   CARP_EIP  ,
 
   CARP_NUM_REGS,
-};
+} carp_register;
 
 #endif

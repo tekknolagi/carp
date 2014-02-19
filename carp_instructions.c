@@ -2,7 +2,7 @@
 
 definstr (HALT) {
   puts("halting...");
-  carp_vm_exit(m, (int) m->args[0]);
+  carp_vm_exit(m, m->c.args[0].i);
 }
 
 definstr (NOP) {
@@ -14,69 +14,69 @@ definstr (NEXT) {
 }
 
 definstr (LOADI) {
-  m->regs[(int) m->args[0]] = m->args[1];
+  m->regs[m->c.args[0].r] = m->c.args[1].ll;
   carp_instr_NEXT(m);
 }
 
 definstr (MOV) {
-  m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]];
+  m->regs[m->c.args[0].r] = m->regs[m->c.args[1].r];
   carp_instr_NEXT(m);
 }
 
 definstr (ADD) {
-  m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] + m->regs[(int) m->args[2]]; // end = 1 + 2
+  m->regs[m->c.args[0].r] = m->regs[m->c.args[1].r] + m->regs[m->c.args[2].r]; // end = 1 + 2
   carp_instr_NEXT(m);
 }
 
 definstr (SUB) {
-  m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] - m->regs[(int) m->args[2]]; // end = 1 - 2
+  m->regs[m->c.args[0].r] = m->regs[m->c.args[1].r] - m->regs[m->c.args[2].r]; // end = 1 - 2
   carp_instr_NEXT(m);
 }
 
 definstr (MUL) {
-  m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] * m->regs[(int) m->args[12]]; // end = 1 * 2
+  m->regs[m->c.args[0].r] = m->regs[m->c.args[1].r] * m->regs[m->c.args[2].r]; // end = 1 * 2
   carp_instr_NEXT(m);
 }
 
 definstr (DIV) {
-  m->regs[(int) m->args[0]] = m->regs[(int) m->args[1]] / m->regs[(int) m->args[2]]; // end = 1 / 2
+  m->regs[m->c.args[0].r] = m->regs[m->c.args[1].r] / m->regs[m->c.args[2].r]; // end = 1 / 2
   carp_instr_NEXT(m);
 }
 
 definstr (INCR) {
-  m->regs[(int) m->args[0]]++;
+  m->regs[m->c.args[0].r]++;
   carp_instr_NEXT(m);
 }
 
 definstr (DECR) {
-  m->regs[(int) m->args[0]]--;
+  m->regs[m->c.args[0].r]--;
   carp_instr_NEXT(m);
 }
 
 definstr (SHOW) {
-  printf("r%d: %lld\n", (int) m->args[0], m->regs[(int) m->args[0]]);
+  printf("r%d: %lld\n", m->c.args[0].r, m->regs[m->c.args[0].r]);
   carp_instr_NEXT(m);
 }
 
 definstr (PUSH) {
-  carp_stack_push(m, m->args[0]); // push 1
+  carp_stack_push(m, m->c.args[0].ll); // push 1
   carp_instr_NEXT(m);
 }
 
 definstr (POP) {
-  m->regs[(int) m->args[0]] = carp_stack_pop(m); // pop top into 1
+  m->regs[m->c.args[0].r] = carp_stack_pop(m); // pop top into 1
   carp_instr_NEXT(m);
 }
 
 definstr (CMP) {
-  m->regs[CARP_EAX] = m->regs[(int) m->args[0]] - m->regs[(int) m->args[1]];
+  m->regs[CARP_EAX] = m->regs[m->c.args[0].r] - m->regs[m->c.args[1].r];
   carp_instr_NEXT(m);
 }
 
 definstr (JZ) {
   // zero
   if (!m->regs[CARP_EAX]) {
-    m->regs[CARP_EIP] = m->args[0];
+    m->regs[CARP_EIP] = m->c.args[0].ll;
   }
   else {
     carp_instr_NOP(m);
@@ -86,7 +86,7 @@ definstr (JZ) {
 definstr (RJZ) {
   // zero
   if (!m->regs[CARP_EAX]) {
-    m->regs[CARP_EIP] += m->args[0];
+    m->regs[CARP_EIP] += m->c.args[0].ll;
   }
   else {
     carp_instr_NOP(m);
@@ -96,7 +96,7 @@ definstr (RJZ) {
 definstr (JNZ) {
   // not zero
   if (m->regs[CARP_EAX]) {
-    m->regs[CARP_EIP] = m->args[0];
+    m->regs[CARP_EIP] = m->c.args[0].ll;
   }
   else {
     carp_instr_NOP(m);
@@ -106,7 +106,7 @@ definstr (JNZ) {
 definstr (RJNZ) {
   // not zero
   if (m->regs[CARP_EAX]) {
-    m->regs[CARP_EIP] += m->args[0];
+    m->regs[CARP_EIP] += m->c.args[0].ll;
   }
   else {
     carp_instr_NOP(m);
@@ -114,19 +114,19 @@ definstr (RJNZ) {
 }
 
 definstr (JMP) {
-  m->regs[CARP_EIP] = m->args[0];
+  m->regs[CARP_EIP] = m->c.args[0].ll;
 }
 
 definstr (RJMP) {
-  m->regs[CARP_EIP] += m->args[0];
+  m->regs[CARP_EIP] += m->c.args[0].ll;
 }
 
 definstr (DBS) {
-  carp_var_define(m, m->string_args[0], m->args[0]);
+  carp_var_define(m, m->c.args[0].s, m->c.args[1].ll);
   carp_instr_NEXT(m);
 }
 
 definstr (DBG) {
-  m->regs[CARP_EAX] = carp_var_get(m, m->string_args[0]).value;
+  m->regs[CARP_EAX] = carp_var_get(m, m->c.args[0].s).value;
   carp_instr_NEXT(m);
 }

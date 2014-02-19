@@ -16,11 +16,11 @@ void carp_vm_init (carp_machine_state *m) {
   m->vars = NULL;
 }
 
-void carp_vm_do (carp_machine_state* m, carp_instruction program[]) {
+void carp_vm_do (carp_machine_state* m, carp_command program[]) {
   while(m->running) {
-    carp_instruction i = program[m->regs[CARP_EIP]];
+    carp_command c = program[m->regs[CARP_EIP]];
     // decode the instruction and set state
-    carp_decode(&i, m);
+    carp_decode(&c, m);
 
     carp_eval(m);
   }

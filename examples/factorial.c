@@ -5,7 +5,7 @@ int main (int argc, char** argv) {
   carp_vm_init(&mstate);
 
   // array of structs
-  carp_instruction program[] = {
+  carp_command program[] = {
     // compute 5 factorial
     {CARP_INSTR_LOADI, {CARP_REG0, 1}}, // loadi r0 1
     {CARP_INSTR_LOADI, {CARP_REG1, 5}}, // loadi r1 5

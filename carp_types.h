@@ -4,11 +4,17 @@
 #include "carp_globals.h"
 #include "carp_uthash.h"
 
-typedef struct carp_instruction {
-  int instr;
-  long long args[CARP_NUM_ARGS];
-  char string_args[CARP_NUM_STRING_ARGS][CARP_NAME_LENGTH];
-} carp_instruction;
+typedef union carp_argument {
+  unsigned int i;
+  carp_register r;
+  long long ll;
+  char s[CARP_NAME_LENGTH];
+} carp_argument;
+
+typedef struct carp_command {
+  carp_instruction instr;
+  carp_argument args[CARP_NUM_ARGS];
+} carp_command;
 
 typedef struct carp_variable {
   char name[CARP_NAME_LENGTH];
@@ -25,9 +31,8 @@ typedef struct carp_stack_type {
 
 typedef struct carp_machine_state {
   char running; // boolean
-  int instr, pc;
-  long long args[CARP_NUM_ARGS];
-  char string_args[CARP_NUM_STRING_ARGS][CARP_NAME_LENGTH];
+  int pc;
+  carp_command c;
 
   long long regs[CARP_NUM_REGS];
   carp_stack_type stack;

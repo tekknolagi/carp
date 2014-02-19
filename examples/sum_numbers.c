@@ -5,7 +5,7 @@ int main (int argc, char** argv) {
   carp_vm_init(&mstate);
 
   // array of structs
-  carp_instruction program[] = {
+  carp_command program[] = {
     // sum numbers from 1 to 100
     {CARP_INSTR_LOADI, {CARP_REG0, 0}}, // loadi r0 0
     {CARP_INSTR_LOADI, {CARP_REG1, 100}}, // loadi r1 100

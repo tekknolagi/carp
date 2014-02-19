@@ -11,6 +11,6 @@
 
 definstr (NEXT);
 void carp_eval (carp_machine_state*);
-void carp_decode (carp_instruction*, carp_machine_state*);
+void carp_decode (carp_command*, carp_machine_state*);
 
 #endif
