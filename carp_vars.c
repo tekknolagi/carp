@@ -19,7 +19,7 @@ void carp_var_define (carp_machine_state* m, char* name, long long value) {
 
   // does not exist
   if (res == NULL) {
-    res = (carp_variable*) malloc(sizeof(carp_variable));
+    res = malloc(sizeof(carp_variable));
     strcpy(res->name, name);
     res->value = value;
     HASH_ADD_STR(m->vars, name, res);
