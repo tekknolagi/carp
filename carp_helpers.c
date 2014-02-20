@@ -1,7 +1,7 @@
 #include "carp_helpers.h"
 
 // get and execute the instruction
-void carp_eval (carp_machine_state *m) {
+void carp_eval (carp_machine_state* m) {
   carp_instructions[m->c.instr](m);
 }
 

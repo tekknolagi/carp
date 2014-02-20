@@ -25,7 +25,7 @@ char carp_stack_full (carp_machine_state* m) {
   return s->height == s->max_height;
 }
 
-void carp_stack_push (carp_machine_state *m, long long i) {
+void carp_stack_push (carp_machine_state* m, long long i) {
   carp_stack_type* s = &m->stack;
 
   if (carp_stack_full(m)) {
