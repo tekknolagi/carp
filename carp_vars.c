@@ -41,6 +41,7 @@ carp_variable carp_var_get (carp_machine_state* m, char* name) {
   if (res == NULL) {
     fprintf(stderr, CARP_VAR_DNE);
     carp_vm_exit(m, CARP_EX_USAGE);
+    return *res; // never gets here
   }
   else {
     return *res;
