@@ -2,7 +2,7 @@
 
 definstr (HALT) {
   puts("halting...");
-  carp_vm_exit(m, m->c.args[0].i);
+  carp_vm_exit(m, (int) m->c.args[0].ll);
 }
 
 definstr (NOP) {
