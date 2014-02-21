@@ -19,6 +19,10 @@ typedef enum {
   CARP_TYPE_INT, CARP_TYPE_LONG_LONG, CARP_TYPE_STR
 } carp_type;
 
+typedef enum {
+  CARP_EX_OK, CARP_EX_USAGE, CARP_EX_MEM
+} carp_exit_code;
+
 // make instruction numbers easier on the eyes
 typedef enum {
   CARP_INSTR_HALT ,

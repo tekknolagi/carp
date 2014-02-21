@@ -8,7 +8,7 @@ void carp_var_delete (carp_machine_state* m, char* name) {
   // does not exist
   if (res == NULL) {
     fprintf(stderr, CARP_VAR_DNE);
-    carp_vm_exit(m, 1);
+    carp_vm_exit(m, CARP_EX_USAGE);
   }
 }
 
@@ -40,7 +40,7 @@ carp_variable carp_var_get (carp_machine_state* m, char* name) {
   // does not exist
   if (res == NULL) {
     fprintf(stderr, CARP_VAR_DNE);
-    carp_vm_exit(m, 1);
+    carp_vm_exit(m, CARP_EX_USAGE);
   }
   else {
     return *res;

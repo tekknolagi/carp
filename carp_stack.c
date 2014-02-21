@@ -8,7 +8,7 @@ void carp_stack_init (carp_machine_state* m, long max_height) {
   long long* contents = malloc(max_height * sizeof(long long));
   if (contents == NULL) {
     fprintf(stderr, CARP_NO_MEM);
-    carp_vm_exit(m, 1);
+    carp_vm_exit(m, CARP_EX_MEM);
   }
   s->contents = contents;
 }
@@ -32,7 +32,7 @@ void carp_stack_push (carp_machine_state* m, long long i) {
     long long* contents = realloc(s->contents, 5);
     if (contents == NULL) {
       fprintf(stderr, CARP_NO_MEM);
-      carp_vm_exit(m, 1);
+      carp_vm_exit(m, CARP_EX_MEM);
     }
     s->contents = contents;
   }
@@ -47,7 +47,7 @@ long long carp_stack_pop (carp_machine_state* m) {
 
   if (carp_stack_empty(m)) {
     fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
+    carp_vm_exit(m, CARP_EX_USAGE);
   }
   else {
     s->height--;

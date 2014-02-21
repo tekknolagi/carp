@@ -25,7 +25,7 @@ void carp_vm_do (carp_machine_state* m, carp_command program[]) {
     carp_eval(m);
   }
 
-  carp_vm_exit(m, 0);
+  carp_vm_exit(m, CARP_EX_OK);
 }
 
 void carp_vm_cleanup (carp_machine_state* m) {
