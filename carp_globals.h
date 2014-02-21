@@ -11,9 +11,13 @@
 // max stack height of VM (initial)
 #define CARP_STACK_HEIGHT 100
 
-enum carp_bools {
+typedef enum {
   CARP_FLAG_FALSE, CARP_FLAG_TRUE,
-};
+} enum_bool;
+
+typedef enum {
+  CARP_TYPE_INT, CARP_TYPE_LONG_LONG, CARP_TYPE_STR
+} carp_type;
 
 // make instruction numbers easier on the eyes
 typedef enum {

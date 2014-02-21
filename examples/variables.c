@@ -6,10 +6,11 @@ int main (int argc, char** argv) {
 
   // array of structs
   carp_command program[] = {
-    {CARP_INSTR_DBS, {"test_name", 10}},
-    {CARP_INSTR_DBG, {"test_name"}},
-    {CARP_INSTR_SHOW, {CARP_EAX}},
-    {CARP_INSTR_HALT, {0}}
+    // store 10 in test_name
+    {CARP_INSTR_DBS, {{.s="test_name"}, {.ll=10}}},
+    {CARP_INSTR_DBG, {{.s="test_name"}}},
+    {CARP_INSTR_SHOW, {{.r=CARP_EAX}}},
+    {CARP_INSTR_HALT, {{.ll=0}}},
   };
 
   carp_vm_do(&mstate, program);

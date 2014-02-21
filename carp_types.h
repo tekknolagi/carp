@@ -5,10 +5,10 @@
 #include "carp_uthash.h"
 
 typedef union carp_argument {
+  char* s;
+  long long ll;
   unsigned int i;
   carp_register r;
-  long long ll;
-  char s[CARP_NAME_LENGTH];
 } carp_argument;
 
 typedef struct carp_command {
@@ -26,7 +26,7 @@ typedef struct carp_variable {
 typedef struct carp_stack_type {
   long max_height;
   long height;
-  long long *contents;
+  long long* contents;
 } carp_stack_type;
 
 typedef struct carp_machine_state {
@@ -36,7 +36,7 @@ typedef struct carp_machine_state {
 
   long long regs[CARP_NUM_REGS];
   carp_stack_type stack;
-  carp_variable *vars;
+  carp_variable* vars;
 } carp_machine_state;
 
 #endif
