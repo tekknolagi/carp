@@ -11,7 +11,6 @@
 #include "carp_globals.h"
 
 #include "carp_vars.h"
-#include "carp_helpers.h"
 #include "carp_machine.h"
 #include "carp_stack.h"
 #include "carp_instructions.h"
@@ -19,10 +18,7 @@
 // needs globals, uthash
 #include "carp_vars.c"
 
-// needs instructions, globals, stack, vars
-#include "carp_helpers.c"
-
-// needs globals, helpers, stack, vars
+// needs globals, stack, vars
 #include "carp_machine.c"
 
 // needds helpers

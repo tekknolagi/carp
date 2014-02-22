@@ -16,13 +16,20 @@ void carp_vm_init (carp_machine_state* m) {
   m->vars = NULL;
 }
 
+void carp_vm_load (carp_command* c, carp_machine_state* m) {
+  // copy command into machine state
+  memcpy(&m->c, c, sizeof(carp_command));
+}
+
+void carp_vm_eval (carp_machine_state* m) {
+  // get and execute the instruction
+  carp_instructions[m->c.instr](m);
+}
+
 void carp_vm_do (carp_machine_state* m, carp_command program[]) {
   while(m->running) {
-    carp_command c = program[m->regs[CARP_EIP]];
-    // decode the instruction and set state
-    carp_decode(&c, m);
-
-    carp_eval(m);
+    carp_vm_load(&program[m->regs[CARP_EIP]], m);
+    carp_vm_eval(m);
   }
 
   carp_vm_exit(m, CARP_EX_OK);

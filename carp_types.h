@@ -16,7 +16,7 @@ typedef struct carp_command {
 } carp_command;
 
 typedef struct carp_variable {
-  char* name; //[CARP_NAME_LENGTH];
+  char name[CARP_NAME_LENGTH];
   long long value;
 
   UT_hash_handle hh;
