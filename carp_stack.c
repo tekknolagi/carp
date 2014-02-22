@@ -55,7 +55,7 @@ long long carp_stack_pop (carp_machine_state* m) {
     
     return i;
   }
-  return CARP_EX_USAGE; // does not get here
+  return CARP_EX_USAGE; // never gets here, but squashes warning
 }
 
 void carp_stack_destroy (carp_machine_state* m) {
