@@ -5,8 +5,8 @@
 #define definstr(x) void carp_instr_##x (carp_machine_state* m)
 
 #define CARP_NUM_ARGS 3
-#define CARP_NAME_LENGTH 10
-#define CARP_LABEL_LENGTH 10
+#define CARP_NUM_STRING_ARGS 1
+#define CARP_NAME_LENGTH 32
 
 // max stack height of VM (initial)
 #define CARP_STACK_HEIGHT 100
