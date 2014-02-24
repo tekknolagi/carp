@@ -10,10 +10,14 @@
 #include "carp_uthash.h"
 #include "carp_globals.h"
 
+#include "carp_labels.h"
 #include "carp_vars.h"
 #include "carp_machine.h"
 #include "carp_stack.h"
 #include "carp_instructions.h"
+
+// needs globals, uthash
+#include "carp_labels.c"
 
 // needs globals, uthash
 #include "carp_vars.c"

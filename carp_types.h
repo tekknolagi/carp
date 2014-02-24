@@ -4,6 +4,8 @@
 #include "carp_globals.h"
 #include "carp_uthash.h"
 
+typedef struct carp_variable carp_label;
+
 typedef union carp_argument {
   char* s;
   long long ll;
@@ -36,6 +38,7 @@ typedef struct carp_machine_state {
   long long regs[CARP_NUM_REGS];
   carp_stack_type stack;
   carp_variable* vars;
+  carp_variable* labels;
 } carp_machine_state;
 
 #endif

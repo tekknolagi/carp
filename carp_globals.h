@@ -5,22 +5,27 @@
 #define definstr(x) void carp_instr_##x (carp_machine_state* m)
 
 #define CARP_NUM_ARGS 3
-#define CARP_NUM_STRING_ARGS 1
-#define CARP_NAME_LENGTH 32
+#define CARP_NAME_LENGTH 10
 
 // max stack height of VM (initial)
 #define CARP_STACK_HEIGHT 100
 
 typedef enum {
-  CARP_FLAG_FALSE, CARP_FLAG_TRUE,
-} enum_bool;
+  CARP_TOK_INSTR, // instruction name
+  CARP_TOK_PERC , // percent symbol
+  CARP_TOK_DOLL , // dollar symbol
+  CARP_TOK_LONG , // long int number
+} carp_token;
 
 typedef enum {
-  CARP_TYPE_INT, CARP_TYPE_LONG_LONG, CARP_TYPE_STR
-} carp_type;
+  CARP_FLAG_FALSE,
+  CARP_FLAG_TRUE ,
+} carp_bool;
 
 typedef enum {
-  CARP_EX_OK, CARP_EX_USAGE, CARP_EX_MEM
+  CARP_EX_OK   ,
+  CARP_EX_USAGE,
+  CARP_EX_MEM  ,
 } carp_exit_code;
 
 // make instruction numbers easier on the eyes
@@ -48,6 +53,8 @@ typedef enum {
   CARP_INSTR_RJMP ,
   CARP_INSTR_DBS  ,
   CARP_INSTR_DBG  ,
+  CARP_INSTR_LBL  ,
+  CARP_INSTR_CALL ,
   CARP_NUM_INSTRS ,
 } carp_instruction;
 

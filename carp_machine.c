@@ -14,6 +14,9 @@ void carp_vm_init (carp_machine_state* m) {
 
   // initialize variable hash table
   m->vars = NULL;
+
+  // initialize label hash table
+  m->labels = NULL;
 }
 
 void carp_vm_load (carp_command* c, carp_machine_state* m) {
@@ -38,6 +41,7 @@ void carp_vm_do (carp_machine_state* m, carp_command program[]) {
 void carp_vm_cleanup (carp_machine_state* m) {
   carp_stack_destroy(m);
   carp_var_cleanup(m);
+  carp_label_cleanup(m);
 }
 
 void carp_vm_exit (carp_machine_state* m, int code) {

@@ -130,3 +130,12 @@ definstr (DBG) {
   m->regs[CARP_EAX] = carp_var_get(m, m->c.args[0].s).value;
   carp_instr_NEXT(m);
 }
+
+definstr (LBL) {
+  carp_label_define(m, m->c.args[0].s, m->regs[CARP_EIP]+1);
+  carp_instr_NEXT(m);
+}
+
+definstr (CALL) {
+  m->regs[CARP_EIP] = carp_label_get(m, m->c.args[0].s).value;
+}
