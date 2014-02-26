@@ -21,18 +21,18 @@ $(PROG): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
 
 install:
-	rm -rf /usr/local/include/carp*.h	; \
-	rm -rf /usr/local/include/carp*.c	; \
-	rm -rf /usr/local/include/carp		; \
-	mkdir /usr/local/include/carp		; \
+	rm -rf /usr/local/include/carp*.h
+	rm -rf /usr/local/include/carp*.c
+	rm -rf /usr/local/include/carp
+	mkdir /usr/local/include/carp
 	cp -r . /usr/local/include/carp
 
 js:
 	emcc $(SRCS)
 
 uninstall:
-	rm -rf /usr/local/include/carp*.h	; \
-	rm -rf /usr/local/include/carp*.c	; \
+	rm -rf /usr/local/include/carp*.h
+	rm -rf /usr/local/include/carp*.c
 	rm -rf /usr/local/include/carp
 
 clean:
@@ -42,5 +42,5 @@ clean:
 	-o -name "*.html*"	\
 	-o -name "*.bc"		\
 	-o -name "*~"		\
-	 | xargs rm -f		; \
+	 | xargs rm -f
 	rm -f $(PROG)
