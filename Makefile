@@ -6,7 +6,8 @@ INSTALL_DIR = /usr/local/bin
 SRCS = carp.c
 OBJS = $(SRCS:.c=.o)
 BINDIR = bin/
-PROG ?= $(addprefix $(BINDIR),carp.out)
+PROG ?= carp.out
+#PROG ?= $(addprefix $(BINDIR),carp.out)
 EXAMPLE_SRCS = $(wildcard examples/*.c)
 EXAMPLE_PROG = $(EXAMPLE_SRCS:.c=.out)
 

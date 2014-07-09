@@ -4,17 +4,20 @@
 #include "carp_globals.h"
 #include "carp_uthash.h"
 
-typedef struct carp_variable carp_label;
+typedef struct carp_char_list {
+  char val;
+  struct carp_char_list* next;
+} carp_char_list;
 
-typedef union carp_argument {
+union carp_argument {
   char* s;
   long long ll;
-  carp_register r;
+  carp_register_e r;
 } carp_argument;
 
 typedef struct carp_command {
-  carp_instruction instr;
-  carp_argument args[CARP_NUM_ARGS];
+  carp_instruction_e instr;
+  union carp_argument args[CARP_NUM_ARGS];
 } carp_command;
 
 typedef struct carp_variable {
@@ -24,6 +27,8 @@ typedef struct carp_variable {
   UT_hash_handle hh;
 } carp_variable;
 
+typedef struct carp_variable carp_label;
+
 typedef struct carp_stack_type {
   long max_height;
   long height;
@@ -31,7 +36,7 @@ typedef struct carp_stack_type {
 } carp_stack_type;
 
 typedef struct carp_machine_state {
-  char running; // boolean
+  carp_bool_e running;
   int pc;
   carp_command c;
 
@@ -40,5 +45,11 @@ typedef struct carp_machine_state {
   carp_variable* vars;
   carp_variable* labels;
 } carp_machine_state;
+
+typedef struct carp_token {
+  carp_token_e type;
+  char* value;
+  struct carp_token* next;
+} carp_token;
 
 #endif

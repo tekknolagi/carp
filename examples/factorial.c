@@ -8,9 +8,10 @@ int main (int argc, char** argv) {
   carp_command program[] = {
     // compute 5 factorial
     {CARP_INSTR_LOADI, {{.r=CARP_REG0}, {.ll=1}}}, // loadi r0 1
-    {CARP_INSTR_LOADI, {{.r=CARP_REG1}, {.ll=5}}}, // loadi r1 5
+    {CARP_INSTR_LOADI, {{.r=CARP_REG1}, {.ll=6}}}, // loadi r1 6
     {CARP_INSTR_LOADI, {{.r=CARP_REG2}, {.ll=1}}}, // loadi r2 1
     {CARP_INSTR_LBL, {{.s="mult"}}}, // mult:
+    {CARP_INSTR_SHOW, {{.r=CARP_REG0}}}, // show current
     {CARP_INSTR_MUL, {{.r=CARP_REG0}, {.r=CARP_REG1}, {.r=CARP_REG0}}}, // mul r0 r1 r0
     {CARP_INSTR_DECR, {{.r=CARP_REG1}}}, // decr r1
     {CARP_INSTR_CMP, {{.r=CARP_REG1}, {.r=CARP_REG2}}}, // cmp r1 r2

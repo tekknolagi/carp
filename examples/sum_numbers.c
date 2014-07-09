@@ -8,7 +8,7 @@ int main (int argc, char** argv) {
   carp_command program[] = {
     // sum numbers from 1 to 100
     {CARP_INSTR_LOADI, {{.r=CARP_REG0}, {.ll=0}}}, // loadi r0 0
-    {CARP_INSTR_LOADI, {{.r=CARP_REG1}, {.ll=100}}}, // loadi r1 100
+    {CARP_INSTR_LOADI, {{.r=CARP_REG1}, {.ll=110}}}, // loadi r1 100
     {CARP_INSTR_LOADI, {{.r=CARP_REG2}, {.ll=0}}}, // loadi r2 0
     {CARP_INSTR_LBL, {{.s="sum"}}}, // sum:
     {CARP_INSTR_ADD, {{.r=CARP_REG0}, {.r=CARP_REG1}, {.r=CARP_REG0}}}, // add r0 r1 r0

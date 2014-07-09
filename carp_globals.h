@@ -11,22 +11,43 @@
 #define CARP_STACK_HEIGHT 100
 
 typedef enum {
+  CARP_STATE_BEG, // beginning
+  CARP_STATE_IN_WHITE, // inside whitespace
+  CARP_STATE_IN_INSTR, // inside an instruction
+  CARP_STATE_IN_REG, // inside a register
+  CARP_STATE_IN_IMM, // inside an immediate value
+  CARP_STATE_IN_LBL, // inside a label
+  CARP_STATE_COMMA, // comma
+  CARP_STATE_END, // end of token list
+} carp_tokenizer_state;
+
+const char* carp_tokenizer_state_names[] = {"BEG", "IN_WHITE", "IN_INSTR", "IN_REG", "IN_IMM", "IN_LBL", "COMMA", "END"};
+
+typedef enum {
   CARP_TOK_INSTR, // instruction name
-  CARP_TOK_PERC , // percent symbol
-  CARP_TOK_DOLL , // dollar symbol
-  CARP_TOK_LONG , // long int number
-} carp_token;
+  CARP_TOK_SPACE, // space
+  CARP_TOK_TAB, // tab
+  CARP_TOK_REG, // reg name/num
+  CARP_TOK_COMMA, // comma
+  CARP_TOK_IMM, // immediate value
+  CARP_TOK_LBL, // label
+  CARP_TOK_NEWLINE, // newline
+  CARP_TOK_EOF, // end of file
+  CARP_TOK_UNKNOWN, // what is this
+} carp_token_e;
+
+const char* carp_tokenizer_type_names[] = {"INSTR", "SPACE", "TAB", "REG", "COMMA", "IMM", "LBL", "NL", "EOF", "UNKNOWN"};
 
 typedef enum {
   CARP_FLAG_FALSE,
   CARP_FLAG_TRUE ,
-} carp_bool;
+} carp_bool_e;
 
 typedef enum {
   CARP_EX_OK   ,
   CARP_EX_USAGE,
   CARP_EX_MEM  ,
-} carp_exit_code;
+} carp_exit_code_e;
 
 // make instruction numbers easier on the eyes
 typedef enum {
@@ -55,8 +76,10 @@ typedef enum {
   CARP_INSTR_DBG  ,
   CARP_INSTR_LBL  ,
   CARP_INSTR_CALL ,
+  CARP_INSTR_PRNT ,
+  CARP_INSTR_PSTR ,
   CARP_NUM_INSTRS ,
-} carp_instruction;
+} carp_instruction_e;
 
 // make register numbers easier on the eyes
 typedef enum {
@@ -85,6 +108,6 @@ typedef enum {
   CARP_EIP  ,
 
   CARP_NUM_REGS,
-} carp_register;
+} carp_register_e;
 
 #endif

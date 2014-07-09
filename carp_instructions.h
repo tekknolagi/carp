@@ -34,6 +34,8 @@ definstr (DBS);
 definstr (DBG);
 definstr (LBL);
 definstr (CALL);
+definstr (PRNT);
+definstr (PSTR);
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
@@ -63,6 +65,8 @@ void (*carp_instructions[CARP_NUM_INSTRS]) (carp_machine_state*)  = {
   [CARP_INSTR_DBG]   = carp_instr_DBG  ,
   [CARP_INSTR_LBL]   = carp_instr_LBL  ,
   [CARP_INSTR_CALL]  = carp_instr_CALL ,
+  [CARP_INSTR_PRNT]  = carp_instr_PRNT ,
+  [CARP_INSTR_PSTR]  = carp_instr_PSTR ,
 };
 
 #endif

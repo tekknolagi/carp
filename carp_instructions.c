@@ -139,3 +139,16 @@ definstr (LBL) {
 definstr (CALL) {
   m->regs[CARP_EIP] = carp_label_get(m, m->c.args[0].s).value;
 }
+
+definstr (PRNT) {
+  printf("%c", (int) m->regs[m->c.args[0].r]);
+  carp_instr_NEXT(m);
+}
+
+definstr (PSTR) {
+  int i, len = strlen(m->c.args[0].s);
+  for (i = 0; i < len; i++) {
+    printf("%c", m->c.args[0].s[i]);
+  }
+  carp_instr_NEXT(m);
+}

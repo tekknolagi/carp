@@ -13,13 +13,13 @@ void carp_stack_init (carp_machine_state* m, long max_height) {
   s->contents = contents;
 }
 
-char carp_stack_empty (carp_machine_state* m) {
+carp_bool_e carp_stack_empty (carp_machine_state* m) {
   carp_stack_type* s = &m->stack;
 
   return s->height == 0;
 }
 
-char carp_stack_full (carp_machine_state* m) {
+carp_bool_e carp_stack_full (carp_machine_state* m) {
   carp_stack_type* s = &m->stack;
 
   return s->height == s->max_height;
