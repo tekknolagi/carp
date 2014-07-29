@@ -86,7 +86,7 @@ typedef struct carp_machine_state {
 void carp_vm_init (carp_machine_state *, long);
 void carp_vm_load (carp_machine_state *, long long []);
 void carp_vm_eval (carp_machine_state *);
-void carp_vm_do (carp_machine_state *, long long []);
+void carp_vm_run (carp_machine_state *);
 void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);
 

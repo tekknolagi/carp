@@ -32,7 +32,8 @@ int main (int argc, char **argv) {
     CARP_INSTR_HALT, 1
   };
 
-  carp_machine_state mstate;
-  carp_vm_init(&mstate, 10);
-  carp_vm_do(&mstate, code);
+  carp_machine_state m;
+  carp_vm_init(&m, 10);
+  carp_vm_load(&m, code);
+  carp_vm_run(&m);
 }

@@ -35,12 +35,9 @@ void carp_vm_eval (carp_machine_state *m) {
   m->ip++;
 }
 
-void carp_vm_do (carp_machine_state *m, long long code[]) {
-  carp_vm_load(m, code);
-
-  while (m->running) {
+void carp_vm_run (carp_machine_state *m) {
+  while (m->running)
     carp_vm_eval(m);
-  }
 
   carp_vm_exit(m, 0);
 }
