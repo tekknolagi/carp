@@ -1,0 +1,26 @@
+#ifndef _CARP_HT_H_
+#define _CARP_HT_H_
+
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+
+#define CARP_HT_KEY_LENGTH 20
+
+typedef struct carp_ht_s {
+  char key[CARP_HT_KEY_LENGTH];
+  long long value;
+
+  struct carp_ht_s *next;
+} carp_ht;
+
+void carp_ht_init (carp_ht *);
+int carp_ht_del (carp_ht *, char *);
+carp_ht *carp_ht_tail (carp_ht *);
+carp_ht *carp_ht_set (carp_ht *, char *, long long);
+carp_ht *carp_ht_get (carp_ht *, char *);
+void carp_ht_cleanup (carp_ht *);
+void carp_ht_print (carp_ht *);
+
+#endif
+

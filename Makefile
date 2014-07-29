@@ -1,47 +1,19 @@
-CC ?= clang
-LIBS ?= 
-CFLAGS ?= -c -std=c99 -Wall
-LDFLAGS ?= 
-INSTALL_DIR = /usr/local/bin
-SRCS = carp.c
-OBJS = $(SRCS:.c=.o)
-BINDIR = bin/
-PROG ?= carp.out
-#PROG ?= $(addprefix $(BINDIR),carp.out)
-EXAMPLE_SRCS = $(wildcard examples/*.c)
-EXAMPLE_PROG = $(EXAMPLE_SRCS:.c=.out)
+CC = clang
+CFLAGS = -c -std=c99 -Wall -O0 -g3 -static -Wno-unused-variable
+SRCS = $(wildcard *.c lib/*.c)
+OBJS = *.o
+PROG = carp
 
-all: $(SRCS) $(PROG)
+all:
+	$(CC) $(CFLAGS) $(SRCS)
+	$(CC) $(OBJS) -o $(PROG)
+	make clean_objs
 
-%.out: %.c
-	$(CC) $^ -o $@
-
-examples: $(EXAMPLE_PROG)
-
-$(PROG): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
-
-install:
-	rm -rf /usr/local/include/carp*.h
-	rm -rf /usr/local/include/carp*.c
-	rm -rf /usr/local/include/carp
-	mkdir /usr/local/include/carp
-	cp -r . /usr/local/include/carp
-
-js:
-	emcc $(SRCS)
-
-uninstall:
-	rm -rf /usr/local/include/carp*.h
-	rm -rf /usr/local/include/carp*.c
-	rm -rf /usr/local/include/carp
-
-clean:
+clean_objs:
 	find . -name "*.o"	\
 	-o -name "*.out"	\
-	-o -name "*.js*"	\
-	-o -name "*.html*"	\
-	-o -name "*.bc"		\
-	-o -name "*~"		\
 	 | xargs rm -f
+
+clean:
+	make clean_objs
 	rm -f $(PROG)
