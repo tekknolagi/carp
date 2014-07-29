@@ -33,6 +33,6 @@ int main (int argc, char **argv) {
   };
 
   carp_machine_state mstate;
-  carp_vm_init(&mstate, 10, 10);
+  carp_vm_init(&mstate, 10);
   carp_vm_do(&mstate, code);
 }
