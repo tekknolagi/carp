@@ -1,7 +1,10 @@
 #include "carp_machine.h"
 
 void carp_vm_init (carp_machine_state *m, long stack_height) {
-  // set instruction pointer to 0
+  /* set all registers to 0, including:
+   * - EIP
+   * - ESP
+   */
   for (int i = 0; i < CARP_NUM_REGS; i++) {
     m->regs[i] = 0;
   }
