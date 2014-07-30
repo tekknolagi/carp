@@ -120,7 +120,7 @@ definstr (JMP);
 definstr (RJMP);
 definstr (DBS);
 definstr (DBG);
-//definstr (LBL);
+definstr (LBL);
 definstr (PREG);
 definstr (PTOP);
 
@@ -148,7 +148,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   [CARP_INSTR_RJMP]  = carp_instr_RJMP ,
   [CARP_INSTR_DBS]   = carp_instr_DBS  ,
   [CARP_INSTR_DBG]   = carp_instr_DBG  ,
-  //[CARP_INSTR_LBL]   = carp_instr_LBL  ,
+  [CARP_INSTR_LBL]   = carp_instr_LBL  ,
   [CARP_INSTR_PREG]  = carp_instr_PREG ,
   [CARP_INSTR_PTOP]  = carp_instr_PTOP ,
 };

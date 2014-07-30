@@ -31,9 +31,9 @@ void carp_vm_load (carp_machine_state *m, long long code[]) {
 }
 
 void carp_vm_eval (carp_machine_state *m) {
-  // get and execute the instruction
+  // fetch instruction
   int instr = m->code[m->regs[CARP_EIP]];
-  //  printf("ip: %d\ninstr: %d\n\n", m->regs[CARP_EIP], instr);
+  // decode, execute
   carp_instructions[instr](m);
   m->regs[CARP_EIP]++;
 }
