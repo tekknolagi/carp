@@ -37,6 +37,12 @@ enum {
   CARP_EAX  ,
   CARP_EDX  ,
 
+  // instruction pointer
+  CARP_EIP  ,
+
+  // stack pointer
+  CARP_ESP  ,
+
   // garbage reg for pop
   CARP_GBG  ,
 
@@ -72,15 +78,14 @@ enum {
 };
 
 typedef struct carp_machine_state {
-  // bool
-  int running;
-  int ip;
-  long long *code;
-
   long long regs[CARP_NUM_REGS];
   carp_stack stack;
   carp_ht vars;
   carp_ht labels;
+
+  // bool
+  int running;
+  long long *code;
 } carp_machine_state;
 
 void carp_vm_init (carp_machine_state *, long);
