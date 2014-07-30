@@ -16,7 +16,7 @@
 
 // make register numbers easier on the eyes
 enum {
-  // regs 0 through 14 for general use
+  // regs 0 through 9 for general use
   CARP_REG0 ,
   CARP_REG1 ,
   CARP_REG2 ,
@@ -27,11 +27,6 @@ enum {
   CARP_REG7 ,
   CARP_REG8 ,
   CARP_REG9 ,
-  CARP_REG10,
-  CARP_REG11,
-  CARP_REG12,
-  CARP_REG13,
-  CARP_REG14,
 
   // regs used for cmp, et al
   CARP_EAX  ,
