@@ -1,7 +1,6 @@
 #include "carp_machine.h"
 
 definstr (HALT) {
-  //printf("halting %d...\n", m->code[m->regs[CARP_EIP]]);
   carp_vm_exit(m, m->code[++m->regs[CARP_EIP]]);
 }
 
