@@ -70,6 +70,8 @@ enum {
   CARP_INSTR_LBL  ,
   CARP_INSTR_PREG ,
   CARP_INSTR_PTOP ,
+
+  CARP_NUM_INSTRS ,
 };
 
 typedef struct carp_machine_state {
