@@ -124,33 +124,27 @@ definstr (LBL);
 definstr (PREG);
 definstr (PTOP);
 
+// shortcut so I don't have to keep copy/pasting array indices & whatnot
+#define assigninstr(x) [CARP_INSTR_##x] = carp_instr_##x
+
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
 static void (*carp_instructions[]) (carp_machine_state *) = {
-  [CARP_INSTR_HALT]  = carp_instr_HALT ,
-  [CARP_INSTR_NOP]   = carp_instr_NOP  ,
-  [CARP_INSTR_LOADI] = carp_instr_LOADI,
-  [CARP_INSTR_MOV]   = carp_instr_MOV  ,
-  [CARP_INSTR_ADDI]  = carp_instr_ADDI ,
-  [CARP_INSTR_SUBI]  = carp_instr_SUBI ,
-  [CARP_INSTR_MULI]  = carp_instr_MULI ,
-  [CARP_INSTR_INCR]  = carp_instr_INCR ,
-  [CARP_INSTR_DECR]  = carp_instr_DECR ,
-  [CARP_INSTR_PUSHR] = carp_instr_PUSHR,
-  [CARP_INSTR_PUSHI] = carp_instr_PUSHI,
-  [CARP_INSTR_POPI]  = carp_instr_POPI ,
-  [CARP_INSTR_CMP]   = carp_instr_CMP  ,
-  [CARP_INSTR_JZ]    = carp_instr_JZ   ,
-  [CARP_INSTR_RJZ]   = carp_instr_RJZ  ,
-  [CARP_INSTR_JNZ]   = carp_instr_JNZ  ,
-  [CARP_INSTR_RJNZ]  = carp_instr_RJNZ ,
-  [CARP_INSTR_JMP]   = carp_instr_JMP  ,
-  [CARP_INSTR_RJMP]  = carp_instr_RJMP ,
-  [CARP_INSTR_DBS]   = carp_instr_DBS  ,
-  [CARP_INSTR_DBG]   = carp_instr_DBG  ,
-  [CARP_INSTR_LBL]   = carp_instr_LBL  ,
-  [CARP_INSTR_PREG]  = carp_instr_PREG ,
-  [CARP_INSTR_PTOP]  = carp_instr_PTOP ,
+  assigninstr(HALT),
+  assigninstr(NOP),
+  assigninstr(LOADI),
+  assigninstr(MOV),
+  assigninstr(ADDI), assigninstr(SUBI), assigninstr(MULI),
+  assigninstr(INCR), assigninstr(DECR),
+  assigninstr(PUSHR),
+  assigninstr(PUSHI), assigninstr(POPI),
+  assigninstr(CMP),
+  assigninstr(JZ), assigninstr(RJZ),
+  assigninstr(JNZ), assigninstr(RJNZ),
+  assigninstr(JMP), assigninstr(RJMP),
+  assigninstr(DBS), assigninstr(DBG),
+  assigninstr(LBL),
+  assigninstr(PREG), assigninstr(PTOP),
 };
 
 #endif
