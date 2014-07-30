@@ -103,26 +103,17 @@ definstr (HALT);
 definstr (NOP);
 definstr (LOADI);
 definstr (MOV);
-definstr (ADDI);
-definstr (SUBI);
-definstr (MULI);
-definstr (INCR);
-definstr (DECR);
+definstr (ADDI); definstr (SUBI); definstr (MULI);
+definstr (INCR); definstr (DECR);
 definstr (PUSHR);
-definstr (PUSHI);
-definstr (POPI);
+definstr (PUSHI); definstr (POPI);
 definstr (CMP);
-definstr (JZ);
-definstr (RJZ);
-definstr (JNZ);
-definstr (RJNZ);
-definstr (JMP);
-definstr (RJMP);
-definstr (DBS);
-definstr (DBG);
+definstr (JZ); definstr (RJZ);
+definstr (JNZ); definstr (RJNZ);
+definstr (JMP); definstr (RJMP);
+definstr (DBS); definstr (DBG);
 definstr (LBL);
-definstr (PREG);
-definstr (PTOP);
+definstr (PREG); definstr (PTOP);
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
 #define assigninstr(x) [CARP_INSTR_##x] = carp_instr_##x
