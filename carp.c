@@ -6,6 +6,9 @@ int main (int argc, char **argv) {
     "world"
   };
 
+  // I wish there was a better way to do this.
+  long long hellop = (long long) &data[0];
+
   long long code[] = {
     // 3 + 9 + 7 == 19?
     CARP_INSTR_LOADI, CARP_REG0, 7,
@@ -24,8 +27,8 @@ int main (int argc, char **argv) {
     CARP_INSTR_PREG,  CARP_EAX,
 
     // set & get 20
-    CARP_INSTR_DBS,   &data[0], 20,
-    CARP_INSTR_DBG,   &data[0],
+    CARP_INSTR_DBS,   hellop, 20,
+    CARP_INSTR_DBG,   hellop,
     CARP_INSTR_PREG,  CARP_EAX,
     
     // should be in $?
