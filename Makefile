@@ -5,15 +5,7 @@ SRCS = $(wildcard *.c lib/*.c)
 OBJS = *.o
 PROG = carp
 
-# all:
-# 	$(CC) $(CFLAGS) $(SRCS)
-# 	$(CC) $(OBJS) -o $(PROG)
-# 	make clean_objs
-
 all:
-	make objs
-
-objs:
 	$(CC) $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
 	make clean_objs
