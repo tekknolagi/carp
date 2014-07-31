@@ -1,9 +1,9 @@
 #ifndef CARP_HT_H
 #define CARP_HT_H
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define CARP_HT_KEY_LENGTH 20
 
