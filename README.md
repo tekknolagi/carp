@@ -40,6 +40,8 @@ Defined as such: NAME (args): Description
 * DBS (key, val): Sets data memory at key (string pointer) to given value.
 * DBG (key): Gets value from data memory at key (string pointer) and dumps it into EAX.
 * LBL (key): Sets data memory at key (string pointer) to EIP.
+* CALL (key, nargs): Save state and set EIP to value in data memory at key.
+* RET (val): Push return value and load state.
 * PREG (reg): Prints contents of given register.
 * PTOP (): Peeks top of stack and prints top value.
 
