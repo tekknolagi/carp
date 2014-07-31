@@ -2,6 +2,7 @@
 #define CARP_MACHINE_H
 
 #include <stdlib.h>
+#include <assert.h>
 
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"

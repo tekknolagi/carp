@@ -1,10 +1,15 @@
 #include "carp_ht.h"
 
 void carp_ht_init (carp_ht *h) {
+  assert(h != NULL);
+
   h->next = NULL;
 }
 
 int carp_ht_del (carp_ht *h, char *key) {
+  assert(h != NULL);
+  assert(key != NULL);
+
   carp_ht *res = carp_ht_get(h, key);
   carp_ht *prev = h;
 
@@ -22,6 +27,8 @@ int carp_ht_del (carp_ht *h, char *key) {
 }
 
 carp_ht *carp_ht_tail (carp_ht *h) {
+  assert(h != NULL);
+
   carp_ht *tail = h;
 
   while (tail->next != NULL)
@@ -31,6 +38,9 @@ carp_ht *carp_ht_tail (carp_ht *h) {
 }
 
 carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
+  assert(h != NULL);
+  assert(key != NULL);
+
   carp_ht *res = carp_ht_get(h, key);
 
   // exists
@@ -57,6 +67,9 @@ carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
 }
 
 carp_ht *carp_ht_get (carp_ht *h, char *key) {
+  assert(h != NULL);
+  assert(key != NULL);
+
   carp_ht *res = h;
 
   while (strcmp(res->key, key) != 0) {
@@ -70,6 +83,8 @@ carp_ht *carp_ht_get (carp_ht *h, char *key) {
 }
 
 void carp_ht_cleanup (carp_ht *h) {
+  assert(h != NULL);
+
   carp_ht *tmp = h;
   carp_ht *cur;
 
@@ -83,6 +98,8 @@ void carp_ht_cleanup (carp_ht *h) {
 }
 
 void carp_ht_print (carp_ht *h) {
+  assert(h != NULL);
+
   carp_ht *tmp = h;
 
   puts("{");

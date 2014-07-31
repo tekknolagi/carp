@@ -1,6 +1,9 @@
 #include "carp_stack.h"
 
 int carp_stack_init (carp_stack *s, long max_height) {
+  assert(s != NULL);
+  assert(max_height > 0);
+
   s->max_height = max_height;
   s->height = 0;
 
@@ -14,15 +17,21 @@ int carp_stack_init (carp_stack *s, long max_height) {
 
 // boolean
 int carp_stack_empty (carp_stack *s) {
+  assert(s != NULL);
+
   return s->height == 0;
 }
 
 // boolean
 int carp_stack_full (carp_stack *s) {
+  assert(s != NULL);
+
   return s->height == s->max_height;
 }
 
 int carp_stack_push (carp_stack *s, long long i) {
+  assert(s != NULL);
+
   if (carp_stack_full(s)) {
     long long *contents = realloc(s->contents, (s->height + 5) * sizeof(*contents));
     if (contents == NULL) {
@@ -40,6 +49,8 @@ int carp_stack_push (carp_stack *s, long long i) {
 }
 
 long long carp_stack_pop (carp_stack *s) {
+  assert(s != NULL);
+
   if (carp_stack_empty(s))
     return (int) NULL;
   else {
@@ -49,6 +60,8 @@ long long carp_stack_pop (carp_stack *s) {
 }
 
 long long carp_stack_peek (carp_stack *s) {
+  assert(s != NULL);
+
   if (carp_stack_empty(s)) 
     return (int) NULL;
   else
@@ -56,6 +69,8 @@ long long carp_stack_peek (carp_stack *s) {
 }
 
 void carp_stack_destroy (carp_stack *s) {
+  assert(s != NULL);
+
   free(s->contents);
   s->contents = NULL;
   s->max_height = 0;

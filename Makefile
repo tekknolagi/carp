@@ -1,6 +1,6 @@
-CC = /usr/local/bin/gcc-4.2
-#clang
-CFLAGS = -c -std=c99 -Wall -O0 -g3 -static -Wno-unused-variable
+CC = clang #/usr/local/bin/gcc-4.2
+NDEBUG ?= 
+CFLAGS = -c -std=c99 -Wall -Werror -Wno-unused-variable -O3 -static $(NDEBUG) 
 SRCS = $(wildcard *.c lib/*.c)
 OBJS = *.o
 PROG = carp
