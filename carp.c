@@ -1,4 +1,4 @@
-#include "carp_machine.h"
+#include "carp.h"
 
 int main (int argc, char **argv) {
   char data[][CARP_HT_KEY_LENGTH] = {
