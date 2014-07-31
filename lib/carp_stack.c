@@ -33,7 +33,7 @@ int carp_stack_push (carp_stack *s, long long i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
-    long long *contents = realloc(s->contents, (s->height + 5) * sizeof(*contents));
+    long long *contents = realloc(s->contents, (2*s->height + 1) * sizeof(*contents));
     if (contents == NULL) {
       return -1;
     }
