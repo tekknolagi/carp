@@ -3,6 +3,16 @@ This is a project I've been slowly working on for about half a year now. The goa
 
 Right now there are instructions, registers, a stack, data memory, and the most basic of gotos.
 
+## Installation
+
+1. `make`
+2. `make install`
+
+To compile anything:
+
+1. Include `carp/carp.h` in your program
+2. `gcc program.c /usr/local/lib/carp/libcarp.a -o program.out`
+
 ## Instructions
 
 Defined as such: NAME (args): Description
