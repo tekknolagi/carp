@@ -42,7 +42,7 @@ carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
   // does not exist
   else {
     carp_ht *tail = carp_ht_tail(h);
-    tail->next = malloc(sizeof(carp_ht));
+    tail->next = malloc(sizeof(*tail->next));
     if (tail->next == NULL)
       return NULL;	
 

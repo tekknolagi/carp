@@ -4,7 +4,7 @@ int carp_stack_init (carp_stack *s, long max_height) {
   s->max_height = max_height;
   s->height = 0;
 
-  long long *contents = malloc(max_height * sizeof(long long));
+  long long *contents = malloc(max_height * sizeof(*contents));
   if (contents == NULL)
     return -1;
 
@@ -24,7 +24,7 @@ int carp_stack_full (carp_stack *s) {
 
 int carp_stack_push (carp_stack *s, long long i) {
   if (carp_stack_full(s)) {
-    long long *contents = realloc(s->contents, (s->height + 5) * sizeof(long long));
+    long long *contents = realloc(s->contents, (s->height + 5) * sizeof(*contents));
     if (contents == NULL) {
       return -1;
     }
