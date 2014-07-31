@@ -23,8 +23,9 @@ uninstall:
 
 install:
 	make uninstall
-	mkdir /usr/local/include/carp
-	cp -r . /usr/local/include/carp
+	mkdir -p /usr/local/include/carp/lib
+	cp *.h /usr/local/include/carp
+	cp lib/*.h /usr/local/include/carp/lib
 
 clean_objs:
 	find . -name "*.o"	\
