@@ -16,7 +16,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height) {
   m->running = 1;
 
   // initialize stack
-  int status = carp_stack_init(&m->stack, stack_height);
+  int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], stack_height);
   if (status == -1) {
     fprintf(stderr, CARP_STACK_NO_MEM);
     carp_vm_exit(m, 1);

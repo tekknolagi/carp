@@ -10,12 +10,12 @@
 #define CARP_STACK_EMPTY "Carp stack is empty.\n"
 
 typedef struct carp_stack {
-  long max_height;
-  long height;
+  long long max_height;
+  long long *height;
   long long *contents;
 } carp_stack;
 
-int carp_stack_init (carp_stack *, long);
+int carp_stack_init (carp_stack *, long long *, long);
 int carp_stack_empty (carp_stack *);
 int carp_stack_full (carp_stack *);
 int carp_stack_push (carp_stack *, long long);
