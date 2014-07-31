@@ -1,5 +1,5 @@
-#ifndef _CARP_STACK_H_
-#define _CARP_STACK_H_
+#ifndef CARP_STACK_H
+#define CARP_STACK_H
 
 #include "stdio.h"
 #include "stdlib.h"

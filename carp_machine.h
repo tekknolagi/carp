@@ -1,5 +1,5 @@
-#ifndef _CARP_MACHINE_H_
-#define _CARP_MACHINE_H_
+#ifndef CARP_MACHINE_H
+#define CARP_MACHINE_H
 
 #include "stdlib.h"
 

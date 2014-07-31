@@ -1,5 +1,5 @@
-#ifndef _CARP_HT_H_
-#define _CARP_HT_H_
+#ifndef CARP_HT_H
+#define CARP_HT_H
 
 #include "stdio.h"
 #include "stdlib.h"
