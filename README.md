@@ -11,7 +11,7 @@ Right now there are instructions, registers, a stack, data memory, and the most 
 To compile anything:
 
 1. Include `carp/carp.h` in your program
-2. `gcc program.c /usr/local/lib/carp/libcarp.a -o program.out`
+2. `gcc program.c /usr/local/lib/libcarp.a -o program.out`
 
 ## Instructions
 
