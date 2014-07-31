@@ -6,7 +6,7 @@ int main (int argc, char **argv) {
     CARP_INSTR_PUSHI, 6,
     CARP_INSTR_PREG,  CARP_ESP,
 
-    CARP_INSTR_LOADI, CARP_ESP, 1,
+    CARP_INSTR_DECR, CARP_ESP,
     CARP_INSTR_POPI,
     CARP_INSTR_PREG, CARP_GBG,
 
