@@ -24,8 +24,10 @@ Defined as such: NAME (args): Description
 * ADDI (): Pops the top two integers from the stack and pushes their sum.
 * SUBI (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
 * MULI (): Pops the top two integers from the stack and pushes their product.
-* INCR (): Increments the value at the top of the stack.
-* DECR (): Decrements the value at the top of the stack.
+* INCR (reg): Increments value in given register.
+* DECR (reg): Decrements value in given register.
+* INCI (): Increments the value at the top of the stack.
+* DECI (): Decrements the value at the top of the stack.
 * PUSHR (reg): Pushes value in given register.
 * PUSHI (val): Pushes given value.
 * POPI (val): Pops an integer from the stack and dumps it into GBG.

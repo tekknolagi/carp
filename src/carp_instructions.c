@@ -39,11 +39,21 @@ definstr (MULI) {
 }
 
 definstr (INCR) {
+  long long reg = m->code[++m->regs[CARP_EIP]];
+  m->regs[reg]++;
+}
+
+definstr (DECR) {
+  long long reg = m->code[++m->regs[CARP_EIP]];
+  m->regs[reg]--;
+}
+
+definstr (INCI) {
   long long a = carp_stack_pop(&m->stack);
   carp_stack_push(&m->stack, a + 1);
 }
 
-definstr (DECR) {
+definstr (DECI) {
   long long a = carp_stack_pop(&m->stack);
   carp_stack_push(&m->stack, a - 1);
 }

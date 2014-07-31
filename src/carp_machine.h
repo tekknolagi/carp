@@ -59,6 +59,8 @@ enum {
   CARP_INSTR_MULI ,
   CARP_INSTR_INCR ,
   CARP_INSTR_DECR ,
+  CARP_INSTR_INCI ,
+  CARP_INSTR_DECI ,
   CARP_INSTR_PUSHR,
   CARP_INSTR_PUSHI,
   CARP_INSTR_POPI ,
@@ -108,6 +110,7 @@ definstr(LOADI);
 definstr(MOV);
 definstr(ADDI); definstr(SUBI); definstr(MULI);
 definstr(INCR); definstr(DECR);
+definstr(INCI); definstr(DECI);
 definstr(PUSHR);
 definstr(PUSHI); definstr(POPI);
 definstr(CMP);
@@ -130,6 +133,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(MOV),
   assigninstr(ADDI), assigninstr(SUBI), assigninstr(MULI),
   assigninstr(INCR), assigninstr(DECR),
+  assigninstr(INCI), assigninstr(DECI),
   assigninstr(PUSHR),
   assigninstr(PUSHI), assigninstr(POPI),
   assigninstr(CMP),
