@@ -38,6 +38,9 @@ enum {
   // stack pointer
   CARP_ESP  ,
 
+  // frame pointer
+  CARP_EFP  ,
+
   // garbage reg for pop
   CARP_GBG  ,
 
@@ -68,6 +71,8 @@ enum {
   CARP_INSTR_DBS  ,
   CARP_INSTR_DBG  ,
   CARP_INSTR_LBL  ,
+  CARP_INSTR_CALL ,
+  CARP_INSTR_RET  ,
   CARP_INSTR_PREG ,
   CARP_INSTR_PTOP ,
 
@@ -96,21 +101,21 @@ void carp_vm_exit (carp_machine_state *, int);
 #define definstr(x) void carp_instr_##x (carp_machine_state *m)
 
 // this is where the declaration/definition macro comes in handy
-definstr (HALT);
-definstr (NOP);
-definstr (LOADI);
-definstr (MOV);
-definstr (ADDI); definstr (SUBI); definstr (MULI);
-definstr (INCR); definstr (DECR);
-definstr (PUSHR);
-definstr (PUSHI); definstr (POPI);
-definstr (CMP);
-definstr (JZ); definstr (RJZ);
-definstr (JNZ); definstr (RJNZ);
-definstr (JMP); definstr (RJMP);
-definstr (DBS); definstr (DBG);
-definstr (LBL);
-definstr (PREG); definstr (PTOP);
+definstr(HALT);
+definstr(NOP);
+definstr(LOADI);
+definstr(MOV);
+definstr(ADDI); definstr(SUBI); definstr(MULI);
+definstr(INCR); definstr(DECR);
+definstr(PUSHR);
+definstr(PUSHI); definstr(POPI);
+definstr(CMP);
+definstr(JZ); definstr(RJZ);
+definstr(JNZ); definstr(RJNZ);
+definstr(JMP); definstr(RJMP);
+definstr(DBS); definstr(DBG);
+definstr(LBL); definstr(CALL); definstr(RET);
+definstr(PREG); definstr(PTOP);
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
 #define assigninstr(x) [CARP_INSTR_##x] = carp_instr_##x
@@ -131,7 +136,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(JNZ), assigninstr(RJNZ),
   assigninstr(JMP), assigninstr(RJMP),
   assigninstr(DBS), assigninstr(DBG),
-  assigninstr(LBL),
+  assigninstr(LBL), assigninstr(CALL), assigninstr(RET),
   assigninstr(PREG), assigninstr(PTOP),
 };
 

@@ -25,8 +25,9 @@ int carp_stack_full (carp_stack *s) {
 int carp_stack_push (carp_stack *s, long long i) {
   if (carp_stack_full(s)) {
     long long *contents = realloc(s->contents, s->height + 5);
-    if (contents == NULL)
+    if (contents == NULL) {
       return -1;
+    }
 
     s->contents = contents;
   }
