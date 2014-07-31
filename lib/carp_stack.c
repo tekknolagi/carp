@@ -24,17 +24,17 @@ int carp_stack_full (carp_stack *s) {
 
 int carp_stack_push (carp_stack *s, long long i) {
   if (carp_stack_full(s)) {
-    long long *contents = realloc(s->contents, s->height + 5);
+    long long *contents = realloc(s->contents, (s->height + 5) * sizeof(long long));
     if (contents == NULL) {
       return -1;
     }
 
+    s->max_height += 5;
     s->contents = contents;
   }
-  else {
-    s->contents[s->height] = i;
-    s->height++;
-  }
+
+  s->contents[s->height] = i;
+  s->height++;
 
   return 0;
 }
