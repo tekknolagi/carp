@@ -73,8 +73,6 @@ long long carp_vm_next (carp_machine_state *m) {
 void carp_vm_cleanup (carp_machine_state *m) {
   assert(m != NULL);
 
-  m->running = 0;
-
   carp_stack_destroy(&m->stack);
   carp_ht_cleanup(&m->vars);
   carp_ht_cleanup(&m->labels);
@@ -83,6 +81,7 @@ void carp_vm_cleanup (carp_machine_state *m) {
 void carp_vm_exit (carp_machine_state *m, int code) {
   assert(m != NULL);
 
+  m->running = 0;
   carp_vm_cleanup(m);
   exit(code);
 }
