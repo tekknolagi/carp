@@ -50,24 +50,27 @@ int carp_stack_push (carp_stack *s, long long i) {
   return 0;
 }
 
-long long carp_stack_pop (carp_stack *s) {
+long long carp_stack_pop (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
-    return (int) NULL;
+    return -1;
   else {
     (*s->height)--;
-    return s->contents[(*s->height)];
+    *v = s->contents[(*s->height)];
+    return 0;
   }
 }
 
-long long carp_stack_peek (carp_stack *s) {
+long long carp_stack_peek (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 
-    return (int) NULL;
-  else
-    return s->contents[(*s->height) - 1];
+    return -1;
+  else {
+    *v = s->contents[(*s->height) - 1];
+    return 0;
+  }
 }
 
 void carp_stack_destroy (carp_stack *s) {
