@@ -70,6 +70,12 @@ long long carp_vm_next (carp_machine_state *m) {
   return m->code[++m->regs[CARP_EIP]];
 }
 
+void carp_vm_err (carp_machine_state *m, char *e) {
+  fprintf(stderr, e);
+  puts("");
+  carp_vm_exit(m, 1);
+}
+
 void carp_vm_cleanup (carp_machine_state *m) {
   assert(m != NULL);
 

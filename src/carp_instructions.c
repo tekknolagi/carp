@@ -15,10 +15,8 @@ definstr (GLOADI) {
     fp = m->regs[CARP_EFP],
     val = m->stack.contents[fp + reladdr];
 
-  if (carp_stack_push(&m->stack, val) == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_push(&m->stack, val) == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
 definstr (MOV) {
@@ -29,45 +27,33 @@ definstr (MOV) {
 
 definstr (ADDI) {
   long long b, a;
-  if (carp_stack_pop(&m->stack, &b) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &b) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
-  if (carp_stack_pop(&m->stack, &a) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &a) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a + b);
 }
 
 definstr (SUBI) {
   long long b, a;
-  if (carp_stack_pop(&m->stack, &b) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &b) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
-  if (carp_stack_pop(&m->stack, &a) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &a) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a - b);
 }
 
 definstr (MULI) {
   long long b, a; 
-  if (carp_stack_pop(&m->stack, &b) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &b) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
-  if (carp_stack_pop(&m->stack, &a) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &a) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a * b);
 }
@@ -84,20 +70,16 @@ definstr (DECR) {
 
 definstr (INCI) {
   long long a;
-  if (carp_stack_pop(&m->stack, &a) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &a) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a + 1);
 }
 
 definstr (DECI) {
   long long a;
-  if (carp_stack_pop(&m->stack, &a) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &a) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a - 1);
 }
@@ -105,26 +87,20 @@ definstr (DECI) {
 definstr (PUSHR) {
   long long reg = carp_vm_next(m),
     a = m->regs[reg];
-  if (carp_stack_push(&m->stack, a) == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_push(&m->stack, a) == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
 definstr (PUSHI) {
   long long a = carp_vm_next(m);
-  if (carp_stack_push(&m->stack, a) == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_push(&m->stack, a) == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
 definstr (POPI) {
   long long val;
-  if (carp_stack_pop(&m->stack, &val) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &val) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   m->regs[CARP_GBG] = val;
 }
@@ -174,10 +150,8 @@ definstr (DBS) {
   char *key = (char *) carp_vm_next(m);
   long long val = carp_vm_next(m);
   carp_ht *res = carp_ht_set(&m->vars, key, val);
-  if (res == NULL) {
-    fprintf(stderr, CARP_HT_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (res == NULL)
+    carp_vm_err(m, CARP_HT_NO_MEM);
 }
 
 definstr (DBG) {
@@ -185,10 +159,8 @@ definstr (DBG) {
   long long reg = carp_vm_next(m);
 
   carp_ht *res = carp_ht_get(&m->vars, key);
-  if (res == NULL) {
-    fprintf(stderr, CARP_HT_DNE);
-    carp_vm_exit(m, 1);
-  }
+  if (res == NULL)
+    carp_vm_err(m, CARP_HT_DNE);
 
   m->regs[reg] = res->value;
 }
@@ -198,10 +170,8 @@ definstr (LBL) {
   char *key = (char *) carp_vm_next(m);
   long long val = ++m->regs[CARP_EIP];
   carp_ht *res = carp_ht_set(&m->labels, key, val);
-  if (res == NULL) {
-    fprintf(stderr, CARP_HT_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (res == NULL)
+    carp_vm_err(m, CARP_HT_NO_MEM);
 }
 
 definstr (CALL) {
@@ -210,22 +180,16 @@ definstr (CALL) {
   int status;
 
   status = carp_stack_push(&m->stack, nargs);
-  if (status == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (status == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 
   status = carp_stack_push(&m->stack, m->regs[CARP_EFP]);
-  if (status == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (status == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 
   status = carp_stack_push(&m->stack, m->regs[CARP_EIP]);
-  if (status == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (status == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 
   m->regs[CARP_EFP] = m->regs[CARP_ESP];
   m->regs[CARP_EIP] = addr - 1;
@@ -234,40 +198,32 @@ definstr (CALL) {
 definstr (RET) {
   long long rvalue;
 
-  if (carp_stack_pop(&m->stack, &rvalue) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &rvalue) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   long long state;
 
   m->regs[CARP_ESP] = m->regs[CARP_EFP];
 
-  if (carp_stack_pop(&m->stack, &state) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &state) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
+
   m->regs[CARP_EIP] = state;
 
-  if (carp_stack_pop(&m->stack, &state) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &state) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
+
   m->regs[CARP_EFP] = state;
 
-  if (carp_stack_pop(&m->stack, &state) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_pop(&m->stack, &state) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   long long nargs = state;
   m->regs[CARP_ESP] -= nargs;
 
   state = carp_stack_push(&m->stack, rvalue);
-  if (state == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (state == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
 definstr (PREG) {
@@ -278,10 +234,8 @@ definstr (PREG) {
 definstr (PTOP) {
   long long val;
 
-  if (carp_stack_peek(&m->stack, &val) == -1) {
-    fprintf(stderr, CARP_STACK_EMPTY);
-    carp_vm_exit(m, 1);
-  }
+  if (carp_stack_peek(&m->stack, &val) == -1)
+    carp_vm_err(m, CARP_STACK_EMPTY);
 
   printf("%lld\n", val);
 }

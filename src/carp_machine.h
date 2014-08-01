@@ -7,13 +7,13 @@
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"
 
-#define CARP_EXIT_STACK_FAILED "Could not initialize stack.\n"
-#define CARP_STACK_NO_MEM  "Not enough memory.\n"
-#define CARP_STACK_EMPTY "Carp stack is empty.\n"
+#define CARP_EXIT_STACK_FAILED "Could not initialize stack."
+#define CARP_STACK_NO_MEM  "Not enough memory."
+#define CARP_STACK_EMPTY "Carp stack is empty."
 
-#define CARP_HT_DNE "Variable not defined.\n"
-#define CARP_HT_NO_MEM "Not enough memory.\n"
-#define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL.\n"
+#define CARP_HT_DNE "Variable not defined."
+#define CARP_HT_NO_MEM "Not enough memory."
+#define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
 
 // make register numbers easier on the eyes
 enum {
@@ -85,9 +85,9 @@ enum {
 };
 
 static char carp_reverse_instr[][7] = {
-  "HALT","LOADI","GLOADI","MOV","ADDI","SUBI","MULI","INCR","DECR","INCI","DECI",
-  "PUSHR","PUSHI","POPI","CMP","JZ","RJZ","JNZ","RJNZ","JMP","RJMP","DBS","DBG",
-  "LBL","CALL","RET","PREG","PTOP","UNDEF"
+  "halt","loadi","gloadi","mov","addi","subi","muli","incr","decr","inci","deci",
+  "pushr","pushi","popi","cmp","jz","rjz","jnz","rjnz","jmp","rjmp","dbs","dbg",
+  "lbl","call","ret","preg","ptop","undef"
 };
 
 typedef struct carp_machine_state {
@@ -106,6 +106,7 @@ void carp_vm_load (carp_machine_state *, long long []);
 void carp_vm_eval (carp_machine_state *);
 void carp_vm_run (carp_machine_state *);
 long long carp_vm_next (carp_machine_state *);
+void carp_vm_err (carp_machine_state *, char *);
 void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);
 
