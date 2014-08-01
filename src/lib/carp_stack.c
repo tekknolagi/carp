@@ -82,7 +82,7 @@ void carp_stack_print (carp_stack *s) {
   printf("]\n");
 }
 
-void carp_stack_destroy (carp_stack *s) {
+void carp_stack_cleanup (carp_stack *s) {
   assert(s != NULL);
 
   free(s->contents);
