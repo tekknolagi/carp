@@ -1,6 +1,6 @@
 #include "carp_machine.h"
 
-void carp_vm_init (carp_machine_state *m, long stack_height) {
+void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
   assert(m != NULL);
   assert(stack_height > 0);
 
@@ -11,6 +11,9 @@ void carp_vm_init (carp_machine_state *m, long stack_height) {
   for (int i = 0; i < CARP_NUM_REGS; i++) {
     m->regs[i] = 0;
   }
+
+  // defined entrypoint (main)
+  m->regs[CARP_EIP] = main;
 
   // "turn VM on"
   m->running = 1;
@@ -43,6 +46,8 @@ void carp_vm_eval (carp_machine_state *m) {
   // decode, execute
   carp_instructions[instr](m);
   m->regs[CARP_EIP]++;
+
+  //printf("loc: %lld\n", m->regs[CARP_EIP]);
 }
 
 void carp_vm_run (carp_machine_state *m) {
