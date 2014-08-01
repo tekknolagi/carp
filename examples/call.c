@@ -2,13 +2,13 @@
 
 int main (int argc, char **argv) {
   long long code[] = {
-    CARP_INSTR_GLOADI, -5, // 1st arg
-    CARP_INSTR_GLOADI, -4, // 2nd arg
-    CARP_INSTR_ADDI,
+    CARP_INSTR_GLOAD, -5, // 1st arg
+    CARP_INSTR_GLOAD, -4, // 2nd arg
+    CARP_INSTR_ADD,
     CARP_INSTR_RET,
 
-    CARP_INSTR_PUSHI, 7, // 1st arg
-    CARP_INSTR_PUSHI, 9, // 2nd arg
+    CARP_INSTR_PUSH, 7, // 1st arg
+    CARP_INSTR_PUSH, 9, // 2nd arg
     CARP_INSTR_CALL, 0, 2,
 
     CARP_INSTR_PTOP,

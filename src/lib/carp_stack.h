@@ -6,9 +6,6 @@
 #include <string.h>
 #include <assert.h>
 
-#define CARP_STACK_NO_MEM  "Not enough memory.\n"
-#define CARP_STACK_EMPTY "Carp stack is empty.\n"
-
 typedef struct carp_stack {
   long long max_height;
   long long *height;

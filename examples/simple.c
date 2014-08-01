@@ -11,18 +11,18 @@ int main (int argc, char **argv) {
 
   long long code[] = {
     // 3 + 9 + 7 == 19?
-    CARP_INSTR_LOADI, CARP_REG0, 7,
+    CARP_INSTR_LOAD,  CARP_REG0, 7,
     CARP_INSTR_PREG,  CARP_REG0,
-    CARP_INSTR_PUSHI, 3,
-    CARP_INSTR_PUSHI, 9,
-    CARP_INSTR_ADDI,
+    CARP_INSTR_PUSH,  3,
+    CARP_INSTR_PUSH,  9,
+    CARP_INSTR_ADD,
     CARP_INSTR_PTOP,
 
     CARP_INSTR_PUSHR, CARP_REG0,
-    CARP_INSTR_ADDI,
+    CARP_INSTR_ADD,
     CARP_INSTR_PTOP,
 
-    CARP_INSTR_PUSHI, 19,
+    CARP_INSTR_PUSH,  19,
     CARP_INSTR_CMP,
     CARP_INSTR_PREG,  CARP_EAX,
 

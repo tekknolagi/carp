@@ -34,6 +34,7 @@ enum {
   CARP_EBX  ,
   CARP_ECX  ,
   CARP_EDX  ,
+  CARP_ERX  , // <- remainder
 
   // instruction pointer
   CARP_EIP  ,
@@ -50,44 +51,52 @@ enum {
   CARP_NUM_REGS,
 };
 
+#define ci(x) CARP_INSTR_##x
+
 // make instruction numbers easier on the eyes
 enum {
-  CARP_INSTR_HALT  ,
-  CARP_INSTR_LOADI ,
-  CARP_INSTR_GLOADI,
-  CARP_INSTR_MOV   ,
-  CARP_INSTR_ADDI  ,
-  CARP_INSTR_SUBI  ,
-  CARP_INSTR_MULI  ,
-  CARP_INSTR_INCR  ,
-  CARP_INSTR_DECR  ,
-  CARP_INSTR_INCI  ,
-  CARP_INSTR_DECI  ,
-  CARP_INSTR_PUSHR ,
-  CARP_INSTR_PUSHI ,
-  CARP_INSTR_POPI  ,
-  CARP_INSTR_CMP   ,
-  CARP_INSTR_JZ    ,
-  CARP_INSTR_RJZ   ,
-  CARP_INSTR_JNZ   ,
-  CARP_INSTR_RJNZ  ,
-  CARP_INSTR_JMP   ,
-  CARP_INSTR_RJMP  ,
-  CARP_INSTR_DBS   ,
-  CARP_INSTR_DBG   ,
-  CARP_INSTR_LBL   ,
-  CARP_INSTR_CALL  ,
-  CARP_INSTR_RET   ,
-  CARP_INSTR_PREG  ,
-  CARP_INSTR_PTOP  ,
+  ci(HALT) ,
+  ci(LOAD) ,
+  ci(GLOAD),
+  ci(MOV)  ,
+  ci(ADD)  ,
+  ci(SUB)  ,
+  ci(MUL)  ,
+  ci(MOD)  ,
+  ci(REM)  ,
+  ci(NOT)  ,
+  ci(XOR)  ,
+  ci(OR)   ,
+  ci(AND)  ,
+  ci(INCR) ,
+  ci(DECR) ,
+  ci(INC)  ,
+  ci(DEC)  ,
+  ci(PUSHR),
+  ci(PUSH) ,
+  ci(POP)  ,
+  ci(CMP)  ,
+  ci(JZ)   ,
+  ci(RJZ)  ,
+  ci(JNZ)  ,
+  ci(RJNZ) ,
+  ci(JMP)  ,
+  ci(RJMP) ,
+  ci(DBS)  ,
+  ci(DBG)  ,
+  ci(LBL)  ,
+  ci(CALL) ,
+  ci(RET)  ,
+  ci(PREG) ,
+  ci(PTOP) ,
 
-  CARP_NUM_INSTRS  ,
+  CARP_NUM_INSTRS,
 };
 
-static char carp_reverse_instr[][7] = {
-  "halt","loadi","gloadi","mov","addi","subi","muli","incr","decr","inci","deci",
-  "pushr","pushi","popi","cmp","jz","rjz","jnz","rjnz","jmp","rjmp","dbs","dbg",
-  "lbl","call","ret","preg","ptop","undef"
+static char carp_reverse_instr[][6] = {
+  "halt","load","gload","mov","add","sub","mul","mod","rem","not","xor","or",
+  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","jz","rjz","jnz",
+  "rjnz","jmp","rjmp","dbs","dbg","lbl","call","ret","preg","ptop","undef"
 };
 
 typedef struct carp_machine_state {
@@ -115,13 +124,15 @@ void carp_vm_exit (carp_machine_state *, int);
 
 // this is where the declaration/definition macro comes in handy
 definstr(HALT);
-definstr(LOADI); definstr(GLOADI);
+definstr(LOAD); definstr(GLOAD);
 definstr(MOV);
-definstr(ADDI); definstr(SUBI); definstr(MULI);
+definstr(ADD); definstr(SUB); definstr(MUL);
+definstr(MOD); definstr(REM);
+definstr(NOT); definstr(XOR); definstr(OR); definstr(AND);
 definstr(INCR); definstr(DECR);
-definstr(INCI); definstr(DECI);
+definstr(INC); definstr(DEC);
 definstr(PUSHR);
-definstr(PUSHI); definstr(POPI);
+definstr(PUSH); definstr(POP);
 definstr(CMP);
 definstr(JZ); definstr(RJZ);
 definstr(JNZ); definstr(RJNZ);
@@ -137,13 +148,15 @@ definstr(PREG); definstr(PTOP);
 // this is useful in `eval`
 static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(HALT),
-  assigninstr(LOADI), assigninstr(GLOADI),
+  assigninstr(LOAD), assigninstr(GLOAD),
   assigninstr(MOV),
-  assigninstr(ADDI), assigninstr(SUBI), assigninstr(MULI),
+  assigninstr(ADD), assigninstr(SUB), assigninstr(MUL),
+  assigninstr(MOD), assigninstr(REM),
+  assigninstr(NOT), assigninstr(XOR), assigninstr(OR), assigninstr(AND),
   assigninstr(INCR), assigninstr(DECR),
-  assigninstr(INCI), assigninstr(DECI),
+  assigninstr(INC), assigninstr(DEC),
   assigninstr(PUSHR),
-  assigninstr(PUSHI), assigninstr(POPI),
+  assigninstr(PUSH), assigninstr(POP),
   assigninstr(CMP),
   assigninstr(JZ), assigninstr(RJZ),
   assigninstr(JNZ), assigninstr(RJNZ),

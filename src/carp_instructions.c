@@ -4,13 +4,13 @@ definstr (HALT) {
   carp_vm_exit(m, carp_vm_next(m));
 }
 
-definstr (LOADI) {
+definstr (LOAD) {
   long long reg = carp_vm_next(m),
     val = carp_vm_next(m);
   m->regs[reg] = val;
 }
 
-definstr (GLOADI) {
+definstr (GLOAD) {
   long long reladdr = carp_vm_next(m),
     fp = m->regs[CARP_EFP],
     val = m->stack.contents[fp + reladdr];
@@ -25,7 +25,7 @@ definstr (MOV) {
   m->regs[dst] = m->regs[src];
 }
 
-definstr (ADDI) {
+definstr (ADD) {
   long long b, a;
   if (carp_stack_pop(&m->stack, &b) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -36,7 +36,7 @@ definstr (ADDI) {
   carp_stack_push(&m->stack, a + b);
 }
 
-definstr (SUBI) {
+definstr (SUB) {
   long long b, a;
   if (carp_stack_pop(&m->stack, &b) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -47,7 +47,7 @@ definstr (SUBI) {
   carp_stack_push(&m->stack, a - b);
 }
 
-definstr (MULI) {
+definstr (MUL) {
   long long b, a; 
   if (carp_stack_pop(&m->stack, &b) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -56,6 +56,44 @@ definstr (MULI) {
     carp_vm_err(m, CARP_STACK_EMPTY);
 
   carp_stack_push(&m->stack, a * b);
+}
+
+definstr (MOD) {
+  long long a = m->regs[carp_vm_next(m)],
+    b = m->regs[carp_vm_next(m)];
+  m->regs[CARP_ERX] = a % b;
+}
+
+definstr (REM) {
+  long long reg = carp_vm_next(m);
+  m->regs[reg] = m->regs[CARP_ERX];
+}
+
+definstr (NOT) {
+  long long *reg = &m->regs[carp_vm_next(m)];
+
+  *reg = ~(*reg);
+}
+
+definstr (XOR) {
+  long long *rega = &m->regs[carp_vm_next(m)],
+    *regb = &m->regs[carp_vm_next(m)];
+
+  *rega ^= *regb;
+}
+
+definstr (OR) {
+  long long *rega = &m->regs[carp_vm_next(m)],
+    *regb = &m->regs[carp_vm_next(m)];
+
+  *rega |= *regb;
+}
+
+definstr (AND) {
+  long long *rega = &m->regs[carp_vm_next(m)],
+    *regb = &m->regs[carp_vm_next(m)];
+
+  *rega &= *regb;
 }
 
 definstr (INCR) {
@@ -68,7 +106,7 @@ definstr (DECR) {
   m->regs[reg]--;
 }
 
-definstr (INCI) {
+definstr (INC) {
   long long a;
   if (carp_stack_pop(&m->stack, &a) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -76,7 +114,7 @@ definstr (INCI) {
   carp_stack_push(&m->stack, a + 1);
 }
 
-definstr (DECI) {
+definstr (DEC) {
   long long a;
   if (carp_stack_pop(&m->stack, &a) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -91,13 +129,13 @@ definstr (PUSHR) {
     carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
-definstr (PUSHI) {
+definstr (PUSH) {
   long long a = carp_vm_next(m);
   if (carp_stack_push(&m->stack, a) == -1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 }
 
-definstr (POPI) {
+definstr (POP) {
   long long val;
   if (carp_stack_pop(&m->stack, &val) == -1)
     carp_vm_err(m, CARP_STACK_EMPTY);
@@ -106,9 +144,9 @@ definstr (POPI) {
 }
 
 definstr (CMP) {
-  carp_instr_POPI(m);
+  carp_instr_POP(m);
   long long b = m->regs[CARP_GBG];
-  carp_instr_POPI(m);
+  carp_instr_POP(m);
   long long a = m->regs[CARP_GBG];
 
   m->regs[CARP_EAX] = a - b;
