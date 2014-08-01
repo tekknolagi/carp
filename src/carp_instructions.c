@@ -22,22 +22,40 @@ definstr (MOV) {
 
 definstr (ADDI) {
   long long b, a;
-  carp_stack_pop(&m->stack, &b);
-  carp_stack_pop(&m->stack, &a);
+  if (carp_stack_pop(&m->stack, &b) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
+  if (carp_stack_pop(&m->stack, &a) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
   carp_stack_push(&m->stack, a + b);
 }
 
 definstr (SUBI) {
   long long b, a;
-  carp_stack_pop(&m->stack, &b);
-  carp_stack_pop(&m->stack, &a);
+  if (carp_stack_pop(&m->stack, &b) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
+  if (carp_stack_pop(&m->stack, &a) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
   carp_stack_push(&m->stack, a - b);
 }
 
 definstr (MULI) {
   long long b, a; 
-  carp_stack_pop(&m->stack, &b);
-  carp_stack_pop(&m->stack, &a);
+  if (carp_stack_pop(&m->stack, &b) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
+  if (carp_stack_pop(&m->stack, &a) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
   carp_stack_push(&m->stack, a * b);
 }
 
@@ -53,13 +71,19 @@ definstr (DECR) {
 
 definstr (INCI) {
   long long a;
-  carp_stack_pop(&m->stack, &a);
+  if (carp_stack_pop(&m->stack, &a) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
   carp_stack_push(&m->stack, a + 1);
 }
 
 definstr (DECI) {
   long long a;
-  carp_stack_pop(&m->stack, &a);
+  if (carp_stack_pop(&m->stack, &a) == -1) {
+    fprintf(stderr, CARP_STACK_EMPTY);
+    carp_vm_exit(m, 1);
+  }
   carp_stack_push(&m->stack, a - 1);
 }
 
@@ -84,8 +108,7 @@ definstr (PUSHI) {
 
 definstr (POPI) {
   long long status;
-  carp_stack_pop(&m->stack, &status);
-  if (status == -1) {
+  if (carp_stack_pop(&m->stack, &status) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
@@ -201,8 +224,8 @@ definstr (CALL) {
 
 definstr (RET) {
   long long rvalue;
-  carp_stack_pop(&m->stack, &rvalue);
-  if (rvalue == -1) {
+
+  if (carp_stack_pop(&m->stack, &rvalue) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
@@ -211,22 +234,19 @@ definstr (RET) {
 
   m->regs[CARP_ESP] = m->regs[CARP_EFP];
 
-  carp_stack_pop(&m->stack, &state);
-  if ((void *) state == NULL) {
+  if (carp_stack_pop(&m->stack, &state) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
   m->regs[CARP_EIP] = state;
 
-  carp_stack_pop(&m->stack, &state);
-  if ((void *) state == NULL) {
+  if (carp_stack_pop(&m->stack, &state) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
   m->regs[CARP_EFP] = state;
 
-  carp_stack_pop(&m->stack, &state);
-  if ((void *) state == NULL) {
+  if (carp_stack_pop(&m->stack, &state) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
@@ -248,8 +268,8 @@ definstr (PREG) {
 
 definstr (PTOP) {
   long long status;
-  carp_stack_peek(&m->stack, &status);
-  if ((void *) status == NULL) {
+
+  if (carp_stack_peek(&m->stack, &status) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
