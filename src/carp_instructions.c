@@ -194,13 +194,6 @@ definstr (LBL) {
 }
 
 definstr (CALL) {
-  /*char *key = (char *) m->code[++m->regs[CARP_EIP]];
-  carp_ht *res = carp_ht_get(&m->labels, key);
-  if (res == NULL) {
-    fprintf(stderr, CARP_HT_DNE);
-    carp_vm_exit(m, 1);
-    }*/
-
   long long nargs = m->code[++m->regs[CARP_EIP]];
   int status;
   status = carp_stack_push(&m->stack, nargs);
@@ -222,7 +215,7 @@ definstr (CALL) {
   }
 
   m->regs[CARP_EFP] = m->regs[CARP_ESP];
-  m->regs[CARP_EIP] = m->regs[CARP_EIP] + 2; // res->value;
+  m->regs[CARP_EIP] = m->regs[CARP_EIP] + 2;
 }
 
 definstr (RET) {
