@@ -186,13 +186,15 @@ definstr (DBS) {
 
 definstr (DBG) {
   char *key = (char *) carp_vm_next(m);
+  long long reg = carp_vm_next(m);
+
   carp_ht *res = carp_ht_get(&m->vars, key);
   if (res == NULL) {
     fprintf(stderr, CARP_HT_DNE);
     carp_vm_exit(m, 1);
   }
 
-  m->regs[CARP_EAX] = res->value;
+  m->regs[reg] = res->value;
 }
 
 
