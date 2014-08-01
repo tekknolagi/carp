@@ -1,4 +1,4 @@
-CC = clang #/usr/local/bin/gcc-4.2
+CC = gcc #/usr/local/bin/gcc-4.2
 NDEBUG ?= 
 CFLAGS = -c -std=c99 -Wall -Werror -Wno-unused-variable -O3 -static $(NDEBUG) 
 SRCS = $(wildcard src/*.c src/lib/*.c)
@@ -9,6 +9,11 @@ all:
 	$(CC) $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
 	make clean_objs
+
+.PHONY: tests
+
+tests:
+	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
 
 uninstall:
 	rm -rf /usr/local/include/carp
