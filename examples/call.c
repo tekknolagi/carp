@@ -1,14 +1,7 @@
 #include <carp/carp.h>
 
 int main (int argc, char **argv) {
-  char data[][CARP_HT_KEY_LENGTH] = {
-    "add"
-  };
-
-  long long addp = (long long) &data[0];
-
   long long code[] = {
-    // CARP_INSTR_LBL, addp,
     CARP_INSTR_GLOADI, -5, CARP_EAX,
     CARP_INSTR_PUSHR, CARP_EAX,
     CARP_INSTR_GLOADI, -4, CARP_EAX,
