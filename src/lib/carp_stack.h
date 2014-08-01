@@ -19,8 +19,8 @@ int carp_stack_init (carp_stack *, long long *, long long);
 int carp_stack_empty (carp_stack *);
 int carp_stack_full (carp_stack *);
 int carp_stack_push (carp_stack *, long long);
-long long carp_stack_pop (carp_stack *, long long *);
-long long carp_stack_peek (carp_stack *, long long *);
+int carp_stack_pop (carp_stack *, long long *);
+int carp_stack_peek (carp_stack *, long long *);
 void carp_stack_print (carp_stack *);
 void carp_stack_cleanup (carp_stack *);
 #endif

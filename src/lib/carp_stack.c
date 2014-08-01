@@ -34,23 +34,28 @@ int carp_stack_push (carp_stack *s, long long i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
+    // give stack 2n + 1 its existing space, hopefully more efficiently allocating
     long long *contents = realloc(s->contents, (2*(*s->height) + 1) * sizeof(*contents));
-    if (contents == NULL) {
+    if (contents == NULL)
       return -1;
-    }
 
+    // and of course update max_height
     s->max_height *= 2;
     s->max_height++;
+
+    // and update the pointer
     s->contents = contents;
   }
 
+  // in either case, push a value and increase the height
   s->contents[(*s->height)] = i;
   (*s->height)++;
 
   return 0;
 }
 
-long long carp_stack_pop (carp_stack *s, long long *v) {
+// pop top into external variable
+int carp_stack_pop (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
@@ -62,15 +67,16 @@ long long carp_stack_pop (carp_stack *s, long long *v) {
   }
 }
 
-long long carp_stack_peek (carp_stack *s, long long *v) {
+// peek top into external variable
+int carp_stack_peek (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 
     return -1;
-  else {
+  else
     *v = s->contents[(*s->height) - 1];
-    return 0;
-  }
+
+  return 0;
 }
 
 void carp_stack_print (carp_stack *s) {
