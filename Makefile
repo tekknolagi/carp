@@ -18,6 +18,7 @@ install:
 	mkdir -p /usr/local/include/carp/lib
 	cp src/*.h /usr/local/include/carp
 	cp src/lib/*.h /usr/local/include/carp/lib
+	cp libcarp.a /usr/local/lib
 
 clean_libs:
 	find . -name "*.a"	\
