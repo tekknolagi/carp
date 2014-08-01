@@ -13,12 +13,14 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
   }
 
   // defined entrypoint (main)
-  m->regs[CARP_EIP] = main;
+  // -1 because EIP is incremented before each instr
+  m->regs[CARP_EIP] = main - 1;
 
   // "turn VM on"
   m->running = 1;
 
   // initialize stack
+  // give pointer to ESP
   int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], stack_height);
   if (status == -1) {
     fprintf(stderr, CARP_STACK_NO_MEM);
@@ -41,13 +43,16 @@ void carp_vm_load (carp_machine_state *m, long long code[]) {
 void carp_vm_eval (carp_machine_state *m) {
   assert(m != NULL);
 
+  m->regs[CARP_EIP]++;
+
+  //fprintf(stderr, "instr: %s\n", carp_reverse_instr[m->code[m->regs[CARP_EIP]]]);
+
   // fetch instruction
   int instr = m->code[m->regs[CARP_EIP]];
   // decode, execute
   carp_instructions[instr](m);
-  m->regs[CARP_EIP]++;
 
-  //printf("loc: %lld\n", m->regs[CARP_EIP]);
+  //carp_stack_print(&m->stack);
 }
 
 void carp_vm_run (carp_machine_state *m) {
@@ -57,6 +62,12 @@ void carp_vm_run (carp_machine_state *m) {
     carp_vm_eval(m);
 
   carp_vm_exit(m, 0);
+}
+
+long long carp_vm_next (carp_machine_state *m) {
+  assert(m != NULL);
+
+  return m->code[++m->regs[CARP_EIP]];
 }
 
 void carp_vm_cleanup (carp_machine_state *m) {

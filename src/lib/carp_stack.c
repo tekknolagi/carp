@@ -1,6 +1,6 @@
 #include "carp_stack.h"
 
-int carp_stack_init (carp_stack *s, long long *height, long max_height) {
+int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
   assert(s != NULL);
   assert(height != NULL);
   assert(max_height > 0);
@@ -71,6 +71,15 @@ long long carp_stack_peek (carp_stack *s, long long *v) {
     *v = s->contents[(*s->height) - 1];
     return 0;
   }
+}
+
+void carp_stack_print (carp_stack *s) {
+  printf("[ ");
+
+  for (long long i = 0; i < (*s->height); i++)
+    printf("%lld ", s->contents[i]);
+
+  printf("]\n");
 }
 
 void carp_stack_destroy (carp_stack *s) {

@@ -1,7 +1,7 @@
 #include "carp_machine.h"
 
 definstr (HALT) {
-  carp_vm_exit(m, m->code[++m->regs[CARP_EIP]]);
+  carp_vm_exit(m, carp_vm_next(m));
 }
 
 definstr (NOP) {
@@ -9,14 +9,21 @@ definstr (NOP) {
 }
 
 definstr (LOADI) {
-  long long reg = m->code[++m->regs[CARP_EIP]];
-  long long val = m->code[++m->regs[CARP_EIP]];
+  long long reg = carp_vm_next(m),
+    val = carp_vm_next(m);
   m->regs[reg] = val;
 }
 
+definstr (GLOADI) {
+  long long reladdr = carp_vm_next(m),
+    reg = carp_vm_next(m),
+    fp = m->regs[CARP_EFP];
+  m->regs[reg] = m->stack.contents[fp + reladdr];
+}
+
 definstr (MOV) {
-  long long dst = m->code[++m->regs[CARP_EIP]],
-    src = m->code[++m->regs[CARP_EIP]];
+  long long dst = carp_vm_next(m),
+    src = carp_vm_next(m);
   m->regs[dst] = m->regs[src];
 }
 
@@ -41,10 +48,12 @@ definstr (SUBI) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
+
   if (carp_stack_pop(&m->stack, &a) == -1) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
+
   carp_stack_push(&m->stack, a - b);
 }
 
@@ -64,12 +73,12 @@ definstr (MULI) {
 }
 
 definstr (INCR) {
-  long long reg = m->code[++m->regs[CARP_EIP]];
+  long long reg = carp_vm_next(m);
   m->regs[reg]++;
 }
 
 definstr (DECR) {
-  long long reg = m->code[++m->regs[CARP_EIP]];
+  long long reg = carp_vm_next(m);
   m->regs[reg]--;
 }
 
@@ -79,6 +88,7 @@ definstr (INCI) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
+
   carp_stack_push(&m->stack, a + 1);
 }
 
@@ -88,23 +98,22 @@ definstr (DECI) {
     fprintf(stderr, CARP_STACK_EMPTY);
     carp_vm_exit(m, 1);
   }
+
   carp_stack_push(&m->stack, a - 1);
 }
 
 definstr (PUSHR) {
-  long long reg = m->code[++m->regs[CARP_EIP]];
-  long long a = m->regs[reg];
-  int status = carp_stack_push(&m->stack, a);
-  if (status == -1) {
+  long long reg = carp_vm_next(m),
+    a = m->regs[reg];
+  if (carp_stack_push(&m->stack, a) == -1) {
     fprintf(stderr, CARP_STACK_NO_MEM);
     carp_vm_exit(m, 1);
   }
 }
 
 definstr (PUSHI) {
-  long long a = m->code[++m->regs[CARP_EIP]];
-  int status = carp_stack_push(&m->stack, a);
-  if (status == -1) {
+  long long a = carp_vm_next(m);
+  if (carp_stack_push(&m->stack, a) == -1) {
     fprintf(stderr, CARP_STACK_NO_MEM);
     carp_vm_exit(m, 1);
   }
@@ -132,7 +141,7 @@ definstr (CMP) {
 definstr (JZ) {
   // zero
   if (!m->regs[CARP_EAX])
-    m->regs[CARP_EIP] = m->code[++m->regs[CARP_EIP]];
+    m->regs[CARP_EIP] = carp_vm_next(m);
 }
 
 definstr (RJZ) {
@@ -144,7 +153,7 @@ definstr (RJZ) {
 definstr (JNZ) {
   // not zero
   if (m->regs[CARP_EAX])
-    m->regs[CARP_EIP] = m->code[++m->regs[CARP_EIP]];
+    m->regs[CARP_EIP] = carp_vm_next(m);
 }
 
 definstr (RJNZ) {
@@ -154,7 +163,7 @@ definstr (RJNZ) {
 }
 
 definstr (JMP) {
-  m->regs[CARP_EIP] = m->code[++m->regs[CARP_EIP]];
+  m->regs[CARP_EIP] = carp_vm_next(m);
 }
 
 definstr (RJMP) {
@@ -162,8 +171,8 @@ definstr (RJMP) {
 }
 
 definstr (DBS) {
-  char *key = (char *) m->code[++m->regs[CARP_EIP]];
-  long long val = m->code[++m->regs[CARP_EIP]];
+  char *key = (char *) carp_vm_next(m);
+  long long val = carp_vm_next(m);
   carp_ht *res = carp_ht_set(&m->vars, key, val);
   if (res == NULL) {
     fprintf(stderr, CARP_HT_NO_MEM);
@@ -172,7 +181,7 @@ definstr (DBS) {
 }
 
 definstr (DBG) {
-  char *key = (char *) m->code[++m->regs[CARP_EIP]];
+  char *key = (char *) carp_vm_next(m);
   carp_ht *res = carp_ht_get(&m->vars, key);
   if (res == NULL) {
     fprintf(stderr, CARP_HT_DNE);
@@ -184,7 +193,7 @@ definstr (DBG) {
 
 
 definstr (LBL) {
-  char *key = (char *) m->code[++m->regs[CARP_EIP]];
+  char *key = (char *) carp_vm_next(m);
   long long val = ++m->regs[CARP_EIP];
   carp_ht *res = carp_ht_set(&m->labels, key, val);
   if (res == NULL) {
@@ -194,8 +203,10 @@ definstr (LBL) {
 }
 
 definstr (CALL) {
-  long long nargs = m->code[++m->regs[CARP_EIP]];
+  long long addr = carp_vm_next(m);
+  long long nargs = carp_vm_next(m);
   int status;
+
   status = carp_stack_push(&m->stack, nargs);
   if (status == -1) {
     fprintf(stderr, CARP_STACK_NO_MEM);
@@ -215,7 +226,7 @@ definstr (CALL) {
   }
 
   m->regs[CARP_EFP] = m->regs[CARP_ESP];
-  m->regs[CARP_EIP] = m->regs[CARP_EIP] + 2;
+  m->regs[CARP_EIP] = addr - 1;
 }
 
 definstr (RET) {
@@ -258,7 +269,7 @@ definstr (RET) {
 }
 
 definstr (PREG) {
-  int reg = m->code[++m->regs[CARP_EIP]];
+  int reg = carp_vm_next(m);
   printf("%lld\n", m->regs[reg]);
 }
 
