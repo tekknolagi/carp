@@ -45,7 +45,7 @@ void carp_vm_eval (carp_machine_state *m) {
 
   m->regs[CARP_EIP]++;
 
-  //fprintf(stderr, "instr: %s\n", carp_reverse_instr[m->code[m->regs[CARP_EIP]]]);
+  //printf("instr: %s\n", carp_reverse_instr[m->code[m->regs[CARP_EIP]]]);
 
   // fetch instruction
   int instr = m->code[m->regs[CARP_EIP]];

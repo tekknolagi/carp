@@ -16,9 +16,13 @@ definstr (LOADI) {
 
 definstr (GLOADI) {
   long long reladdr = carp_vm_next(m),
-    reg = carp_vm_next(m),
-    fp = m->regs[CARP_EFP];
-  m->regs[reg] = m->stack.contents[fp + reladdr];
+    fp = m->regs[CARP_EFP],
+    val = m->stack.contents[fp + reladdr];
+
+  if (carp_stack_push(&m->stack, val) == -1) {
+    fprintf(stderr, CARP_STACK_NO_MEM);
+    carp_vm_exit(m, 1);
+  }
 }
 
 definstr (MOV) {
