@@ -18,7 +18,6 @@ To compile anything:
 Defined as such: NAME (args): Description
 
 * HALT (code): Halts and attempts to clean up stack, data memory, and label memory before exiting with given exit code.
-* NOP (): Does nothing. Not sure why you'd use it, but I've seen it included. It might go away at some point.
 * LOADI (reg, val): Loads given integer value into given register.
 * MOV (dst, src): Copies contents of src register into dst register.
 * ADDI (): Pops the top two integers from the stack and pushes their sum.
