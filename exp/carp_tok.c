@@ -13,9 +13,9 @@ void *file_read (char *fn) {
     exit(1);
   }
 
-  fseek(fp, 0, SEEK_END);
+  fseek(fp, 0, SEEK_END); // go to end
   fsize = ftell(fp);
-  rewind(fp);
+  fseek(fp, 0, SEEK_SET); // go to beginning
 
   contents = malloc(fsize * sizeof(char));
   if (contents == NULL) {
