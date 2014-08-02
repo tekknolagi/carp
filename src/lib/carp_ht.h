@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define CARP_HT_KEY_LENGTH 20
+#define CARP_HT_KEY_LENGTH 10
 
 typedef struct carp_ht_s {
   char key[CARP_HT_KEY_LENGTH];

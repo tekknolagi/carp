@@ -84,7 +84,6 @@ enum {
   ci(RJMP) ,
   ci(DBS)  ,
   ci(DBG)  ,
-  ci(LBL)  ,
   ci(CALL) ,
   ci(RET)  ,
   ci(PREG) ,
@@ -96,7 +95,7 @@ enum {
 static char carp_reverse_instr[][6] = {
   "halt","load","gload","mov","add","sub","mul","mod","rem","not","xor","or",
   "amd","incr","decr","inc","dec","pushr","push","pop","cmp","jz","rjz","jnz",
-  "rjnz","jmp","rjmp","dbs","dbg","lbl","call","ret","preg","ptop","undef"
+  "rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
 };
 
 typedef struct carp_machine_state {
@@ -138,7 +137,7 @@ definstr(JZ); definstr(RJZ);
 definstr(JNZ); definstr(RJNZ);
 definstr(JMP); definstr(RJMP);
 definstr(DBS); definstr(DBG);
-definstr(LBL); definstr(CALL); definstr(RET);
+definstr(CALL); definstr(RET);
 definstr(PREG); definstr(PTOP);
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
@@ -162,7 +161,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(JNZ), assigninstr(RJNZ),
   assigninstr(JMP), assigninstr(RJMP),
   assigninstr(DBS), assigninstr(DBG),
-  assigninstr(LBL), assigninstr(CALL), assigninstr(RET),
+  assigninstr(CALL), assigninstr(RET),
   assigninstr(PREG), assigninstr(PTOP),
 };
 

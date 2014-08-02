@@ -187,6 +187,7 @@ definstr (RJMP) {
 definstr (DBS) {
   char *key = (char *) carp_vm_next(m);
   long long val = carp_vm_next(m);
+
   carp_ht *res = carp_ht_set(&m->vars, key, val);
   if (res == NULL)
     carp_vm_err(m, CARP_HT_NO_MEM);
@@ -201,15 +202,6 @@ definstr (DBG) {
     carp_vm_err(m, CARP_HT_DNE);
 
   m->regs[reg] = res->value;
-}
-
-
-definstr (LBL) {
-  char *key = (char *) carp_vm_next(m);
-  long long val = ++m->regs[CARP_EIP];
-  carp_ht *res = carp_ht_set(&m->labels, key, val);
-  if (res == NULL)
-    carp_vm_err(m, CARP_HT_NO_MEM);
 }
 
 definstr (CALL) {
