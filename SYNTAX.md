@@ -14,7 +14,7 @@ ret
 main:
 pushi 7
 pushi 9
-call add, 2
+call @add, 2
 ptop
 
 halt 0
