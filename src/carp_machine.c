@@ -31,10 +31,10 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
   carp_ht_init(&m->vars);
 
   // initialize label hash table
-  carp_ht_init(&m->labels);
+  // carp_ht_init(&m->labels);
 }
 
-void carp_vm_load (carp_machine_state *m, long long code[]) {
+void carp_vm_load (carp_machine_state *m, long long code[], carp_ht labels) {
   assert(m != NULL);
 
   m->code = code;

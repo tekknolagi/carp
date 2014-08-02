@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "carp_registers.h"
+#include "carp_instructions.h"
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"
 
@@ -15,90 +17,12 @@
 #define CARP_HT_NO_MEM "Not enough memory."
 #define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
 
-// make register numbers easier on the eyes
-enum {
-  // regs 0 through 9 for general use
-  CARP_REG0 ,
-  CARP_REG1 ,
-  CARP_REG2 ,
-  CARP_REG3 ,
-  CARP_REG4 ,
-  CARP_REG5 ,
-  CARP_REG6 ,
-  CARP_REG7 ,
-  CARP_REG8 ,
-  CARP_REG9 ,
+typedef struct carp_program_s {
+  char *data[CARP_HT_KEY_LENGTH];
+  long long *code;
+} carp_program;
 
-  // regs used for cmp, et al
-  CARP_EAX  ,
-  CARP_EBX  ,
-  CARP_ECX  ,
-  CARP_EDX  ,
-  CARP_ERX  , // <- remainder
-
-  // instruction pointer
-  CARP_EIP  ,
-
-  // stack pointer
-  CARP_ESP  ,
-
-  // frame pointer
-  CARP_EFP  ,
-
-  // garbage reg for pop
-  CARP_GBG  ,
-
-  CARP_NUM_REGS,
-};
-
-#define ci(x) CARP_INSTR_##x
-
-// make instruction numbers easier on the eyes
-enum {
-  ci(HALT) ,
-  ci(LOAD) ,
-  ci(GLOAD),
-  ci(MOV)  ,
-  ci(ADD)  ,
-  ci(SUB)  ,
-  ci(MUL)  ,
-  ci(MOD)  ,
-  ci(REM)  ,
-  ci(NOT)  ,
-  ci(XOR)  ,
-  ci(OR)   ,
-  ci(AND)  ,
-  ci(INCR) ,
-  ci(DECR) ,
-  ci(INC)  ,
-  ci(DEC)  ,
-  ci(PUSHR),
-  ci(PUSH) ,
-  ci(POP)  ,
-  ci(CMP)  ,
-  ci(JZ)   ,
-  ci(RJZ)  ,
-  ci(JNZ)  ,
-  ci(RJNZ) ,
-  ci(JMP)  ,
-  ci(RJMP) ,
-  ci(DBS)  ,
-  ci(DBG)  ,
-  ci(CALL) ,
-  ci(RET)  ,
-  ci(PREG) ,
-  ci(PTOP) ,
-
-  CARP_NUM_INSTRS,
-};
-
-static char carp_reverse_instr[][6] = {
-  "halt","load","gload","mov","add","sub","mul","mod","rem","not","xor","or",
-  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","jz","rjz","jnz",
-  "rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
-};
-
-typedef struct carp_machine_state {
+typedef struct carp_machine_state_s {
   long long regs[CARP_NUM_REGS];
   carp_stack stack;
   carp_ht vars;
