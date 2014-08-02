@@ -9,8 +9,8 @@ int main (int argc, char **argv) {
 
   long long code[] = {
     CARP_INSTR_DBS, strp, 10,
-    CARP_INSTR_DBG, strp,
-    CARP_INSTR_PREG, CARP_EAX,
+    CARP_INSTR_DBG, strp, CARP_REG0,
+    CARP_INSTR_PREG, CARP_REG0,
     CARP_INSTR_HALT, 0
   };
 

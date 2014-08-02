@@ -28,7 +28,7 @@ int main (int argc, char **argv) {
 
     // set & get 20
     CARP_INSTR_DBS,   hellop, 20,
-    CARP_INSTR_DBG,   hellop,
+    CARP_INSTR_DBG,   hellop, CARP_EAX,
     CARP_INSTR_PREG,  CARP_EAX,
     
     // should be in $?
