@@ -57,3 +57,18 @@ Defined as such: NAME (args): Description
 * EIP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
 * ESP: Stack pointer. Not currently in use; stack implementation is separate.
 * GBG: Garbage register mainly used for popping.
+
+## How to contribute
+
+One way:
+
+1. Check out the TODO.md file to see if anything needs doing.
+2. Write some code (following existing implicit style) and submit a pull request.
+
+Another way:
+
+1. Write some code for a feauture you want to exist and submit a pull request.
+
+## License
+
+Not sure yet. Probably GPL. For now assume Creative Commons Attribution NonCommercial (whatever license is on my blog, http://bernsteinbear.com).
