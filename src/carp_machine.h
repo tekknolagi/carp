@@ -19,11 +19,6 @@
 #define CARP_HT_NO_MEM "Not enough memory."
 #define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
 
-typedef struct carp_program_s {
-  char *data[CARP_HT_KEY_LENGTH];
-  long long *code;
-} carp_program;
-
 typedef struct carp_machine_state_s {
   long long regs[CARP_NUM_REGS];
   carp_stack stack;

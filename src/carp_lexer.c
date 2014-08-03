@@ -30,12 +30,12 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 	carp_lex_exit(tokens, &m->labels, 1);
       }
 
-      carp_instr instr = carp_instr_lookup("nop");
+      long long instr = CARP_INSTR_NOP;
       tmp->value = instr;
       break; }
 
     case ct(INSTR): {
-      carp_instr instr = carp_instr_lookup(tmp->lexeme);
+      long long instr = carp_instr_lookup(tmp->lexeme);
       tmp->value = instr;
       break; }
       
