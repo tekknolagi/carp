@@ -1,19 +1,16 @@
 #include "carp_lexer.h"
 
-int main (int argc, char **argv) {
-  char *fn = argv[1];
-  carp_tok *tokens = carp_lex_tokenize(fn);
+void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
+  long long length = -1;
   carp_tok *tmp = tokens;
 
-  carp_machine_state m;
-  carp_ht_init(&m.labels);
-  long long i = -1;
+  carp_ht_init(&m->labels);
 
   while (tmp != NULL) {
     switch (tmp->type) {
     case ct(UNDEF): {
       fprintf(stderr, "Unknown token <%s>\n", tmp->lexeme);
-      carp_lex_exit(tokens, &m.labels, 1);
+      carp_lex_exit(tokens, &m->labels, 1);
       break; }
       
     case ct(NUM): {
@@ -27,10 +24,10 @@ int main (int argc, char **argv) {
       break; }
 
     case ct(LBL): {
-      carp_ht *res = carp_ht_set(&m.labels, tmp->lexeme, tmp->pos);
+      carp_ht *res = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
       if (res == NULL) {
 	fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
-	carp_lex_exit(tokens, &m.labels, 1);
+	carp_lex_exit(tokens, &m->labels, 1);
       }
 
       carp_instr instr = carp_instr_lookup("nop");
@@ -43,24 +40,24 @@ int main (int argc, char **argv) {
       break; }
       
     case ct(FUNC): {
-      carp_ht *res = carp_ht_get(&m.labels, tmp->lexeme);
+      carp_ht *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
 	fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
-	carp_lex_exit(tokens, &m.labels, 1);
+	carp_lex_exit(tokens, &m->labels, 1);
       }
 
       tmp->value = res->value;
       break; }
     }
 
-    /*printf("[%04lld] %5s (%5s) = %4lld\n",
+    printf("[%04lld] %5s (%5s) = %4lld\n",
       tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
     // */
     tmp = tmp->next;
-    i++;
+    length++;
   }
 
-  long long code[i];
+  long long code[length];
   tmp = tokens;
 
   while (tmp != NULL) {
@@ -70,8 +67,16 @@ int main (int argc, char **argv) {
 
   carp_lex_cleanup(tokens);
 
-  carp_vm_make(&m);
-  carp_vm_load(&m, code);
+  carp_vm_make(m);
+  carp_vm_load(m, code);
+}
+
+int main (int argc, char **argv) {
+  char *fn = argv[1];
+  carp_tok *tokens = carp_lex_tokenize(fn);
+  carp_machine_state m;
+
+  carp_lex_lex(&m, tokens);
   carp_vm_run(&m);
   carp_vm_cleanup(&m);
   return 0;
