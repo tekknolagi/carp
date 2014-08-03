@@ -70,17 +70,6 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
   carp_vm_load(m, code, length);
 }
 
-int main (int argc, char **argv) {
-  char *fn = argv[1];
-  carp_tok *tokens = carp_lex_tokenize(fn);
-  carp_machine_state m;
-
-  carp_lex_lex(&m, tokens);
-  carp_vm_run(&m);
-  carp_vm_cleanup(&m);
-  return 0;
-}
-
 void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
   carp_lex_cleanup(tokens);
   carp_ht_cleanup(labels);
