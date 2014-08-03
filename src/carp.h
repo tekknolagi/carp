@@ -17,5 +17,6 @@ void carp_print_version ();
 void carp_print_license ();
 void carp_print_warranty ();
 void carp_print_conditions ();
+void carp_run_program (char *);
 
 #endif

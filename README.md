@@ -10,10 +10,12 @@ Right now there are instructions, registers, a stack, data memory, and the most 
 
 ## Use
 
+NOTE: See `carp -h` for help with command-line options.
+
 ### Interpreter
 
 1. Write a Carp file - see [SYNTAX.md](http://github.com/tekknolagi/carp/tree/master/SYNTAX.md). More formal spec coming.
-2. Run `carp your_file.carp`.
+2. Run `carp -f your_file.carp`.
 
 ### API
 

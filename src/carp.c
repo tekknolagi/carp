@@ -10,6 +10,7 @@ int main (int argc, char **argv) {
     {"warranty", 0, 0, 'w'},
     {"conditions", 0, 0, 'c'},
     {"file", 1, 0, 'f'},
+    {"help", 0, 0, 'h'},
     {NULL, 0, NULL, 0},
   };
 
@@ -17,7 +18,7 @@ int main (int argc, char **argv) {
 
   int c;
   int option_index = 0;
-  while ((c = getopt_long(argc, argv, "vlwcf:", long_options, &option_index)) != -1) {
+  while ((c = getopt_long(argc, argv, "vlwcf:h", long_options, &option_index)) != -1) {
     int this_option_optind = optind ? optind : 1;
     switch (c) {
     case 0:
@@ -28,53 +29,39 @@ int main (int argc, char **argv) {
       break;
 
     case 'v':
-      opts.version = 1;
+      // version
+      carp_print_version();
       break;
 
     case 'l':
-      opts.license = 1;
+      // license
+      carp_print_license();
       break;
 
     case 'w':
-      opts.warranty = 1;
+      // warranty
+      carp_print_warranty();
       break;
 
     case 'c':
-      opts.conditions = 1;
+      // conditions
+      carp_print_conditions();
       break;
 
     case 'f':
-      opts.file = optarg;
+      // file
+      carp_run_program(optarg);
+      break;
+
+    case 'h':
+      // help
+      printf("help msg\n");
       break;
 
     default:
+      puts("For usage, run `carp -h' or `carp --help'.");
       break;
     }
-  }
-
-  if (opts.version)
-    carp_print_version();
-
-  if (opts.license)
-    carp_print_license();
-
-  if (opts.warranty)
-    carp_print_warranty();
-
-  if (opts.conditions)
-    carp_print_conditions();
-
-  if (opts.file) {
-    carp_tok *tokens = carp_lex_tokenize(opts.file);
-    if (tokens == NULL) {
-      fprintf(stderr, "Something went wrong with tokenization.\n");
-      exit(1);
-    }
-
-    carp_machine_state m;
-    carp_lex_lex(&m, tokens);
-    carp_vm_run(&m);
-    carp_vm_cleanup(&m);
   }
 
   return 0;
@@ -97,4 +84,17 @@ void carp_print_warranty () {
 
 void carp_print_conditions () {
   puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
+}
+
+void carp_run_program (char *fn) {
+  carp_tok *tokens = carp_lex_tokenize(opts.file);
+  if (tokens == NULL) {
+    fprintf(stderr, "Something went wrong with tokenization.\n");
+    exit(1);
+  }
+
+  carp_machine_state m;
+  carp_lex_lex(&m, tokens);
+  carp_vm_run(&m);
+  carp_vm_cleanup(&m);
 }
