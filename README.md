@@ -79,4 +79,4 @@ Another way:
 
 ## License
 
-Not sure yet. Probably GPL. For now assume Creative Commons Attribution NonCommercial (whatever license is on my blog, http://bernsteinbear.com).
+GPLv3. See [LICENSE.txt](http://github.com/tekknolagi/carp/tree/master/LICENSE.txt).
