@@ -7,15 +7,17 @@ int main (int argc, char **argv) {
   static struct option long_options[] = {
     {"version", 0, 0, 'v'},
     {"license", 0, 0, 'l'},
+    {"warranty", 0, 0, 'w'},
+    {"conditions", 0, 0, 'c'},
+    {"file", 1, 0, 'f'},
+    {NULL, 0, NULL, 0},
   };
 
-  // flags
   carp_option opts = {0, 0, 0, 0};
-  // endflags
 
   int c;
   int option_index = 0;
-  while ((c = getopt_long(argc, argv, "vl", long_options, &option_index)) != -1) {
+  while ((c = getopt_long(argc, argv, "vlwcf:", long_options, &option_index)) != -1) {
     int this_option_optind = optind ? optind : 1;
     switch (c) {
     case 0:
@@ -41,47 +43,39 @@ int main (int argc, char **argv) {
       opts.conditions = 1;
       break;
 
-    default:
-      printf("?? getopt returned character code 0%o ??\n", c);
-    }
+    case 'f':
+      opts.file = optarg;
+      break;
 
-    if (optind < argc) {
-      printf("non-option argv elements: ");
-      while (optind < argc)
-	printf("%s ", argv[optind++]);
-      puts("");
+    default:
+      break;
     }
   }
 
-  if (options.version)
+  if (opts.version)
     carp_print_version();
 
-  if (options.license)
+  if (opts.license)
     carp_print_license();
 
-  if (options.warranty)
+  if (opts.warranty)
     carp_print_warranty();
 
-  if (options.conditions)
+  if (opts.conditions)
     carp_print_conditions();
 
-  /*
-  char *fn = argv[1];
-  if (fn == NULL) {
-    fprintf(stderr, "No filename given.\n");
-    exit(1);
-  }
+  if (opts.file) {
+    carp_tok *tokens = carp_lex_tokenize(opts.file);
+    if (tokens == NULL) {
+      fprintf(stderr, "Something went wrong with tokenization.\n");
+      exit(1);
+    }
 
-  carp_tok *tokens = carp_lex_tokenize(fn);
-  if (tokens == NULL) {
-    fprintf(stderr, "Something went wrong with tokenization.\n");
-    exit(1);
+    carp_machine_state m;
+    carp_lex_lex(&m, tokens);
+    carp_vm_run(&m);
+    carp_vm_cleanup(&m);
   }
-
-  carp_machine_state m;
-  carp_lex_lex(&m, tokens);
-  carp_vm_run(&m);
-  carp_vm_cleanup(&m);*/
 
   return 0;
 }
@@ -91,9 +85,9 @@ void carp_print_version () {
 }
 
 void carp_print_license () {
-  puts("carp  Copyright (C) 2014  Maxwell Bernstein\
-    This program comes with ABSOLUTELY NO WARRANTY; for details type `carp -w'.\
-    This is free software, and you are welcome to redistribute it\
+  puts("carp  Copyright (C) 2014  Maxwell Bernstein\n\
+    This program comes with ABSOLUTELY NO WARRANTY; for details type `carp -w'.\n\
+    This is free software, and you are welcome to redistribute it\n\
     under certain conditions; type `carp -c' for details.");
 }
 

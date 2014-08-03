@@ -10,6 +10,7 @@ typedef struct carp_option_s {
   short int license;
   short int warranty;
   short int conditions;
+  char *file;
 } carp_option;
 
 void carp_print_version ();
