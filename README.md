@@ -8,12 +8,19 @@ Right now there are instructions, registers, a stack, data memory, and the most 
 1. `make`
 2. `make install`
 
-To compile anything:
+## Use
 
-1. Include `carp/carp.h` in your program
-2. `gcc program.c /usr/local/lib/libcarp.a -o program.out`
+### Interpreter
 
-## Instructions
+1. Write a Carp file - see [SYNTAX.md](http://github.com/tekknolagi/carp/tree/master/SYNTAX.md). More formal spec coming.
+2. Run `carp your_file.carp`.
+
+### API
+
+1. Include `carp/carp.h` in your program.
+2. Run `gcc program.c /usr/local/lib/libcarp.a -o program.out`.
+
+## Instruction set
 
 Defined as such: NAME (args): Description
 
