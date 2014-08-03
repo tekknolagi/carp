@@ -1,6 +1,9 @@
 #include "carp_lexer.h"
 
 void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
+  assert(m != NULL);
+  assert(tokens != NULL);
+
   long long length = -1;
   carp_tok *tmp = tokens;
 
@@ -71,6 +74,9 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 }
 
 void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
+  assert(tokens != NULL);
+  assert(labels != NULL);
+
   carp_lex_cleanup(tokens);
   carp_ht_cleanup(labels);
   exit(code);
