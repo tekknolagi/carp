@@ -8,7 +8,7 @@ main:
 	load %reg0, 7
 	pushr %reg0
 	load %reg1, 9
-	pushr %reg0
+	pushr %reg1
 	call @add, 2
 	ptop
 	halt 0

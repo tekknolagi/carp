@@ -68,11 +68,12 @@ int main (int argc, char **argv) {
     tmp = tmp->next;
   }
 
+  carp_lex_cleanup(tokens);
+
   carp_vm_make(&m);
   carp_vm_load(&m, code);
   carp_vm_run(&m);
   carp_vm_cleanup(&m);
-  carp_lex_cleanup(tokens);
   return 0;
 }
 
