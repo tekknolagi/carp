@@ -32,7 +32,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
 }
 
 void carp_vm_make (carp_machine_state *m) {
-  assert(m->labels != NULL);
+  assert(&m->labels != NULL);
 
   for (int i = 0; i < CARP_NUM_REGS; i++)
     m->regs[i] = 0;

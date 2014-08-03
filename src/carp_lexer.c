@@ -7,6 +7,7 @@ int main (int argc, char **argv) {
 
   carp_machine_state m;
   carp_ht_init(&m.labels);
+  long long i = -1;
 
   while (tmp != NULL) {
     switch (tmp->type) {
@@ -52,23 +53,25 @@ int main (int argc, char **argv) {
       break; }
     }
 
-    printf("[%04lld] %5s (%5s) = %4lld\n",
+    /*printf("[%04lld] %5s (%5s) = %4lld\n",
       tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
     // */
     tmp = tmp->next;
+    i++;
   }
 
-  //long long length = tmp->pos;
-  //long long code[length];
+  long long code[i];
+  tmp = tokens;
 
-  //for (long long i = 0; i < length; i++) {
-    // copy instrs into code
-  //}
+  while (tmp != NULL) {
+    code[tmp->pos] = tmp->value;
+    tmp = tmp->next;
+  }
 
-  //carp_vm_make(&m);
-  //carp_vm_load(&m, code);
-  //carp_vm_cleanup(&m);
-  carp_ht_cleanup(&m->labels);
+  carp_vm_make(&m);
+  carp_vm_load(&m, code);
+  carp_vm_run(&m);
+  carp_vm_cleanup(&m);
   carp_lex_cleanup(tokens);
   return 0;
 }
