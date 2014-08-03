@@ -52,22 +52,23 @@ int main (int argc, char **argv) {
       break; }
     }
 
-    /*printf("[%04lld] %5s (%5s) = %4lld\n",
+    printf("[%04lld] %5s (%5s) = %4lld\n",
       tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
     // */
     tmp = tmp->next;
   }
 
-  long long length = tmp->pos;
-  long long code[length];
+  //long long length = tmp->pos;
+  //long long code[length];
 
-  for (long long i = 0; i < length; i++) {
+  //for (long long i = 0; i < length; i++) {
     // copy instrs into code
-  }
+  //}
 
-  carp_vm_make(&m);
-  carp_vm_load(&m, code);
-  carp_vm_cleanup(&m);
+  //carp_vm_make(&m);
+  //carp_vm_load(&m, code);
+  //carp_vm_cleanup(&m);
+  carp_ht_cleanup(&m->labels);
   carp_lex_cleanup(tokens);
   return 0;
 }

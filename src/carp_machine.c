@@ -32,10 +32,12 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
 }
 
 void carp_vm_make (carp_machine_state *m) {
+  assert(m->labels != NULL);
+
   for (int i = 0; i < CARP_NUM_REGS; i++)
     m->regs[i] = 0;
 
-  carp_ht *res = carp_ht_get(m->labels, "main");
+  carp_ht *res = carp_ht_get(&m->labels, "main");
   if (res == NULL)
     carp_vm_err(m, CARP_VM_NO_MAIN);
 
@@ -43,14 +45,14 @@ void carp_vm_make (carp_machine_state *m) {
 
   m->running = 1;
 
-  int status = carp_stack_init(m->stack, m->regs[CARP_ESP], 1);
+  int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], 1);
   if (status == -1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
   carp_ht_init(&m->vars);
 }
 
-void carp_vm_load (carp_machine_state *m, long long code[], carp_ht labels) {
+void carp_vm_load (carp_machine_state *m, long long code[]) {
   assert(m != NULL);
 
   m->code = code;
