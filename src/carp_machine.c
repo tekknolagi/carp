@@ -53,22 +53,20 @@ void carp_vm_make (carp_machine_state *m) {
   carp_ht_init(&m->vars);
 }
 
-void carp_vm_load (carp_machine_state *m, long long code[]) {
+void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
   assert(m != NULL);
 
-  m->code = malloc(sizeof(*code));
+  m->code = calloc(length, sizeof(long long));
   if (m->code == NULL)
     carp_vm_err(m, "Could not allocate memory for code.");
 
-  memcpy(m->code, code, sizeof(*code));
+  memcpy(m->code, code, length * sizeof(long long));
 }
 
 void carp_vm_eval (carp_machine_state *m) {
   assert(m != NULL);
 
   m->regs[CARP_EIP]++;
-
-  printf("instr: %s\n", carp_reverse_instr[m->code[m->regs[CARP_EIP]]]);
 
   // fetch instruction
   int instr = m->code[m->regs[CARP_EIP]];

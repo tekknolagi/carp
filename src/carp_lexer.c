@@ -50,7 +50,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break; }
     }
 
-    printf("[%04lld] %5s (%5s) = %4lld\n",
+    /*printf("[%04lld] %5s (%5s) = %4lld\n",
       tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
     // */
     tmp = tmp->next;
@@ -66,9 +66,8 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
   }
 
   carp_lex_cleanup(tokens);
-
   carp_vm_make(m);
-  carp_vm_load(m, code);
+  carp_vm_load(m, code, length);
 }
 
 int main (int argc, char **argv) {
