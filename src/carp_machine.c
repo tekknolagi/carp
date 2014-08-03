@@ -8,9 +8,8 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
    * - EIP
    * - ESP
    */
-  for (int i = 0; i < CARP_NUM_REGS; i++) {
+  for (int i = 0; i < CARP_NUM_REGS; i++)
     m->regs[i] = 0;
-  }
 
   // defined entrypoint (main)
   // -1 because EIP is incremented before each instr
@@ -22,16 +21,33 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
   // initialize stack
   // give pointer to ESP
   int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], stack_height);
-  if (status == -1) {
-    fprintf(stderr, CARP_STACK_NO_MEM);
-    carp_vm_exit(m, 1);
-  }
+  if (status == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
 
   // initialize variable hash table
   carp_ht_init(&m->vars);
 
   // initialize label hash table
-  // carp_ht_init(&m->labels);
+  carp_ht_init(&m->labels);
+}
+
+void carp_vm_make (carp_machine_state *m) {
+  for (int i = 0; i < CARP_NUM_REGS; i++)
+    m->regs[i] = 0;
+
+  carp_ht *res = carp_ht_get(m->labels, "main");
+  if (res == NULL)
+    carp_vm_err(m, CARP_VM_NO_MAIN);
+
+  m->regs[CARP_EIP] = res->value - 1;
+
+  m->running = 1;
+
+  int status = carp_stack_init(m->stack, m->regs[CARP_ESP], 1);
+  if (status == -1)
+    carp_vm_err(m, CARP_STACK_NO_MEM);
+
+  carp_ht_init(&m->vars);
 }
 
 void carp_vm_load (carp_machine_state *m, long long code[], carp_ht labels) {

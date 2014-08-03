@@ -32,7 +32,7 @@ typedef struct carp_tok_s {
   char lexeme[CARP_TOK_WORD_LENGTH];
   carp_id type;
   long long pos;
-  long long val;
+  long long value;
 
   struct carp_tok_s *next;
 } carp_tok;

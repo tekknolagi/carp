@@ -9,6 +9,8 @@
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"
 
+#define CARP_VM_NO_MAIN "Could not find main."
+
 #define CARP_EXIT_STACK_FAILED "Could not initialize stack."
 #define CARP_STACK_NO_MEM  "Not enough memory."
 #define CARP_STACK_EMPTY "Carp stack is empty."
@@ -34,6 +36,7 @@ typedef struct carp_machine_state_s {
 } carp_machine_state;
 
 void carp_vm_init (carp_machine_state *, long, long long);
+void carp_vm_make (carp_machine_state *);
 void carp_vm_load (carp_machine_state *, long long []);
 void carp_vm_eval (carp_machine_state *);
 void carp_vm_run (carp_machine_state *);
@@ -47,6 +50,7 @@ void carp_vm_exit (carp_machine_state *, int);
 
 // this is where the declaration/definition macro comes in handy
 definstr(HALT);
+definstr(NOP);
 definstr(LOAD); definstr(GLOAD);
 definstr(MOV);
 definstr(ADD); definstr(SUB); definstr(MUL);
@@ -71,6 +75,7 @@ definstr(PREG); definstr(PTOP);
 // this is useful in `eval`
 static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(HALT),
+  assigninstr(NOP),
   assigninstr(LOAD), assigninstr(GLOAD),
   assigninstr(MOV),
   assigninstr(ADD), assigninstr(SUB), assigninstr(MUL),

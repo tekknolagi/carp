@@ -5,9 +5,10 @@ add:
 	ret
 
 main:
-	push 7
-	push 9
+	load %reg0, 7
+	pushr %reg0
+	load %reg1, 9
+	pushr %reg0
 	call @add, 2
-
 	ptop
 	halt 0

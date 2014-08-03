@@ -30,7 +30,7 @@ carp_tok *carp_lex_tokenize (char *fn) {
     if (type == ct(LBL))
       memcpy(parsed->lexeme, toks, strlen(toks) - 1);
     // don't copy @
-    else if (type == ct(FUNC))
+    else if (type == ct(FUNC) || type == ct(REG))
       memcpy(parsed->lexeme, toks + 1, strlen(toks) - 1);
     // nothing to avoid
     else

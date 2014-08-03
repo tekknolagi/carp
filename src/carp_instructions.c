@@ -4,6 +4,10 @@ definstr (HALT) {
   carp_vm_exit(m, carp_vm_next(m));
 }
 
+definstr (NOP) {
+  ;
+}
+
 definstr (LOAD) {
   long long reg = carp_vm_next(m),
     val = carp_vm_next(m);
