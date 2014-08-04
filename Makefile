@@ -36,7 +36,6 @@ clean_libs:
 
 clean_objs:
 	find . -name "*.o"	\
-	-o -name "*.out"	\
 	 | xargs rm -f
 
 clean:

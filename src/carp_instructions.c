@@ -29,38 +29,11 @@ definstr (MOV) {
   m->regs[dst] = m->regs[src];
 }
 
-definstr (ADD) {
-  long long b, a;
-  if (carp_stack_pop(&m->stack, &b) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+binop (ADD, +)
 
-  if (carp_stack_pop(&m->stack, &a) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+binop (SUB, -)
 
-  carp_stack_push(&m->stack, a + b);
-}
-
-definstr (SUB) {
-  long long b, a;
-  if (carp_stack_pop(&m->stack, &b) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  if (carp_stack_pop(&m->stack, &a) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  carp_stack_push(&m->stack, a - b);
-}
-
-definstr (MUL) {
-  long long b, a; 
-  if (carp_stack_pop(&m->stack, &b) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  if (carp_stack_pop(&m->stack, &a) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  carp_stack_push(&m->stack, a * b);
-}
+binop (MUL, *)
 
 definstr (MOD) {
   long long a = m->regs[carp_vm_next(m)],
@@ -79,26 +52,11 @@ definstr (NOT) {
   *reg = ~(*reg);
 }
 
-definstr (XOR) {
-  long long *rega = &m->regs[carp_vm_next(m)],
-    *regb = &m->regs[carp_vm_next(m)];
+binop (XOR, ^)
 
-  *rega ^= *regb;
-}
+binop (OR, |)
 
-definstr (OR) {
-  long long *rega = &m->regs[carp_vm_next(m)],
-    *regb = &m->regs[carp_vm_next(m)];
-
-  *rega |= *regb;
-}
-
-definstr (AND) {
-  long long *rega = &m->regs[carp_vm_next(m)],
-    *regb = &m->regs[carp_vm_next(m)];
-
-  *rega &= *regb;
-}
+binop (AND, &)
 
 definstr (INCR) {
   long long reg = carp_vm_next(m);

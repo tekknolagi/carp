@@ -36,9 +36,9 @@ Defined as such: NAME (args): Description
 * MOD (rega, regb): Computes rega % regb and stores in ERX.
 * REM (reg): Stores ERX in given register.
 * NOT (reg): Computes bitwise NOT of reg and stores in reg.
-* XOR (rega, regb): Computes rega ^ regb and stores in rega.
-* OR (rega, regb): Computes rega | regb and stores in rega.
-* AND (rega, regb): Computes rega & regb and stores in rega.
+* XOR (): Pops the top two integers from the stack and XORs them.
+* OR (): Pops the top two integers from the stack and ORs them.
+* AND (): Pops the top two integers from the stack and ORs them.
 * INCR (reg): Increments value in given register.
 * DECR (reg): Decrements value in given register.
 * INC (): Increments the value at the top of the stack.
