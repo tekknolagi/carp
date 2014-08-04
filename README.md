@@ -37,7 +37,7 @@ Defined as such: NAME (args): Description
 * NOT (reg): Computes bitwise NOT of reg and stores in reg.
 * XOR (): Pops the top two integers from the stack and XORs them.
 * OR (): Pops the top two integers from the stack and ORs them.
-* AND (): Pops the top two integers from the stack and ORs them.
+* AND (): Pops the top two integers from the stack and ANDs them.
 * INCR (reg): Increments value in given register.
 * DECR (reg): Decrements value in given register.
 * INC (): Increments the value at the top of the stack.
