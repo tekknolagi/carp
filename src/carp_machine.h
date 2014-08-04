@@ -55,7 +55,7 @@ definstr(INCR); definstr(DECR);
 definstr(INC); definstr(DEC);
 definstr(PUSHR);
 definstr(PUSH); definstr(POP);
-definstr(CMP);
+definstr(CMP); definstr(LT); definstr(GT);
 definstr(JZ); definstr(RJZ);
 definstr(JNZ); definstr(RJNZ);
 definstr(JMP); definstr(RJMP);
@@ -80,7 +80,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(INC), assigninstr(DEC),
   assigninstr(PUSHR),
   assigninstr(PUSH), assigninstr(POP),
-  assigninstr(CMP),
+  assigninstr(CMP), assigninstr(LT), assigninstr(GT),
   assigninstr(JZ), assigninstr(RJZ),
   assigninstr(JNZ), assigninstr(RJNZ),
   assigninstr(JMP), assigninstr(RJMP),

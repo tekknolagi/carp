@@ -26,6 +26,8 @@ typedef enum {
   ci(PUSH) ,
   ci(POP)  ,
   ci(CMP)  ,
+  ci(LT)   ,
+  ci(GT)   ,
   ci(JZ)   ,
   ci(RJZ)  ,
   ci(JNZ)  ,
@@ -44,8 +46,8 @@ typedef enum {
 
 static char carp_reverse_instr[][6] = {
   "halt","nop","load","gload","mov","add","sub","mul","mod","not","xor","or",
-  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","jz","rjz","jnz",
-  "rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
+  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","lt","gt","jz",
+  "rjz","jnz","rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
 };
 
 #define CARP_BINOP(NAME, F) definstr (NAME) { \

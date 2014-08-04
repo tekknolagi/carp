@@ -100,6 +100,10 @@ definstr (CMP) {
   m->regs[CARP_EAX] = a - b;
 }
 
+CARP_BINOP (LT, <)
+
+CARP_BINOP (GT, >)
+
 definstr (JZ) {
   long long a;
   CARP_SPOP(a);
