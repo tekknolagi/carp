@@ -1,6 +1,6 @@
 #include "carp_machine.h"
 
-void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
+void carp_vm_init (carp_machine_state *m, long stack_height, long long main_addr) {
   assert(m != NULL);
   assert(stack_height > 0);
 
@@ -13,7 +13,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main) {
 
   // defined entrypoint (main)
   // -1 because EIP is incremented before each instr
-  m->regs[CARP_EIP] = main - 1;
+  m->regs[CARP_EIP] = main_addr - 1;
 
   // "turn VM on"
   m->running = 1;
