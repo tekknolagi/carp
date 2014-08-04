@@ -83,7 +83,8 @@ void *file_read (char *fn) {
     exit(1);
   }
 
-  fread(contents, sizeof(char), fsize, fp);
+  int nread = fread(contents, sizeof(char), fsize, fp);
+  assert(nread == fsize);
   fclose(fp);
 
   return contents;
