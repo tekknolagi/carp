@@ -19,10 +19,12 @@ carp_tok *carp_lex_tokenize (char *fn) {
       type = ct(REG);
     else if (is_label(toks))
       type = ct(LBL);
-    else if (is_instr(toks))
-      type = ct(INSTR);
     else if (is_func(toks))
       type = ct(FUNC);
+    else if (is_var(toks))
+      type = ct(VAR);
+    else if (is_instr(toks))
+      type = ct(INSTR);
     else
       type = ct(UNDEF);
 
@@ -30,7 +32,7 @@ carp_tok *carp_lex_tokenize (char *fn) {
     if (type == ct(LBL))
       memcpy(parsed->lexeme, toks, strlen(toks) - 1);
     // don't copy @
-    else if (type == ct(FUNC) || type == ct(REG))
+    else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR))
       memcpy(parsed->lexeme, toks + 1, strlen(toks) - 1);
     // nothing to avoid
     else
@@ -116,6 +118,18 @@ char *is_label (char *s) {
   return strchr(s, ':');
 }
 
+char *is_func (char *s) {
+  assert(s != NULL);
+
+  return strchr(s, '@');
+}
+
+char *is_var (char *s) {
+  assert(s != NULL);
+
+  return strchr(s, '$');
+}
+
 int is_instr (char *s) {
   assert(s != NULL);
 
@@ -124,10 +138,4 @@ int is_instr (char *s) {
       return 1;
 
   return 0;
-}
-
-char *is_func (char *s) {
-  assert(s != NULL);
-
-  return strchr(s, '@');
 }

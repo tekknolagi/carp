@@ -18,9 +18,7 @@ definstr (GLOAD) {
   long long reladdr = carp_vm_next(m),
     fp = m->regs[CARP_EFP],
     val = m->stack.contents[fp + reladdr];
-
-  if (carp_stack_push(&m->stack, val) == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
+  CARP_SPUSH(val);
 }
 
 definstr (MOV) {
@@ -29,15 +27,16 @@ definstr (MOV) {
   m->regs[dst] = m->regs[src];
 }
 
-binop (ADD, +)
+CARP_BINOP (ADD, +)
 
-binop (SUB, -)
+CARP_BINOP (SUB, -)
 
-binop (MUL, *)
+CARP_BINOP (MUL, *)
 
 definstr (MOD) {
   long long a = m->regs[carp_vm_next(m)],
     b = m->regs[carp_vm_next(m)];
+
   m->regs[CARP_ERX] = a % b;
 }
 
@@ -52,11 +51,11 @@ definstr (NOT) {
   *reg = ~(*reg);
 }
 
-binop (XOR, ^)
+CARP_BINOP (XOR, ^)
 
-binop (OR, |)
+CARP_BINOP (OR, |)
 
-binop (AND, &)
+CARP_BINOP (AND, &)
 
 definstr (INCR) {
   long long reg = carp_vm_next(m);
@@ -70,38 +69,30 @@ definstr (DECR) {
 
 definstr (INC) {
   long long a;
-  if (carp_stack_pop(&m->stack, &a) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  carp_stack_push(&m->stack, a + 1);
+  CARP_SPOP(a);
+  CARP_SPUSH(a + 1);
 }
 
 definstr (DEC) {
   long long a;
-  if (carp_stack_pop(&m->stack, &a) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
-  carp_stack_push(&m->stack, a - 1);
+  CARP_SPOP(a);
+  CARP_SPUSH(a - 1);
 }
 
 definstr (PUSHR) {
   long long reg = carp_vm_next(m),
     a = m->regs[reg];
-  if (carp_stack_push(&m->stack, a) == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
+  CARP_SPUSH(a);
 }
 
 definstr (PUSH) {
   long long a = carp_vm_next(m);
-  if (carp_stack_push(&m->stack, a) == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
+  CARP_SPUSH(a);
 }
 
 definstr (POP) {
   long long val;
-  if (carp_stack_pop(&m->stack, &val) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
-
+  CARP_SPOP(val);
   m->regs[CARP_GBG] = val;
 }
 
@@ -169,19 +160,10 @@ definstr (DBG) {
 definstr (CALL) {
   long long addr = carp_vm_next(m);
   long long nargs = carp_vm_next(m);
-  int status;
 
-  status = carp_stack_push(&m->stack, nargs);
-  if (status == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
-
-  status = carp_stack_push(&m->stack, m->regs[CARP_EFP]);
-  if (status == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
-
-  status = carp_stack_push(&m->stack, m->regs[CARP_EIP]);
-  if (status == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
+  CARP_SPUSH(nargs);
+  CARP_SPUSH(m->regs[CARP_EFP]);
+  CARP_SPUSH(m->regs[CARP_EIP]);
 
   m->regs[CARP_EFP] = m->regs[CARP_ESP];
   m->regs[CARP_EIP] = addr - 1;
@@ -189,33 +171,26 @@ definstr (CALL) {
 
 definstr (RET) {
   long long rvalue;
-
-  if (carp_stack_pop(&m->stack, &rvalue) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+  CARP_SPOP(rvalue);
 
   long long state;
 
   m->regs[CARP_ESP] = m->regs[CARP_EFP];
 
-  if (carp_stack_pop(&m->stack, &state) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+  CARP_SPOP(state);
 
   m->regs[CARP_EIP] = state;
 
-  if (carp_stack_pop(&m->stack, &state) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+  CARP_SPOP(state);
 
   m->regs[CARP_EFP] = state;
 
-  if (carp_stack_pop(&m->stack, &state) == -1)
-    carp_vm_err(m, CARP_STACK_EMPTY);
+  CARP_SPOP(state);
 
   long long nargs = state;
   m->regs[CARP_ESP] -= nargs;
 
-  state = carp_stack_push(&m->stack, rvalue);
-  if (state == -1)
-    carp_vm_err(m, CARP_STACK_NO_MEM);
+  CARP_SPUSH(rvalue);
 }
 
 definstr (PREG) {

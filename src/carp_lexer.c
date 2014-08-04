@@ -37,11 +37,6 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       tmp->value = instr;
       break; }
 
-    case ct(INSTR): {
-      long long instr = carp_instr_lookup(tmp->lexeme);
-      tmp->value = instr;
-      break; }
-      
     case ct(FUNC): {
       carp_ht *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
@@ -50,6 +45,15 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       }
 
       tmp->value = res->value;
+      break; }
+
+    case ct(VAR): {
+      
+      break; }
+
+    case ct(INSTR): {
+      long long instr = carp_instr_lookup(tmp->lexeme);
+      tmp->value = instr;
       break; }
     }
 

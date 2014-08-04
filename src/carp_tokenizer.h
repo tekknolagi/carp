@@ -20,12 +20,13 @@ typedef enum {
   ct(NUM),
   ct(REG),
   ct(LBL),
-  ct(INSTR),
   ct(FUNC),
+  ct(VAR),
+  ct(INSTR),
 } carp_id;
 
 static char carp_reverse_type[][6] = {
-  "undef","num","reg","lbl","instr","func"
+  "undef","num","reg","lbl","func","var","instr"
 };
 
 typedef struct carp_tok_s {
@@ -44,8 +45,9 @@ int is_sign (char);
 int is_num (char *);
 char *is_reg (char *);
 char *is_label (char *);
-int is_instr (char *);
 char *is_func (char *);
+char *is_var (char *);
+int is_instr (char *);
 
 
 #endif

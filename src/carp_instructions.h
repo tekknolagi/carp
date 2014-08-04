@@ -49,12 +49,18 @@ static char carp_reverse_instr[][6] = {
   "rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
 };
 
-#define binop(NAME, F) definstr (NAME) { \
+#define CARP_BINOP(NAME, F) definstr (NAME) { \
   long long b, a; \
   if (carp_stack_pop(&m->stack, &b) == -1)\
     carp_vm_err(m, CARP_STACK_EMPTY);\
   if (carp_stack_pop(&m->stack, &a) == -1)\
     carp_vm_err(m, CARP_STACK_EMPTY);\
   carp_stack_push(&m->stack, a F b);}
+
+#define CARP_SPOP(NAME) if (carp_stack_pop(&m->stack, &NAME) == -1) \
+    carp_vm_err(m, CARP_STACK_EMPTY)
+
+#define CARP_SPUSH(NAME) if (carp_stack_push(&m->stack, NAME) == -1) \
+    carp_vm_err(m, CARP_STACK_NO_MEM)
 
 #endif
