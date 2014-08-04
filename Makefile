@@ -11,6 +11,7 @@ all:
 	$(CC) $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
 	$(CC) src/carp.c libcarp.a -o $(PROG)
+	make clean_objs
 
 #.PHONY: tests
 
