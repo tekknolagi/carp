@@ -104,18 +104,11 @@ void carp_run_program (char *fn) {
 }
 
 void carp_print_help () {
-  puts("Usage:\n\
--v, --version:
-    see version number
--l, --license:
-    see licensing information
--w, --warranty:
-    see warranty information
--c, --conditions:
-    see licensing conditions
--f, --file [filename]:
-    interpret [filename]. Argument not optional.
--h, --help:
-    get this message
-");
+  puts("Usage:");
+  puts("-v, --version\n\tsee version number");
+  puts("-l, --license:\n\tsee licensing information");
+  puts("-w, --warranty:\n\tsee warranty information");
+  puts("-c, --conditions:\n\tsee licensing conditions");
+  puts("-f, --file [filename]:\n\tinterpret [filename]. Argument not optional.");
+  puts("-h, --help:\n\tget this message");
 }
