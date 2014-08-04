@@ -77,7 +77,7 @@ One way:
 
 Another way:
 
-1. Write some code for a feauture you want to exist and submit a pull request.
+1. Write some code for a feature you want to exist and submit a pull request.
 
 ## License
 
