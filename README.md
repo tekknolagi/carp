@@ -82,3 +82,7 @@ Another way:
 ## License
 
 GPLv3. See [LICENSE.txt](http://github.com/tekknolagi/carp/tree/master/LICENSE.txt).
+
+## Badges and Things
+
+![](https://ga-beacon.appspot.com/UA-47678422-4/tekknolagi/carp)
