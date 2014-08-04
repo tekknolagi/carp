@@ -100,13 +100,6 @@ definstr (CMP) {
   m->regs[CARP_EAX] = a - b;
 }
 
-definstr (MOV) {
-  long long *rega = m->regs[carp_vm_next(m)],
-    *regb = m->regs[carp_vm_next(m)];
-
-  *regb = *rega;
-}
-
 definstr (JZ) {
   long long a;
   CARP_SPOP(a);

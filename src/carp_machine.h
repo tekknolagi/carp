@@ -49,7 +49,7 @@ definstr(NOP);
 definstr(LOAD); definstr(GLOAD);
 definstr(MOV);
 definstr(ADD); definstr(SUB); definstr(MUL);
-definstr(MOD); definstr(REM);
+definstr(MOD);
 definstr(NOT); definstr(XOR); definstr(OR); definstr(AND);
 definstr(INCR); definstr(DECR);
 definstr(INC); definstr(DEC);
@@ -74,7 +74,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   assigninstr(LOAD), assigninstr(GLOAD),
   assigninstr(MOV),
   assigninstr(ADD), assigninstr(SUB), assigninstr(MUL),
-  assigninstr(MOD), assigninstr(REM),
+  assigninstr(MOD),
   assigninstr(NOT), assigninstr(XOR), assigninstr(OR), assigninstr(AND),
   assigninstr(INCR), assigninstr(DECR),
   assigninstr(INC), assigninstr(DEC),
