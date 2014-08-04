@@ -1,14 +1,14 @@
 CC = gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
-CFLAGS = -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -O3 -static $(NDEBUG)
+CFLAGS = -c -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -O3 -static $(NDEBUG)
 SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
 
 all:
-	$(CC) -c $(CFLAGS) $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
 	$(CC) -std=c99 src/carp.c libcarp.a -o $(PROG)
 	make clean_objs
