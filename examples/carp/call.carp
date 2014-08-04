@@ -1,0 +1,13 @@
+add:
+	gload -5
+	gload -4
+	add
+	ret
+
+main:
+	push 7
+	push 9
+	call @add, 2
+
+	ptop
+	halt 0

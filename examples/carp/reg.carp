@@ -1,0 +1,14 @@
+add:
+	gload -5
+	gload -4
+	add
+	ret
+
+main:
+	load %reg0, 7
+	pushr %reg0
+	load %reg1, 9
+	pushr %reg1
+	call @add, 2
+	ptop
+	halt 0
