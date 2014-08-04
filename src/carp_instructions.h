@@ -14,7 +14,6 @@ typedef enum {
   ci(SUB)  ,
   ci(MUL)  ,
   ci(MOD)  ,
-  ci(REM)  ,
   ci(NOT)  ,
   ci(XOR)  ,
   ci(OR)   ,
@@ -27,6 +26,7 @@ typedef enum {
   ci(PUSH) ,
   ci(POP)  ,
   ci(CMP)  ,
+  ci(MOV)  ,
   ci(JZ)   ,
   ci(RJZ)  ,
   ci(JNZ)  ,
@@ -44,8 +44,8 @@ typedef enum {
 } carp_instr;
 
 static char carp_reverse_instr[][6] = {
-  "halt","nop","load","gload","mov","add","sub","mul","mod","rem","not","xor","or",
-  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","jz","rjz","jnz",
+  "halt","nop","load","gload","mov","add","sub","mul","mod","not","xor","or",
+  "amd","incr","decr","inc","dec","pushr","push","pop","cmp","mov","jz","rjz","jnz",
   "rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
 };
 

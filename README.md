@@ -34,7 +34,6 @@ Defined as such: NAME (args): Description
 * SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
 * MUL (): Pops the top two integers from the stack and pushes their product.
 * MOD (rega, regb): Computes rega % regb and stores in ERX.
-* REM (reg): Stores ERX in given register.
 * NOT (reg): Computes bitwise NOT of reg and stores in reg.
 * XOR (): Pops the top two integers from the stack and XORs them.
 * OR (): Pops the top two integers from the stack and ORs them.
@@ -46,10 +45,12 @@ Defined as such: NAME (args): Description
 * PUSHR (reg): Pushes value in given register.
 * PUSH (val): Pushes given value.
 * POP (val): Pops an integer from the stack and dumps it into GBG.
-* JZ (addr): Jumps to given absolute address if value in EAX is 0.
-* RJZ (diff): Adds differential to current EIP (relative jump) if value in EAX is 0.
-* JNZ (addr): Jumps to given absolute address if value in EAX is not 0.
-* RJNZ (diff): Adds differential to current EIP (relative jump) if value in EAX is not 0.
+* CMP (): Pops the top two integers from the stack and checks if equal. 0 means equal. Result will be pushed onto the stack.
+* MOV (rega, regb): Move value in rega to regb.
+* JZ (addr): Jumps to given absolute address if top of the stack is 0.
+* RJZ (diff): Adds differential to current EIP (relative jump) if top of the stack is 0.
+* JNZ (addr): Jumps to given absolute address if top of the stack is not 0.
+* RJNZ (diff): Adds differential to current EIP (relative jump) if top of the stack is not 0.
 * JMP (addr): Jumps to given absolute address.
 * RJMP (diff): Adds differential to current EIP (relative jump).
 * DBS (key, val): Sets data memory at key (string pointer) to given value.
@@ -62,7 +63,7 @@ Defined as such: NAME (args): Description
 ## Registers
 
 * REG0 ... REG9: General purpose.
-* EAX, EBX, ECX, EDX: Used for cmp, et al.
+* EAX, EBX, ECX, EDX: Used for ... something in the future. Just taking up space for now.
 * ERX: Used for remainder/mod.
 * EIP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
 * ESP: Stack pointer. Not currently in use; stack implementation is separate.

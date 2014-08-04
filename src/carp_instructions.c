@@ -40,11 +40,6 @@ definstr (MOD) {
   m->regs[CARP_ERX] = a % b;
 }
 
-definstr (REM) {
-  long long reg = carp_vm_next(m);
-  m->regs[reg] = m->regs[CARP_ERX];
-}
-
 definstr (NOT) {
   long long *reg = &m->regs[carp_vm_next(m)];
 
@@ -105,27 +100,42 @@ definstr (CMP) {
   m->regs[CARP_EAX] = a - b;
 }
 
+definstr (MOV) {
+  long long *rega = m->regs[carp_vm_next(m)],
+    *regb = m->regs[carp_vm_next(m)];
+
+  *regb = *rega;
+}
+
 definstr (JZ) {
+  long long a;
+  CARP_SPOP(a);
   // zero
-  if (!m->regs[CARP_EAX])
+  if (!a)
     m->regs[CARP_EIP] = carp_vm_next(m);
 }
 
 definstr (RJZ) {
+  long long a;
+  CARP_SPOP(a);
   // zero
-  if (!m->regs[CARP_EAX])
+  if (!a)
     m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
 }
 
 definstr (JNZ) {
+  long long a;
+  CARP_SPOP(a);
   // not zero
-  if (m->regs[CARP_EAX])
+  if (a)
     m->regs[CARP_EIP] = carp_vm_next(m);
 }
 
 definstr (RJNZ) {
+  long long a;
+  CARP_SPOP(a);
   // not zero
-  if (m->regs[CARP_EAX])
+  if (a)
     m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
 }
 
