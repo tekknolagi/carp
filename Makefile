@@ -4,7 +4,7 @@ CFLAGS = -c -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -O3
 SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
-PROG = carp
+PROG = carp.out
 
 all:
 	$(CC) $(CFLAGS) $(SRCS)
@@ -12,10 +12,10 @@ all:
 	$(CC) src/carp.c libcarp.a -o $(PROG)
 	make clean_objs
 
-.PHONY: tests
+#.PHONY: tests
 
-tests:
-	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
+#tests:
+#	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
 
 uninstall:
 	rm -rf /usr/local/include/carp
@@ -28,7 +28,7 @@ install:
 	cp src/*.h /usr/local/include/carp
 	cp src/lib/*.h /usr/local/include/carp/lib
 	cp libcarp.a /usr/local/lib
-	mv $(PROG) /usr/local/bin
+	cp $(PROG) /usr/local/bin/carp
 
 clean_libs:
 	find . -name "*.a"	\
