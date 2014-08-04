@@ -55,7 +55,7 @@ int main (int argc, char **argv) {
 
     case 'h':
       // help
-      printf("help msg\n");
+      carp_print_help();
       break;
 
     default:
@@ -88,6 +88,10 @@ void carp_print_conditions () {
 
 void carp_run_program (char *fn) {
   carp_tok *tokens = carp_lex_tokenize(fn);
+
+  for (carp_tok* tt = tokens; tt; tt = tt->next)
+    printf("%s %d\n", tt->lexeme, tt->type);
+
   if (tokens == NULL) {
     fprintf(stderr, "Something went wrong with tokenization.\n");
     exit(1);
@@ -97,4 +101,21 @@ void carp_run_program (char *fn) {
   carp_lex_lex(&m, tokens);
   carp_vm_run(&m);
   carp_vm_cleanup(&m);
+}
+
+void carp_print_help () {
+  puts("Usage:\n\
+-v, --version:
+    see version number
+-l, --license:
+    see licensing information
+-w, --warranty:
+    see warranty information
+-c, --conditions:
+    see licensing conditions
+-f, --file [filename]:
+    interpret [filename]. Argument not optional.
+-h, --help:
+    get this message
+");
 }
