@@ -90,6 +90,7 @@ void carp_ht_cleanup (carp_ht *h) {
 
   while (tmp != NULL) {
     cur = tmp->next;
+    // the head is not malloc'ed - it is just a struct
     if (tmp != h)
       free(tmp);
 
