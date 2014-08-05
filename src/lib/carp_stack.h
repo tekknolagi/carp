@@ -20,4 +20,5 @@ int carp_stack_pop (carp_stack *, long long *);
 int carp_stack_peek (carp_stack *, long long *);
 void carp_stack_print (carp_stack *);
 void carp_stack_cleanup (carp_stack *);
+
 #endif
