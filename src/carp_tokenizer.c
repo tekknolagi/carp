@@ -6,13 +6,16 @@ carp_tok *carp_lex_tokenize (char *fn) {
   char *str = file_read(fn);
   char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
+  int toks_len = 0;
 
   carp_id type;
   carp_tok *parsed = malloc(sizeof(carp_tok));
   carp_tok *head = parsed;
   long long i = 0;
 
+
   while (toks != NULL) {
+    toks_len = strlen(toks);
     if (is_num(toks))
       type = ct(NUM);
     else if (is_reg(toks))
@@ -29,14 +32,20 @@ carp_tok *carp_lex_tokenize (char *fn) {
       type = ct(UNDEF);
 
     // don't copy colon
-    if (type == ct(LBL))
-      memcpy(parsed->lexeme, toks, strlen(toks) - 1);
+    if (type == ct(LBL)) {
+      memcpy(parsed->lexeme, toks, toks_len - 1);
+      parsed->lexeme[ toks_len - 1 ] = 0;
+    }
     // don't copy @
-    else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR))
-      memcpy(parsed->lexeme, toks + 1, strlen(toks) - 1);
+    else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR)) {
+      memcpy(parsed->lexeme, toks + 1, toks_len - 1);
+      parsed->lexeme[ toks_len - 1 ] = 0;
+    }
     // nothing to avoid
-    else
-      memcpy(parsed->lexeme, toks, strlen(toks));
+    else {
+      memcpy(parsed->lexeme, toks, toks_len);
+      parsed->lexeme[ toks_len ] = 0;
+    }
 
     parsed->type = type;
     parsed->pos = i++;
