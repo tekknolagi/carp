@@ -87,6 +87,7 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
   unsigned long hash = carp_ht_hash(key, h->size);
 
   // different key, same hash! collision!
+  // TODO: linear probing!
   if (!strcmp(h->buckets[hash].key, key))
     return 1;
 
@@ -109,13 +110,36 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   return &h->buckets[hash];
 }
 
+short int carp_ht_resize (carp_ht *h, long newsize) {
+  assert(h != NULL);
+  assert(newsize > 0);
+
+  carp_ht_entry *newbuckets = malloc(newsize * sizeof h->buckets);
+  //h->buckets = realloc(h->buckets, newsize * sizeof h->buckets);
+  if (newbuckets == NULL)
+    return 1;
+
+  for (long i = 0; i < h->size; i++)
+    if (h->buckets[i].used) {
+      int status = carp_ht_set(newbuckets, h->buckets[i].key, h->buckets[i].value);
+      // collision?!
+      if (status == 1) {
+	// ???
+      }
+    }
+
+  h->size = newsize;
+}
+
 void carp_ht_print (carp_ht *h) {
   assert(h != NULL);
 
   puts("{");
+
   for (long int i = 0; i < h->size; i++)
     if (h->buckets[i].used)
       printf("  %s: %lld,\n", h->buckets[i].key, h->buckets[i].value);
+
   puts("}");
 }
 
