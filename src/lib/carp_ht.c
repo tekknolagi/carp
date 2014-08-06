@@ -82,22 +82,6 @@ carp_ht *carp_ht_get (carp_ht *h, char *key) {
   return res;
 }
 
-void carp_ht_cleanup (carp_ht *h) {
-  assert(h != NULL);
-
-  carp_ht *tmp = h;
-  carp_ht *cur;
-
-  while (tmp != NULL) {
-    cur = tmp->next;
-    // the head is not malloc'ed - it is just a struct
-    if (tmp != h)
-      free(tmp);
-
-    tmp = cur;
-  }
-}
-
 void carp_ht_print (carp_ht *h) {
   assert(h != NULL);
 
@@ -113,4 +97,20 @@ void carp_ht_print (carp_ht *h) {
   }
 
   puts("}");
+}
+
+void carp_ht_cleanup (carp_ht *h) {
+  assert(h != NULL);
+
+  carp_ht *tmp = h;
+  carp_ht *cur;
+
+  while (tmp != NULL) {
+    cur = tmp->next;
+    // the head is not malloc'ed - it is just a struct
+    if (tmp != h)
+      free(tmp);
+
+    tmp = cur;
+  }
 }

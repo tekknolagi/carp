@@ -20,8 +20,8 @@ int carp_ht_del (carp_ht *, char *);
 carp_ht *carp_ht_tail (carp_ht *);
 carp_ht *carp_ht_set (carp_ht *, char *, long long);
 carp_ht *carp_ht_get (carp_ht *, char *);
-void carp_ht_cleanup (carp_ht *);
 void carp_ht_print (carp_ht *);
+void carp_ht_cleanup (carp_ht *);
 
 #endif
 
