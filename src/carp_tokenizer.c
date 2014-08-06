@@ -80,8 +80,7 @@ carp_tok *carp_lex_tokenize (char *fn) {
     }
   }
 
-  if (str != NULL && toks != NULL)
-    free(str);
+  free(str);
 
   return head;
 }
