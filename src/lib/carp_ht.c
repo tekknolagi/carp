@@ -1,116 +1,126 @@
-#include "carp_ht.h"
+#include "carp_hash.h"
 
-void carp_ht_init (carp_ht *h) {
-  assert(h != NULL);
+int main () {
+  carp_ht h;
+  int status;
+  const char *key = "Maxwell";
 
-  h->next = NULL;
+  status = carp_ht_init(&h, 10);
+  if (status == 1) {
+    fprintf(stderr, "Memory could not be allocated.\n");
+    exit(1);
+  }
+
+  status = carp_ht_set(&h, key, 17);
+  if (status == 1) {
+    fprintf(stderr, "Collision! Gotta figure out how to handle this.\n");
+    carp_ht_cleanup(&h);
+    exit(1);
+  }
+
+  carp_ht_entry *res;
+  res = carp_ht_get(&h, key);
+  if (res == NULL) {
+    fprintf(stderr, "Something went horribly wrong.\n");
+    carp_ht_cleanup(&h);
+    exit(1);
+  }
+
+  carp_ht_print(&h);
+
+  carp_ht_cleanup(&h);
 }
 
-int carp_ht_del (carp_ht *h, const char *key) {
+// djb2
+unsigned long carp_ht_hash (const char *str, long size) {
+  assert(str != NULL);
+
+  unsigned long hash = 5381;
+  int c;
+
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+  return hash % size;
+}
+
+short int carp_ht_init (carp_ht *h, long size) {
   assert(h != NULL);
-  assert(key != NULL);
+  assert(size > 0);
 
-  carp_ht *res = carp_ht_get(h, key);
-  carp_ht *prev = h;
+  h->size = size;
+  h->buckets = malloc(size * sizeof(h->buckets));
+  if (h->buckets == NULL)
+    return 1;
 
-  // not found
-  if (res == NULL)
-    return -1;
-
-  while (prev->next != res)
-    prev = prev->next;
-
-  prev->next = res->next;
-  free(res);
+  for (long i = 0; i < h->size; i++)
+    h->buckets[i].used = 0;
 
   return 0;
 }
 
-carp_ht *carp_ht_tail (carp_ht *h) {
-  assert(h != NULL);
-
-  carp_ht *tail = h;
-
-  while (tail->next != NULL)
-    tail = tail->next;
-
-  return tail;
-}
-
-carp_ht *carp_ht_set (carp_ht *h, const char *key, long long value) {
+short int carp_ht_del (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
-  carp_ht *res = carp_ht_get(h, key);
+  unsigned long hash = carp_ht_hash(key, h->size);
 
-  // exists
-  if (res != NULL) {
-    res->value = value;
+  // different key, same hash! collision!
+  if (!strcmp(h->buckets[hash].key, key))
+    return 1;
 
-    return res;
-  }
-  // does not exist
-  else {
-    carp_ht *tail = carp_ht_tail(h);
-    tail->next = malloc(sizeof(*tail->next));
-    if (tail->next == NULL)
-      return NULL;	
+  // unused bucket
+  if (!h->buckets[hash].used)
+    return 2;
 
-    tail = tail->next;
+  h->buckets[hash].used = 0;
+  h->buckets[hash].key[0] = 0; // NUL-terminate
+  h->buckets[hash].value = 0;
 
-    tail->value = value;
-    tail->next = NULL;
-    strncpy(tail->key, key, CARP_HT_KEY_LENGTH);
-
-    return tail;
-  }
+  return 0;
 }
 
-carp_ht *carp_ht_get (carp_ht *h, const char *key) {
+short int carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
 
-  carp_ht *res = h;
+  unsigned long hash = carp_ht_hash(key, h->size);
 
-  while (strcmp(res->key, key) != 0) {
-    if (res->next == NULL)
-      return NULL;
-    
-    res = res->next;
+  // different key, same hash! collision!
+  if (!strcmp(h->buckets[hash].key, key))
+    return 1;
+
+  if (!h->buckets[hash].used) {
+    strncpy(h->buckets[hash].key, key, strlen(key));
+    h->buckets[hash].used = 1;
   }
 
-  return res;
+  h->buckets[hash].value = value;
+
+  return 0;
 }
 
-void carp_ht_cleanup (carp_ht *h) {
+carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   assert(h != NULL);
+  assert(key != NULL);
 
-  carp_ht *tmp = h;
-  carp_ht *cur;
+  unsigned long hash = carp_ht_hash(key, h->size);
 
-  while (tmp != NULL) {
-    cur = tmp->next;
-    // the head is not malloc'ed - it is just a struct
-    if (tmp != h)
-      free(tmp);
-
-    tmp = cur;
-  }
+  return &h->buckets[hash];
 }
 
 void carp_ht_print (carp_ht *h) {
   assert(h != NULL);
 
-  carp_ht *tmp = h;
-
   puts("{");
-
-  while (tmp != NULL) {
-    if (tmp != h)
-      printf("%s: %lld,\n", tmp->key, tmp->value);
-
-    tmp = tmp->next;
-  }
-
+  for (long int i = 0; i < h->size; i++)
+    if (h->buckets[i].used)
+      printf("  %s: %lld,\n", h->buckets[i].key, h->buckets[i].value);
   puts("}");
+}
+
+void carp_ht_cleanup (carp_ht *h) {
+  assert(h != NULL);
+
+  free(h->buckets);
 }
