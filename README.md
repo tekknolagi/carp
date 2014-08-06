@@ -33,7 +33,7 @@ Defined as such: NAME (args): Description
 * ADD (): Pops the top two integers from the stack and pushes their sum.
 * SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
 * MUL (): Pops the top two integers from the stack and pushes their product.
-* MOD (rega, regb): Computes rega % regb and stores in ERX.
+* MOD (): Pops the two top integers from the stack and pushes lower % upper.
 * NOT (reg): Computes bitwise NOT of reg and stores in reg.
 * XOR (): Pops the top two integers from the stack and XORs them.
 * OR (): Pops the top two integers from the stack and ORs them.

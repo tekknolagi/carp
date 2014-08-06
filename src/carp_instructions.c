@@ -33,12 +33,7 @@ CARP_BINOP (SUB, -)
 
 CARP_BINOP (MUL, *)
 
-definstr (MOD) {
-  long long a = m->regs[carp_vm_next(m)],
-    b = m->regs[carp_vm_next(m)];
-
-  m->regs[CARP_ERX] = a % b;
-}
+CARP_BINOP (MOD, %)
 
 definstr (NOT) {
   long long *reg = &m->regs[carp_vm_next(m)];
