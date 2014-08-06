@@ -15,9 +15,12 @@ carp_tok *carp_lex_tokenize (char *fn) {
     carp_tok *parsed = malloc(sizeof(carp_tok));
     carp_tok *next;
 
+    const char *mainl = "main";
+    const char *halti = "halt";
+
     parsed->type = ct(LBL);
     parsed->pos = 0;
-    memcpy(parsed->lexeme, strdup("main\0"), strlen("main\0"));
+    memcpy(parsed->lexeme, mainl, strlen(mainl));
 
     parsed->next = malloc(sizeof(carp_tok));
     next = parsed->next;
@@ -25,7 +28,7 @@ carp_tok *carp_lex_tokenize (char *fn) {
     next->type = ct(INSTR);
     next->pos = 1;
     next->next = NULL;
-    memcpy(next->lexeme, strdup("halt\0"), strlen("halt\0"));
+    memcpy(next->lexeme, halti, strlen(halti));
 
     return parsed;
   }
