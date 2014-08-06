@@ -35,6 +35,8 @@ carp_tok *carp_lex_tokenize (char *fn) {
 
   int toks_len = 0;
 
+  assert(toks != NULL);
+
   carp_id type;
   carp_tok *parsed = malloc(sizeof(carp_tok));
   carp_tok *head = parsed;
