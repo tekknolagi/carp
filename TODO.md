@@ -1,4 +1,5 @@
 # TODO
 
-1. Fix annoying warning about storing char pointer in `long long` array.
-2. Make a Carp compiler.
+* Fix annoying warning about storing char pointer in `long long` array.
+* Make a Carp compiler.
+* Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
