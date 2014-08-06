@@ -6,7 +6,7 @@ void carp_ht_init (carp_ht *h) {
   h->next = NULL;
 }
 
-int carp_ht_del (carp_ht *h, char *key) {
+int carp_ht_del (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -37,7 +37,7 @@ carp_ht *carp_ht_tail (carp_ht *h) {
   return tail;
 }
 
-carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
+carp_ht *carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -66,7 +66,7 @@ carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
   }
 }
 
-carp_ht *carp_ht_get (carp_ht *h, char *key) {
+carp_ht *carp_ht_get (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 

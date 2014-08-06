@@ -16,10 +16,10 @@ typedef struct carp_ht_s {
 } carp_ht;
 
 void carp_ht_init (carp_ht *);
-int carp_ht_del (carp_ht *, char *);
+int carp_ht_del (carp_ht *, const char *);
 carp_ht *carp_ht_tail (carp_ht *);
-carp_ht *carp_ht_set (carp_ht *, char *, long long);
-carp_ht *carp_ht_get (carp_ht *, char *);
+carp_ht *carp_ht_set (carp_ht *, const char *, long long);
+carp_ht *carp_ht_get (carp_ht *, const char *);
 void carp_ht_cleanup (carp_ht *);
 void carp_ht_print (carp_ht *);
 
