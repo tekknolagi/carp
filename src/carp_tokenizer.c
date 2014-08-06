@@ -10,12 +10,6 @@ carp_tok *carp_lex_tokenize (char *fn) {
   char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
 
-  int toks_len = 0;
-  carp_id type;
-  carp_tok *parsed = malloc(sizeof(carp_tok));
-  carp_tok *head = parsed;
-  long long i = 0;
-
   // empty file, so create main and halt.
   if (toks == NULL) {
     carp_tok *parsed = malloc(sizeof(carp_tok));
@@ -35,6 +29,13 @@ carp_tok *carp_lex_tokenize (char *fn) {
 
     return parsed;
   }
+
+  int toks_len = 0;
+
+  carp_id type;
+  carp_tok *parsed = malloc(sizeof(carp_tok));
+  carp_tok *head = parsed;
+  long long i = 0;
 
   while (toks != NULL) {
     toks_len = strlen(toks);
