@@ -4,15 +4,37 @@ carp_tok *carp_lex_tokenize (char *fn) {
   assert(fn != NULL);
 
   char *str = file_read(fn);
+
+  assert(str != NULL);
+
   char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
-  int toks_len = 0;
 
+  int toks_len = 0;
   carp_id type;
   carp_tok *parsed = malloc(sizeof(carp_tok));
   carp_tok *head = parsed;
   long long i = 0;
 
+  // empty file, so create main and halt.
+  if (toks == NULL) {
+    carp_tok *parsed = malloc(sizeof(carp_tok));
+    carp_tok *next;
+
+    parsed->type = ct(LBL);
+    parsed->pos = 0;
+    memcpy(parsed->lexeme, strdup("main\0"), strlen("main\0"));
+
+    parsed->next = malloc(sizeof(carp_tok));
+    next = parsed->next;
+
+    next->type = ct(INSTR);
+    next->pos = 1;
+    next->next = NULL;
+    memcpy(next->lexeme, strdup("halt\0"), strlen("halt\0"));
+
+    return parsed;
+  }
 
   while (toks != NULL) {
     toks_len = strlen(toks);
@@ -58,7 +80,8 @@ carp_tok *carp_lex_tokenize (char *fn) {
     }
   }
 
-  free(str);
+  if (str != NULL && toks != NULL)
+    free(str);
 
   return head;
 }
