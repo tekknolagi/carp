@@ -44,7 +44,7 @@ Defined as such: NAME (args): Description
 * DEC (): Decrements the value at the top of the stack.
 * PUSHR (reg): Pushes value in given register.
 * PUSH (val): Pushes given value.
-* POP (val): Pops an integer from the stack and dumps it into GBG.
+* POP (reg): Pops an integer from the stack and dumps it into given register.
 * CMP (): Pops the top two integers from the stack and checks if equal. 0 means equal. Result will be pushed onto the stack.
 * MOV (rega, regb): Move value in rega to regb.
 * JZ (addr): Jumps to given absolute address if top of the stack is 0.

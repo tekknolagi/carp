@@ -81,9 +81,10 @@ definstr (PUSH) {
 }
 
 definstr (POP) {
-  long long val;
+  long long reg = carp_vm_next(m),
+    val;
   CARP_SPOP(val);
-  m->regs[CARP_GBG] = val;
+  m->regs[reg] = val;
 }
 
 definstr (CMP) {
