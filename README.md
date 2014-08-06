@@ -63,8 +63,7 @@ Defined as such: NAME (args): Description
 ## Registers
 
 * REG0 ... REG9: General purpose.
-* EAX, EBX, ECX, EDX: Used for ... something in the future. Just taking up space for now.
-* ERX: Used for remainder/mod.
+* EAX, EBX, ECX, EDX, ERX: Used for ... something in the future. Just taking up space for now.
 * EIP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
 * ESP: Stack pointer. Not currently in use; stack implementation is separate.
 * GBG: Garbage register mainly used for popping.
