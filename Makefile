@@ -1,7 +1,7 @@
 CC ?= gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
-CFLAGS = -c -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -static $(NDEBUG)
+CFLAGS = -c -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -Wno-int-to-pointer-cast -static $(NDEBUG)
 SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
@@ -19,10 +19,10 @@ all:
 #	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
 
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/include/carp
-	rm $(DESTDIR)$(PREFIX)/lib/libcarp.a
-	rm $(DESTDIR)$(PREFIX)/bin/$(PROG)
-
+	rm -r $(DESTDIR)$(PREFIX)/include/carp
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcarp.a
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(PROG)
+	rm -f $(DESTDIR)$(PREFIX)/bin/carp
 install:
 	test -d ${DESTDIR}${PREFIX}/bin || mkdir -p ${DESTDIR}${PREFIX}/bin
 	test -d ${DESTDIR}${PREFIX}/lib || mkdir -p ${DESTDIR}${PREFIX}/lib
