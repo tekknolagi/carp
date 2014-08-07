@@ -40,7 +40,7 @@ typedef struct carp_tok_s {
 
 carp_tok *carp_lex_tokenize (char *);
 void carp_lex_cleanup (carp_tok *);
-void *file_read (char *);
+char *file_read (const char *);
 int is_sign (char);
 int is_num (char *);
 char *is_reg (char *);

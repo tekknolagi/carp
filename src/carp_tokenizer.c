@@ -101,27 +101,33 @@ void carp_lex_cleanup (carp_tok *tokens) {
   }
 }
 
-void *file_read (char *fn) {
+char *file_read (const char *fn) {
   assert(fn != NULL);
 
   char *contents;
   long long fsize;
 
-  FILE *fp = fopen(fn, "rb");
-  assert(fp != NULL);
+  FILE *fp = fopen(fn, "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Could not open file `%s' for reading.\n", fn);
+    exit(1);
+  }
 
   fseek(fp, 0, SEEK_END); // go to end
   fsize = ftell(fp);
   fseek(fp, 0, SEEK_SET); // go to beginning
 
-  contents = malloc(fsize * sizeof(char));
+  contents = malloc(fsize * sizeof *contents);
   if (contents == NULL) {
     fprintf(stderr, "Could not malloc space for file contents.\n");
     exit(1);
   }
 
-  int nread = fread(contents, sizeof(char), fsize, fp);
-  assert(nread == fsize);
+  size_t nread = fread(contents, sizeof *contents, fsize, fp);
+  if (nread != fsize) {
+    fprintf(stderr, "WARNING: Something was wonky while reading this file.\n");
+  }
+
   fclose(fp);
 
   return contents;
