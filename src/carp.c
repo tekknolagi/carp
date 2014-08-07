@@ -25,7 +25,7 @@ int main (int argc, char **argv) {
       printf("option %s", long_options[option_index].name);
       if (optarg)
 	printf(" with arg %s", optarg);
-      puts("");
+      putchar('\n');
       break;
 
     case 'v':

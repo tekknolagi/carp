@@ -91,7 +91,7 @@ long long carp_vm_next (carp_machine_state *m) {
 
 void carp_vm_err (carp_machine_state *m, char *e) {
   fprintf(stderr, e);
-  puts("");
+  putchar('\n');
   carp_vm_exit(m, 1);
 }
 
