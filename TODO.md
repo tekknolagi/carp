@@ -7,3 +7,4 @@ In no particular order:
 * Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
 * Read Carp files as lines instead of whole files.
 * Write tests.
+* Write function documentation blurbs.
