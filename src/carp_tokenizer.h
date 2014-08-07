@@ -41,13 +41,13 @@ typedef struct carp_tok_s {
 carp_tok *carp_lex_tokenize (char *);
 void carp_lex_cleanup (carp_tok *);
 char *file_read (const char *);
-int is_sign (char);
-int is_num (char *);
-char *is_reg (char *);
-char *is_label (char *);
-char *is_func (char *);
-char *is_var (char *);
-int is_instr (char *);
+short int is_sign (char);
+short int is_num (char *);
+short int is_reg (char *);
+short int is_label (char *);
+short int is_func (char *);
+short int is_var (char *);
+short int is_instr (char *);
 
 
 #endif

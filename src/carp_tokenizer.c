@@ -133,11 +133,11 @@ char *file_read (const char *fn) {
   return contents;
 }
 
-int is_sign (char c) {
+short int is_sign (char c) {
   return c == '+' || c == '-';
 }
 
-int is_num (char *s) {
+short int is_num (char *s) {
   assert(s != NULL);
 
   if (!(is_sign(s[0]) || isdigit(s[0]))) return 0;
@@ -148,31 +148,31 @@ int is_num (char *s) {
   return 1;
 }
 
-char *is_reg (char *s) {
+short int is_reg (char *s) {
   assert(s != NULL);
 
-  return strchr(s, '%');
+  return strchr(s, '%') != NULL;
 }
 
-char *is_label (char *s) {
+short int is_label (char *s) {
   assert(s != NULL);
 
-  return strchr(s, ':');
+  return strchr(s, ':') != NULL;
 }
 
-char *is_func (char *s) {
+short int is_func (char *s) {
   assert(s != NULL);
 
-  return strchr(s, '@');
+  return strchr(s, '@') != NULL;
 }
 
-char *is_var (char *s) {
+short int is_var (char *s) {
   assert(s != NULL);
 
-  return strchr(s, '$');
+  return strchr(s, '$') != NULL;
 }
 
-int is_instr (char *s) {
+short int is_instr (char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
