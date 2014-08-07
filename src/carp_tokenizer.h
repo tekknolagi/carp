@@ -42,12 +42,12 @@ carp_tok *carp_lex_tokenize (char *);
 void carp_lex_cleanup (carp_tok *);
 char *file_read (const char *);
 short int is_sign (char);
-short int is_num (char *);
-short int is_reg (char *);
-short int is_label (char *);
-short int is_func (char *);
-short int is_var (char *);
-short int is_instr (char *);
+short int is_num (const char *);
+short int is_reg (const char *);
+short int is_label (const char *);
+short int is_func (const char *);
+short int is_var (const char *);
+short int is_instr (const char *);
 
 
 #endif

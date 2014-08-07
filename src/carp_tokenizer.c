@@ -137,7 +137,7 @@ short int is_sign (char c) {
   return c == '+' || c == '-';
 }
 
-short int is_num (char *s) {
+short int is_num (const char *s) {
   assert(s != NULL);
 
   if (!(is_sign(s[0]) || isdigit(s[0]))) return 0;
@@ -148,31 +148,31 @@ short int is_num (char *s) {
   return 1;
 }
 
-short int is_reg (char *s) {
+short int is_reg (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '%') != NULL;
 }
 
-short int is_label (char *s) {
+short int is_label (const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
 }
 
-short int is_func (char *s) {
+short int is_func (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '@') != NULL;
 }
 
-short int is_var (char *s) {
+short int is_var (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '$') != NULL;
 }
 
-short int is_instr (char *s) {
+short int is_instr (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
