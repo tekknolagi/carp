@@ -13,14 +13,14 @@ Example:
 
 ```asm
 add:
-	gloadi -5
-	gloadi -4
-	addi
+	gload -5
+	gload -4
+	add
 	ret
 
 main:
-	pushi 7
-	pushi 9
+	push 7
+	push 9
 	call @add, 2
 	ptop
 	halt 0
