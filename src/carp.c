@@ -89,9 +89,6 @@ void carp_print_conditions () {
 void carp_run_program (char *fn) {
   carp_tok *tokens = carp_lex_tokenize(fn);
 
-  //for (carp_tok* tt = tokens; tt; tt = tt->next)
-  //printf("%s %d\n", tt->lexeme, tt->type);
-
   if (tokens == NULL) {
     fprintf(stderr, "Something went wrong with tokenization.\n");
     exit(1);
