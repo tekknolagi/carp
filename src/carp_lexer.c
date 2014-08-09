@@ -1,5 +1,13 @@
 #include "carp_lexer.h"
 
+/*
+  Assigns values to a series of tokens.
+  NUM is obvious.
+  REG is obvious.
+  LBL is NOP instr.
+  FUNC is label lookup value.
+  INSTR is obvious.
+*/
 void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
   assert(m != NULL);
   assert(tokens != NULL);
@@ -77,6 +85,9 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
   carp_vm_load(m, code, length);
 }
 
+/*
+  Exits cleanly by cleaning up first.
+*/
 void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
   assert(tokens != NULL);
   assert(labels != NULL);

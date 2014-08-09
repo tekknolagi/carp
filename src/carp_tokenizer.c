@@ -1,5 +1,9 @@
 #include "carp_tokenizer.h"
 
+/*
+  Reads a whole file into memory (really should change to line-by-line), then goes through and
+  copies lexemes, types, and program positions in.
+*/
 carp_tok *carp_lex_tokenize (char *fn) {
   assert(fn != NULL);
 
@@ -89,6 +93,9 @@ carp_tok *carp_lex_tokenize (char *fn) {
   return head;
 }
 
+/*
+  Frees the carp_tok linked list.
+*/
 void carp_lex_cleanup (carp_tok *tokens) {
   assert(tokens != NULL);
 
@@ -101,6 +108,9 @@ void carp_lex_cleanup (carp_tok *tokens) {
   }
 }
 
+/*
+  Reads a whole file and returns a pointer to its contents.
+*/
 char *file_read (const char *fn) {
   assert(fn != NULL);
 
@@ -133,10 +143,16 @@ char *file_read (const char *fn) {
   return contents;
 }
 
+/*
+  Returns true if the character is a numeric sign.
+*/
 short int is_sign (char c) {
   return c == '+' || c == '-';
 }
 
+/*
+  Returns true if the string contains all numbers (can start with a sign).
+*/
 short int is_num (const char *s) {
   assert(s != NULL);
 
