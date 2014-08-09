@@ -60,17 +60,17 @@ carp_tok *carp_lex_tokenize (char *fn) {
     // don't copy colon
     if (type == ct(LBL)) {
       memcpy(parsed->lexeme, toks, toks_len - 1);
-      parsed->lexeme[ toks_len - 1 ] = 0;
+      parsed->lexeme[toks_len - 1] = 0;
     }
     // don't copy @
     else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
-      parsed->lexeme[ toks_len - 1 ] = 0;
+      parsed->lexeme[toks_len - 1] = 0;
     }
     // nothing to avoid
     else {
       memcpy(parsed->lexeme, toks, toks_len);
-      parsed->lexeme[ toks_len ] = 0;
+      parsed->lexeme[toks_len] = 0;
     }
 
     parsed->type = type;
