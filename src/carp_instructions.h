@@ -50,7 +50,7 @@ static char carp_reverse_instr[][6] = {
   "rjz","jnz","rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","undef"
 };
 
-#define CARP_BINOP(NAME, F) definstr (NAME) { \
+#define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
   long long b, a; \
   if (carp_stack_pop(&m->stack, &b) == -1)\
     carp_vm_err(m, CARP_STACK_EMPTY);\

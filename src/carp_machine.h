@@ -41,52 +41,52 @@ void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);
 
 // shortcut so I don't have to keep copy/pasting declarations & definitions
-#define definstr(x) void carp_instr_##x (carp_machine_state *m)
+#define CARP_IDEF(x) void carp_instr_##x (carp_machine_state *m)
 
 // this is where the declaration/definition macro comes in handy
-definstr(HALT);
-definstr(NOP);
-definstr(LOAD); definstr(GLOAD);
-definstr(MOV);
-definstr(ADD); definstr(SUB); definstr(MUL);
-definstr(MOD);
-definstr(NOT); definstr(XOR); definstr(OR); definstr(AND);
-definstr(INCR); definstr(DECR);
-definstr(INC); definstr(DEC);
-definstr(PUSHR);
-definstr(PUSH); definstr(POP);
-definstr(CMP); definstr(LT); definstr(GT);
-definstr(JZ); definstr(RJZ);
-definstr(JNZ); definstr(RJNZ);
-definstr(JMP); definstr(RJMP);
-definstr(DBS); definstr(DBG);
-definstr(CALL); definstr(RET);
-definstr(PREG); definstr(PTOP);
+CARP_IDEF(HALT);
+CARP_IDEF(NOP);
+CARP_IDEF(LOAD); CARP_IDEF(GLOAD);
+CARP_IDEF(MOV);
+CARP_IDEF(ADD); CARP_IDEF(SUB); CARP_IDEF(MUL);
+CARP_IDEF(MOD);
+CARP_IDEF(NOT); CARP_IDEF(XOR); CARP_IDEF(OR); CARP_IDEF(AND);
+CARP_IDEF(INCR); CARP_IDEF(DECR);
+CARP_IDEF(INC); CARP_IDEF(DEC);
+CARP_IDEF(PUSHR);
+CARP_IDEF(PUSH); CARP_IDEF(POP);
+CARP_IDEF(CMP); CARP_IDEF(LT); CARP_IDEF(GT);
+CARP_IDEF(JZ); CARP_IDEF(RJZ);
+CARP_IDEF(JNZ); CARP_IDEF(RJNZ);
+CARP_IDEF(JMP); CARP_IDEF(RJMP);
+CARP_IDEF(DBS); CARP_IDEF(DBG);
+CARP_IDEF(CALL); CARP_IDEF(RET);
+CARP_IDEF(PREG); CARP_IDEF(PTOP);
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
-#define assigninstr(x) [CARP_INSTR_##x] = carp_instr_##x
+#define CARP_IASSN(x) [CARP_INSTR_##x] = carp_instr_##x
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
 static void (*carp_instructions[]) (carp_machine_state *) = {
-  assigninstr(HALT),
-  assigninstr(NOP),
-  assigninstr(LOAD), assigninstr(GLOAD),
-  assigninstr(MOV),
-  assigninstr(ADD), assigninstr(SUB), assigninstr(MUL),
-  assigninstr(MOD),
-  assigninstr(NOT), assigninstr(XOR), assigninstr(OR), assigninstr(AND),
-  assigninstr(INCR), assigninstr(DECR),
-  assigninstr(INC), assigninstr(DEC),
-  assigninstr(PUSHR),
-  assigninstr(PUSH), assigninstr(POP),
-  assigninstr(CMP), assigninstr(LT), assigninstr(GT),
-  assigninstr(JZ), assigninstr(RJZ),
-  assigninstr(JNZ), assigninstr(RJNZ),
-  assigninstr(JMP), assigninstr(RJMP),
-  assigninstr(DBS), assigninstr(DBG),
-  assigninstr(CALL), assigninstr(RET),
-  assigninstr(PREG), assigninstr(PTOP),
+  CARP_IASSN(HALT),
+  CARP_IASSN(NOP),
+  CARP_IASSN(LOAD), CARP_IASSN(GLOAD),
+  CARP_IASSN(MOV),
+  CARP_IASSN(ADD), CARP_IASSN(SUB), CARP_IASSN(MUL),
+  CARP_IASSN(MOD),
+  CARP_IASSN(NOT), CARP_IASSN(XOR), CARP_IASSN(OR), CARP_IASSN(AND),
+  CARP_IASSN(INCR), CARP_IASSN(DECR),
+  CARP_IASSN(INC), CARP_IASSN(DEC),
+  CARP_IASSN(PUSHR),
+  CARP_IASSN(PUSH), CARP_IASSN(POP),
+  CARP_IASSN(CMP), CARP_IASSN(LT), CARP_IASSN(GT),
+  CARP_IASSN(JZ), CARP_IASSN(RJZ),
+  CARP_IASSN(JNZ), CARP_IASSN(RJNZ),
+  CARP_IASSN(JMP), CARP_IASSN(RJMP),
+  CARP_IASSN(DBS), CARP_IASSN(DBG),
+  CARP_IASSN(CALL), CARP_IASSN(RET),
+  CARP_IASSN(PREG), CARP_IASSN(PTOP),
 };
 
 #endif
