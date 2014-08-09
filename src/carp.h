@@ -3,7 +3,7 @@
 
 #include "carp_machine.h"
 
-#define CARP_VERSION 0.1
+#define CARP_VERSION 0.2
 
 typedef struct carp_option_s {
   short int version;
