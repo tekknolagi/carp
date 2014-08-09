@@ -4,7 +4,7 @@
   Reads a whole file into memory (really should change to line-by-line), then goes through and
   copies lexemes, types, and program positions in.
 */
-carp_tok *carp_lex_tokenize (char *fn) {
+carp_tok *carp_lex_tokenize (const char *fn) {
   assert(fn != NULL);
 
   char *str = file_read(fn);
