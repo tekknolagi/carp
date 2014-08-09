@@ -66,11 +66,11 @@ void carp_vm_make (carp_machine_state *m) {
 void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
   assert(m != NULL);
 
-  m->code = calloc(length, sizeof(long long));
+  m->code = calloc(length, sizeof *code);
   if (m->code == NULL)
     carp_vm_err(m, "Could not allocate memory for code.");
 
-  memcpy(m->code, code, length * sizeof(long long));
+  memcpy(m->code, code, length * sizeof *code);
 }
 
 /*

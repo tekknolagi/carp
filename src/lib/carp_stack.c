@@ -8,7 +8,7 @@ int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
   s->max_height = max_height;
   s->height = height;
 
-  long long *contents = calloc(max_height, sizeof(*contents));
+  long long *contents = calloc(max_height, sizeof *contents);
   if (contents == NULL)
     return -1;
 
@@ -35,7 +35,7 @@ int carp_stack_push (carp_stack *s, long long i) {
 
   if (carp_stack_full(s)) {
     // give stack 2n + 1 its existing space, hopefully more efficiently allocating
-    long long *contents = realloc(s->contents, (2*(*s->height) + 1) * sizeof(*contents));
+    long long *contents = realloc(s->contents, (2*(*s->height) + 1) * sizeof *contents);
     if (contents == NULL)
       return -1;
 

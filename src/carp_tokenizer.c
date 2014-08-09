@@ -16,7 +16,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 
   // empty file, so create main and halt.
   if (toks == NULL) {
-    carp_tok *parsed = malloc(sizeof(carp_tok));
+    carp_tok *parsed = malloc(sizeof *parsed);
     if (parsed == NULL) {
       fprintf(stderr, "Could not allocate memory for token.\n");
       return NULL;
@@ -31,7 +31,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
     parsed->pos = 0;
     memcpy(parsed->lexeme, mainl, strlen(mainl));
 
-    parsed->next = malloc(sizeof(carp_tok));
+    parsed->next = malloc(sizeof *parsed->next);
     if (parsed->next == NULL) {
       fprintf(stderr, "Could not allocate memory for token.\n");
       return NULL;
@@ -49,7 +49,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   int toks_len = 0;
 
   carp_id type;
-  carp_tok *parsed = malloc(sizeof(carp_tok));
+  carp_tok *parsed = malloc(sizeof *parsed);
   carp_tok *head = parsed;
   long long i = 0;
 
@@ -97,7 +97,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 
     toks = strtok(NULL, delim);
     if (toks != NULL) {
-      parsed->next = malloc(sizeof(carp_tok));
+      parsed->next = malloc(sizeof *parsed->next);
       parsed = parsed->next;
     }
   }
