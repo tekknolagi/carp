@@ -1,12 +1,18 @@
 #include "carp_ht.h"
 
+/*
+  Set next key to NULL.
+*/
 void carp_ht_init (carp_ht *h) {
   assert(h != NULL);
 
   h->next = NULL;
 }
 
-int carp_ht_del (carp_ht *h, char *key) {
+/*
+  Find and delete a key in the table. Return 0 if delete succeeds.
+*/
+short int carp_ht_del (carp_ht *h, char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -26,6 +32,9 @@ int carp_ht_del (carp_ht *h, char *key) {
   return 0;
 }
 
+/*
+  Find the tail of the table.
+*/
 carp_ht *carp_ht_tail (carp_ht *h) {
   assert(h != NULL);
 
@@ -37,6 +46,9 @@ carp_ht *carp_ht_tail (carp_ht *h) {
   return tail;
 }
 
+/*
+  Set a value in the table and return a pointer to it.
+*/
 carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
@@ -66,6 +78,9 @@ carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
   }
 }
 
+/*
+  Get a value in the table by key and return a pointer to it.
+*/
 carp_ht *carp_ht_get (carp_ht *h, char *key) {
   assert(h != NULL);
   assert(key != NULL);
@@ -82,6 +97,9 @@ carp_ht *carp_ht_get (carp_ht *h, char *key) {
   return res;
 }
 
+/*
+  Print the whole table in a JSON-y format.
+*/
 void carp_ht_print (carp_ht *h) {
   assert(h != NULL);
 
@@ -99,6 +117,9 @@ void carp_ht_print (carp_ht *h) {
   puts("}");
 }
 
+/*
+  Clean up the table memory.
+*/
 void carp_ht_cleanup (carp_ht *h) {
   assert(h != NULL);
 

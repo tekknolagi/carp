@@ -1,6 +1,9 @@
 #include "carp_stack.h"
 
-int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
+/*
+  Initialize the stack with pointer to the height and initial height.
+*/
+short int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
   assert(s != NULL);
   assert(height != NULL);
   assert(max_height > 0);
@@ -16,21 +19,28 @@ int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
   return 0;
 }
 
-// boolean
-int carp_stack_empty (carp_stack *s) {
+/*
+  Return true if the height is 0 (meaning the stack is empty).
+*/
+short int carp_stack_empty (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == 0;
 }
 
-// boolean
-int carp_stack_full (carp_stack *s) {
+/*
+  Return true if the height is the max height (meaning the stack is full).
+*/
+short int carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;
 }
 
-int carp_stack_push (carp_stack *s, long long i) {
+/*
+  Push value onto the stack. Return 0 if stack push succeeds.
+*/
+short int carp_stack_push (carp_stack *s, long long i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
@@ -54,8 +64,10 @@ int carp_stack_push (carp_stack *s, long long i) {
   return 0;
 }
 
-// pop top into external variable
-int carp_stack_pop (carp_stack *s, long long *v) {
+/*
+  Pop the top of the stack into v. Return 0 if stack pop succeeds.
+*/
+short int carp_stack_pop (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
@@ -67,8 +79,10 @@ int carp_stack_pop (carp_stack *s, long long *v) {
   }
 }
 
-// peek top into external variable
-int carp_stack_peek (carp_stack *s, long long *v) {
+/*
+  Peek the top of the stack into v. Return 0 if the peek succeeds.
+*/
+short int carp_stack_peek (carp_stack *s, long long *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 
@@ -79,6 +93,9 @@ int carp_stack_peek (carp_stack *s, long long *v) {
   return 0;
 }
 
+/*
+  Print the contents of the stack onto stdout.
+*/
 void carp_stack_print (carp_stack *s) {
   printf("[ ");
 
@@ -88,6 +105,9 @@ void carp_stack_print (carp_stack *s) {
   printf("]\n");
 }
 
+/*
+  Clean up the stack memory.
+*/
 void carp_stack_cleanup (carp_stack *s) {
   assert(s != NULL);
 
