@@ -41,6 +41,7 @@ typedef struct carp_tok_s {
 carp_tok *carp_lex_tokenize (char *);
 void carp_lex_cleanup (carp_tok *);
 char *file_read (const char *);
+
 short int is_sign (char);
 short int is_num (const char *);
 short int is_reg (const char *);
@@ -49,5 +50,7 @@ short int is_func (const char *);
 short int is_var (const char *);
 short int is_instr (const char *);
 
+short int carp_reg_lookup (const char *);
+short int carp_instr_lookup (const char *);
 
 #endif

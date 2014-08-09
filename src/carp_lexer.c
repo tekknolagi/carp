@@ -85,23 +85,3 @@ void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
   carp_ht_cleanup(labels);
   exit(code);
 }
-
-carp_reg carp_reg_lookup (char *s) {
-  assert(s != NULL);
-
-  for (int i = 0; i < CARP_NUM_REGS; i++)
-    if (!strcmp(carp_reverse_reg[i], s))
-      return i;
-
-  return -1;
-}
-
-carp_instr carp_instr_lookup (char *s) {
-  assert(s != NULL);
-
-  for (int i = 0; i < CARP_NUM_INSTRS; i++)
-    if (!strcmp(carp_reverse_instr[i], s))
-      return i;
-
-  return -1;
-}

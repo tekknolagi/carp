@@ -63,7 +63,7 @@ carp_tok *carp_lex_tokenize (char *fn) {
       parsed->lexeme[toks_len - 1] = 0;
     }
     // don't copy @
-    else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR)) {
+    else if (type == ct(FUNC) || type == ct(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
@@ -148,36 +148,73 @@ short int is_num (const char *s) {
   return 1;
 }
 
+/*
+  Returns true if the string is in the registers list.
+*/
 short int is_reg (const char *s) {
   assert(s != NULL);
 
-  return strchr(s, '%') != NULL;
+  return carp_reg_lookup(s) != -1;
 }
 
+/*
+  Returns true if the string has a : in it.
+*/
 short int is_label (const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
 }
 
+/*
+  Returns true if the string has a @ in it.
+*/
 short int is_func (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '@') != NULL;
 }
 
+/*
+  Returns true if the string has a $ in it.
+*/
 short int is_var (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '$') != NULL;
 }
 
+/*
+  Returns true if the string is in the instructions list.
+*/
 short int is_instr (const char *s) {
+  assert(s != NULL);
+
+  return carp_instr_lookup(s) != -1;
+}
+
+/*
+  Uses strcmp to look up regs. Could probably use a hashtable.
+*/
+short int carp_reg_lookup (const char *s) {
+  assert(s != NULL);
+
+  for (int i = 0; i < CARP_NUM_REGS; i++)
+    if (!strcmp(carp_reverse_reg[i], s))
+      return i;
+
+  return -1;
+}
+
+/*
+  Uses strcmp to look up instrs. Could probably use a hashtable.
+*/
+short int carp_instr_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
     if (!strcmp(carp_reverse_instr[i], s))
-      return 1;
+      return i;
 
-  return 0;
+  return -1;
 }
