@@ -86,7 +86,7 @@ void carp_print_conditions () {
   puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
 }
 
-void carp_run_program (char *fn) {
+void carp_run_program (const char *fn) {
   carp_machine_state m;
   carp_tok *tokens = carp_lex_tokenize(fn);
 
