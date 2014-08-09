@@ -1,4 +1,4 @@
-#include "carp_hash.h"
+#include "carp_ht.h"
 
 int main () {
   carp_ht h;
