@@ -1,0 +1,8 @@
+fact:	gload -5
+	ptop
+	ret
+
+main:	load %reg0, 1
+	load %reg1, 5
+	call @fact, 1
+	halt 0
