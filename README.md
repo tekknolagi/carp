@@ -3,6 +3,8 @@ This is a project I've been slowly working on for about half a year now. The goa
 
 Right now there are instructions, registers, a stack, data memory, and the most basic of gotos.
 
+CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
+
 ## Installation
 
 1. `make`
