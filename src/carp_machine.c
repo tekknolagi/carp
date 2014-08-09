@@ -1,5 +1,8 @@
 #include "carp_machine.h"
 
+/*
+  Initialize the VM - this includes lots of allocation.
+*/
 void carp_vm_init (carp_machine_state *m, long stack_height, long long main_addr) {
   assert(m != NULL);
   assert(stack_height > 0);
@@ -31,6 +34,10 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main_addr
   carp_ht_init(&m->labels);
 }
 
+/*
+  VM initialization for parsed code (since the labels will have already been generated).
+  Would like to rename this at some point.
+*/
 void carp_vm_make (carp_machine_state *m) {
   assert(m != NULL);
   assert(&m->labels != NULL);
@@ -53,6 +60,9 @@ void carp_vm_make (carp_machine_state *m) {
   carp_ht_init(&m->vars);
 }
 
+/*
+  Allocate space for the code, then load it.
+*/
 void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
   assert(m != NULL);
 
@@ -63,6 +73,9 @@ void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
   memcpy(m->code, code, length * sizeof(long long));
 }
 
+/*
+  Get the next instruction and execute it.
+*/
 void carp_vm_eval (carp_machine_state *m) {
   assert(m != NULL);
 
@@ -74,27 +87,40 @@ void carp_vm_eval (carp_machine_state *m) {
   carp_instructions[instr](m);
 }
 
+/*
+  Start the fetch, decode, execute loop, then exit when done.
+*/
 void carp_vm_run (carp_machine_state *m) {
   assert(m != NULL);
 
   while (m->running)
     carp_vm_eval(m);
 
-  carp_vm_exit(m, 0);
+  carp_vm_exit(m, EXIT_SUCCESS);
 }
 
+/*
+  Increment the instruction pointer and return the next value in the code.
+*/
 long long carp_vm_next (carp_machine_state *m) {
   assert(m != NULL);
 
   return m->code[++m->regs[CARP_EIP]];
 }
 
+/*
+  Writes an error message to stderr, then signals for the machine
+  to cleanly exit.
+*/
 void carp_vm_err (carp_machine_state *m, char *e) {
   fprintf(stderr, e);
   putchar('\n');
-  carp_vm_exit(m, 1);
+  carp_vm_exit(m, EXIT_FAILURE);
 }
 
+/*
+  Free the code, stack, varible table, and label table.
+*/
 void carp_vm_cleanup (carp_machine_state *m) {
   assert(m != NULL);
 
@@ -104,6 +130,9 @@ void carp_vm_cleanup (carp_machine_state *m) {
   carp_ht_cleanup(&m->labels);
 }
 
+/*
+  Change the machine state to OFF, clean up, and exit.
+*/
 void carp_vm_exit (carp_machine_state *m, int code) {
   assert(m != NULL);
 

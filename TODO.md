@@ -8,3 +8,4 @@ In no particular order:
 * Read Carp files as lines instead of whole files.
 * Write tests.
 * Write function documentation blurbs.
+* Have API never exit, but pass up error codes.
