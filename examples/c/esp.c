@@ -4,9 +4,9 @@ int main (int argc, char **argv) {
   long long code[] = {
     CARP_INSTR_PUSH, 5,
     CARP_INSTR_PUSH, 6,
-    CARP_INSTR_PREG,  CARP_ESP,
+    CARP_INSTR_PREG,  CARP_SP,
 
-    CARP_INSTR_DECR, CARP_ESP,
+    CARP_INSTR_DECR, CARP_SP,
     CARP_INSTR_POP,
     CARP_INSTR_PREG, CARP_GBG,
 

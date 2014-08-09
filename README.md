@@ -50,24 +50,24 @@ Defined as such: NAME (args): Description
 * CMP (): Pops the top two integers from the stack and checks if equal. 0 means equal. Result will be pushed onto the stack.
 * MOV (rega, regb): Move value in rega to regb.
 * JZ (addr): Jumps to given absolute address if top of the stack is 0.
-* RJZ (diff): Adds differential to current EIP (relative jump) if top of the stack is 0.
+* RJZ (diff): Adds differential to current IP (relative jump) if top of the stack is 0.
 * JNZ (addr): Jumps to given absolute address if top of the stack is not 0.
-* RJNZ (diff): Adds differential to current EIP (relative jump) if top of the stack is not 0.
+* RJNZ (diff): Adds differential to current IP (relative jump) if top of the stack is not 0.
 * JMP (addr): Jumps to given absolute address.
-* RJMP (diff): Adds differential to current EIP (relative jump).
+* RJMP (diff): Adds differential to current IP (relative jump).
 * DBS (key, val): Sets data memory at key (string pointer) to given value.
 * DBG (key, reg): Gets value from data memory at key (string pointer) and dumps it into given register.
-* CALL (key, nargs): Save state and set EIP to value in data memory at key.
+* CALL (key, nargs): Save state and set IP to value in data memory at key.
 * RET (val): Push return value and load state.
 * PREG (reg): Prints contents of given register.
 * PTOP (): Peeks top of stack and prints top value.
 
 ## Registers
 
-* REG0 ... REG9: General purpose.
-* EAX, EBX, ECX, EDX, ERX: Used for ... something in the future. Just taking up space for now.
-* EIP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
-* ESP: Stack pointer. Now working! :D
+* R0 ... R9: General purpose.
+* AX, BX, CX, DX, RX: Used for ... something in the future. Just taking up space for now.
+* IP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
+* SP: Stack pointer. Now working! :D
 * GBG: Garbage register mainly used for popping.
 
 ## How to contribute

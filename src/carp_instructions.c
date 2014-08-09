@@ -16,7 +16,7 @@ CARP_IDEF (LOAD) {
 
 CARP_IDEF (GLOAD) {
   long long reladdr = carp_vm_next(m),
-    fp = m->regs[CARP_EFP],
+    fp = m->regs[CARP_FP],
     val = m->stack.contents[fp + reladdr];
   CARP_SPUSH(val);
 }
@@ -93,7 +93,7 @@ CARP_IDEF (CMP) {
   carp_instr_POP(m);
   long long a = m->regs[CARP_GBG];
 
-  m->regs[CARP_EAX] = a - b;
+  m->regs[CARP_AX] = a - b;
 }
 
 CARP_BINOP (LT, <)
@@ -105,7 +105,7 @@ CARP_IDEF (JZ) {
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_EIP] = carp_vm_next(m);
+    m->regs[CARP_IP] = carp_vm_next(m);
 }
 
 CARP_IDEF (RJZ) {
@@ -113,7 +113,7 @@ CARP_IDEF (RJZ) {
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+    m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
 }
 
 CARP_IDEF (JNZ) {
@@ -121,7 +121,7 @@ CARP_IDEF (JNZ) {
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_EIP] = carp_vm_next(m);
+    m->regs[CARP_IP] = carp_vm_next(m);
 }
 
 CARP_IDEF (RJNZ) {
@@ -129,15 +129,15 @@ CARP_IDEF (RJNZ) {
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+    m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
 }
 
 CARP_IDEF (JMP) {
-  m->regs[CARP_EIP] = carp_vm_next(m);
+  m->regs[CARP_IP] = carp_vm_next(m);
 }
 
 CARP_IDEF (RJMP) {
-  m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+  m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
 }
 
 CARP_IDEF (DBS) {
@@ -165,11 +165,11 @@ CARP_IDEF (CALL) {
   long long nargs = carp_vm_next(m);
 
   CARP_SPUSH(nargs);
-  CARP_SPUSH(m->regs[CARP_EFP]);
-  CARP_SPUSH(m->regs[CARP_EIP]);
+  CARP_SPUSH(m->regs[CARP_FP]);
+  CARP_SPUSH(m->regs[CARP_IP]);
 
-  m->regs[CARP_EFP] = m->regs[CARP_ESP];
-  m->regs[CARP_EIP] = addr - 1;
+  m->regs[CARP_FP] = m->regs[CARP_SP];
+  m->regs[CARP_IP] = addr - 1;
 }
 
 CARP_IDEF (RET) {
@@ -178,20 +178,20 @@ CARP_IDEF (RET) {
 
   long long state;
 
-  m->regs[CARP_ESP] = m->regs[CARP_EFP];
+  m->regs[CARP_SP] = m->regs[CARP_FP];
 
   CARP_SPOP(state);
 
-  m->regs[CARP_EIP] = state;
+  m->regs[CARP_IP] = state;
 
   CARP_SPOP(state);
 
-  m->regs[CARP_EFP] = state;
+  m->regs[CARP_FP] = state;
 
   CARP_SPOP(state);
 
   long long nargs = state;
-  m->regs[CARP_ESP] -= nargs;
+  m->regs[CARP_SP] -= nargs;
 
   CARP_SPUSH(rvalue);
 }

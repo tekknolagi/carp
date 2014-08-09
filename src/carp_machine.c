@@ -8,22 +8,22 @@ void carp_vm_init (carp_machine_state *m, long stack_height, long long main_addr
   assert(stack_height > 0);
 
   /* set all registers to 0, including:
-   * - EIP
-   * - ESP
+   * - IP
+   * - SP
    */
   for (int i = 0; i < CARP_NUM_REGS; i++)
     m->regs[i] = 0;
 
   // defined entrypoint (main)
-  // -1 because EIP is incremented before each instr
-  m->regs[CARP_EIP] = main_addr - 1;
+  // -1 because IP is incremented before each instr
+  m->regs[CARP_IP] = main_addr - 1;
 
   // "turn VM on"
   m->running = 1;
 
   // initialize stack
-  // give pointer to ESP
-  int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], stack_height);
+  // give pointer to SP
+  int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], stack_height);
   if (status == -1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
@@ -49,11 +49,11 @@ void carp_vm_make (carp_machine_state *m) {
   if (res == NULL)
     carp_vm_err(m, CARP_VM_NO_MAIN);
 
-  m->regs[CARP_EIP] = res->value - 1;
+  m->regs[CARP_IP] = res->value - 1;
 
   m->running = 1;
 
-  int status = carp_stack_init(&m->stack, &m->regs[CARP_ESP], 1);
+  int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
   if (status == -1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
@@ -79,10 +79,10 @@ void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
 void carp_vm_eval (carp_machine_state *m) {
   assert(m != NULL);
 
-  m->regs[CARP_EIP]++;
+  m->regs[CARP_IP]++;
 
   // fetch instruction
-  int instr = m->code[m->regs[CARP_EIP]];
+  int instr = m->code[m->regs[CARP_IP]];
   // decode, execute
   carp_instructions[instr](m);
 }
@@ -105,7 +105,7 @@ void carp_vm_run (carp_machine_state *m) {
 long long carp_vm_next (carp_machine_state *m) {
   assert(m != NULL);
 
-  return m->code[++m->regs[CARP_EIP]];
+  return m->code[++m->regs[CARP_IP]];
 }
 
 /*
