@@ -13,7 +13,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
     switch (tmp->type) {
     case ct(UNDEF): {
       fprintf(stderr, "Unknown token <%s>\n", tmp->lexeme);
-      carp_lex_exit(tokens, &m->labels, 1);
+      carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
       break; }
       
     case ct(NUM): {
@@ -41,7 +41,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       carp_ht *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
 	fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
-	carp_lex_exit(tokens, &m->labels, 1);
+	carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
       }
 
       tmp->value = res->value;
