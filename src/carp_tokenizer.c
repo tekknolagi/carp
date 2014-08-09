@@ -22,14 +22,14 @@ carp_tok *carp_lex_tokenize (char *fn) {
     const char *mainl = "main";
     const char *halti = "halt";
 
-    parsed->type = ct(LBL);
+    parsed->type = CARP_T(LBL);
     parsed->pos = 0;
     memcpy(parsed->lexeme, mainl, strlen(mainl));
 
     parsed->next = malloc(sizeof(carp_tok));
     next = parsed->next;
 
-    next->type = ct(INSTR);
+    next->type = CARP_T(INSTR);
     next->pos = 1;
     next->next = NULL;
     memcpy(next->lexeme, halti, strlen(halti));
@@ -47,27 +47,27 @@ carp_tok *carp_lex_tokenize (char *fn) {
   while (toks != NULL) {
     toks_len = strlen(toks);
     if (is_num(toks))
-      type = ct(NUM);
+      type = CARP_T(NUM);
     else if (is_reg(toks))
-      type = ct(REG);
+      type = CARP_T(REG);
     else if (is_label(toks))
-      type = ct(LBL);
+      type = CARP_T(LBL);
     else if (is_func(toks))
-      type = ct(FUNC);
+      type = CARP_T(FUNC);
     else if (is_var(toks))
-      type = ct(VAR);
+      type = CARP_T(VAR);
     else if (is_instr(toks))
-      type = ct(INSTR);
+      type = CARP_T(INSTR);
     else
-      type = ct(UNDEF);
+      type = CARP_T(UNDEF);
 
     // don't copy colon
-    if (type == ct(LBL)) {
+    if (type == CARP_T(LBL)) {
       memcpy(parsed->lexeme, toks, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
     // don't copy @
-    else if (type == ct(FUNC) || type == ct(VAR)) {
+    else if (type == CARP_T(FUNC) || type == CARP_T(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }

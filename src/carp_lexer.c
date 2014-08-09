@@ -19,22 +19,22 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 
   while (tmp != NULL) {
     switch (tmp->type) {
-    case ct(UNDEF): {
+    case CARP_T(UNDEF): {
       fprintf(stderr, "Unknown token <%s>\n", tmp->lexeme);
       carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
       break; }
       
-    case ct(NUM): {
+    case CARP_T(NUM): {
       long long num = atoi(tmp->lexeme);
       tmp->value = num;
       break; }
 
-    case ct(REG): {
+    case CARP_T(REG): {
       carp_reg reg = carp_reg_lookup(tmp->lexeme);
       tmp->value = reg;
       break; }
 
-    case ct(LBL): {
+    case CARP_T(LBL): {
       carp_ht *res = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
       if (res == NULL) {
 	fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
@@ -45,7 +45,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       tmp->value = instr;
       break; }
 
-    case ct(FUNC): {
+    case CARP_T(FUNC): {
       carp_ht *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
 	fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
@@ -55,11 +55,11 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       tmp->value = res->value;
       break; }
 
-    case ct(VAR): {
+    case CARP_T(VAR): {
       
       break; }
 
-    case ct(INSTR): {
+    case CARP_T(INSTR): {
       long long instr = carp_instr_lookup(tmp->lexeme);
       tmp->value = instr;
       break; }

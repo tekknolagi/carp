@@ -13,16 +13,16 @@
 #define CARP_TOK_WORD_LENGTH 10
 
 // shortcut
-#define ct(x) CARP_TOK_##x
+#define CARP_T(x) CARP_TOK_##x
 
 typedef enum {
-  ct(UNDEF),
-  ct(NUM),
-  ct(REG),
-  ct(LBL),
-  ct(FUNC),
-  ct(VAR),
-  ct(INSTR),
+  CARP_T(UNDEF),
+  CARP_T(NUM),
+  CARP_T(REG),
+  CARP_T(LBL),
+  CARP_T(FUNC),
+  CARP_T(VAR),
+  CARP_T(INSTR),
 } carp_id;
 
 static char carp_reverse_type[][6] = {
