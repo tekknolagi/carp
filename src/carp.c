@@ -87,6 +87,7 @@ void carp_print_conditions () {
 }
 
 void carp_run_program (char *fn) {
+  carp_machine_state m;
   carp_tok *tokens = carp_lex_tokenize(fn);
 
   if (tokens == NULL) {
@@ -94,7 +95,6 @@ void carp_run_program (char *fn) {
     exit(1);
   }
 
-  carp_machine_state m;
   carp_lex_lex(&m, tokens);
   carp_vm_run(&m);
   carp_vm_cleanup(&m);
