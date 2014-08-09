@@ -7,5 +7,5 @@ In no particular order:
 * Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
 * Read Carp files as lines instead of whole files.
 * Write tests.
-* Write function documentation blurbs.
 * Have API never exit, but pass up error codes.
+* Take a look at `carp_stack_full` - it may be subject to off by one error.
