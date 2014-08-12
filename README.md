@@ -7,7 +7,20 @@ CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 
 ## Installation
 
-**NOTE: MAKE SURE TO CLONE WITH `--recursive`!**
+### Getting Carp
+
+**If you already have a local copy (cloned before submodule was added)**
+
+* `git fetch`
+* `git rebase`
+* `git submodule init`
+* `git submodule update`
+
+**If you don't already have a local copy**
+
+* `git clone --recursive`
+
+### Building Carp
 
 1. `make`
 2. `make install`
