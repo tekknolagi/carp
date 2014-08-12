@@ -8,7 +8,6 @@ OBJS = *.o
 PROG = carp.out
 TESTS=$(wildcard tests/*.c)
 TESTS_OUTS=$(TESTS:.c=.out)
-TESTS_PATTERN=$(tests/%.c)
 
 all:
 	$(CC) $(CFLAGS) $(SRCS)
@@ -18,10 +17,23 @@ all:
 
 .PHONY: tests tests/%.out
 
-tests: $(TESTS_OUTS)
+libtap:
+	cd tests/libtap && make
+
+cleanlibtap:
+	cd tests/libtap && make clean
+
+test: libtap $(TESTS_OUTS) runtests
 
 tests/%.out: tests/%.c
-	$(CC) $< libcarp.a ../libtap/libtap.a -o $@
+	$(CC) $< libcarp.a tests/libtap/libtap.a -o $@
+
+runtests:
+	for file in tests/*.out; do	\
+		echo $$file;		\
+		./$$file; 		\
+		echo; 			\
+	done
 
 cleantests:
 	rm tests/*.out
