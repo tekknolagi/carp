@@ -7,6 +7,8 @@ CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 
 ## Installation
 
+**NOTE: MAKE SURE TO CLONE WITH `--recursive`!**
+
 1. `make`
 2. `make install`
 
