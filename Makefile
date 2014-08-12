@@ -6,6 +6,9 @@ SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_toke
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
+TESTS=$(wildcard tests/*.c)
+TESTS_OUTS=$(TESTS:.c=.out)
+TESTS_PATTERN=$(tests/%.c)
 
 all:
 	$(CC) $(CFLAGS) $(SRCS)
@@ -13,7 +16,15 @@ all:
 	$(CC) -g -std=c99 src/carp.c libcarp.a -o $(PROG)
 	make clean_objs
 
-#.PHONY: tests
+.PHONY: tests tests/%.out
+
+tests: $(TESTS_OUTS)
+
+tests/%.out: tests/%.c
+	$(CC) $< libcarp.a ../libtap/libtap.a -o $@
+
+cleantests:
+	rm tests/*.out
 
 #tests:
 #	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
