@@ -3,7 +3,7 @@
 /*
   Initialize the stack with pointer to the height and initial height.
 */
-short int carp_stack_init (carp_stack *s, carp_value *height, carp_value max_height) {
+carp_bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_height) {
   assert(s != NULL);
   assert(height != NULL);
   assert(max_height > 0);
@@ -22,7 +22,7 @@ short int carp_stack_init (carp_stack *s, carp_value *height, carp_value max_hei
 /*
   Return true if the height is 0 (meaning the stack is empty).
 */
-short int carp_stack_empty (carp_stack *s) {
+carp_bool carp_stack_empty (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == 0;
@@ -31,7 +31,7 @@ short int carp_stack_empty (carp_stack *s) {
 /*
   Return true if the height is the max height (meaning the stack is full).
 */
-short int carp_stack_full (carp_stack *s) {
+carp_bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;
@@ -40,7 +40,7 @@ short int carp_stack_full (carp_stack *s) {
 /*
   Push value onto the stack. Return 0 if stack push succeeds.
 */
-short int carp_stack_push (carp_stack *s, carp_value i) {
+carp_bool carp_stack_push (carp_stack *s, carp_value i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
@@ -67,7 +67,7 @@ short int carp_stack_push (carp_stack *s, carp_value i) {
 /*
   Pop the top of the stack into v. Return 0 if stack pop succeeds.
 */
-short int carp_stack_pop (carp_stack *s, carp_value *v) {
+carp_bool carp_stack_pop (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
@@ -82,7 +82,7 @@ short int carp_stack_pop (carp_stack *s, carp_value *v) {
 /*
   Peek the top of the stack into v. Return 0 if the peek succeeds.
 */
-short int carp_stack_peek (carp_stack *s, carp_value *v) {
+carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 

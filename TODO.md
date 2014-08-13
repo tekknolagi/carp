@@ -10,4 +10,3 @@ In no particular order:
 * Write tests.
 * Have API never exit, but pass up error codes.
 * Take a look at `carp_stack_full` - it may be subject to off by one error.
-* Make dedicated types for code (long long), bool (short int), etc.

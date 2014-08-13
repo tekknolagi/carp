@@ -12,7 +12,7 @@ void carp_ht_init (carp_ht *h) {
 /*
   Find and delete a key in the table. Return 0 if delete succeeds.
 */
-short int carp_ht_del (carp_ht *h, char *key) {
+carp_bool carp_ht_del (carp_ht *h, char *key) {
   assert(h != NULL);
   assert(key != NULL);
 

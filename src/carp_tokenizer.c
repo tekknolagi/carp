@@ -160,14 +160,14 @@ char *file_read (const char *fn) {
 /*
   Returns true if the character is a numeric sign.
 */
-short int is_sign (char c) {
+carp_bool is_sign (char c) {
   return c == '+' || c == '-';
 }
 
 /*
   Returns true if the string contains all numbers (can start with a sign).
 */
-short int is_num (const char *s) {
+carp_bool is_num (const char *s) {
   assert(s != NULL);
 
   if (!(is_sign(s[0]) || isdigit(s[0]))) return 0;
@@ -181,7 +181,7 @@ short int is_num (const char *s) {
 /*
   Returns true if the string is in the registers list.
 */
-short int is_reg (const char *s) {
+carp_bool is_reg (const char *s) {
   assert(s != NULL);
 
   return carp_reg_lookup(s) != -1;
@@ -190,7 +190,7 @@ short int is_reg (const char *s) {
 /*
   Returns true if the string has a : in it.
 */
-short int is_label (const char *s) {
+carp_bool is_label (const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
@@ -199,7 +199,7 @@ short int is_label (const char *s) {
 /*
   Returns true if the string has a @ in it.
 */
-short int is_func (const char *s) {
+carp_bool is_func (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '@') != NULL;
@@ -208,7 +208,7 @@ short int is_func (const char *s) {
 /*
   Returns true if the string has a $ in it.
 */
-short int is_var (const char *s) {
+carp_bool is_var (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '$') != NULL;
@@ -217,7 +217,7 @@ short int is_var (const char *s) {
 /*
   Returns true if the string is in the instructions list.
 */
-short int is_instr (const char *s) {
+carp_bool is_instr (const char *s) {
   assert(s != NULL);
 
   return carp_instr_lookup(s) != -1;
@@ -226,7 +226,7 @@ short int is_instr (const char *s) {
 /*
   Uses strcmp to look up regs. Could probably use a hashtable.
 */
-short int carp_reg_lookup (const char *s) {
+carp_bool carp_reg_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_REGS; i++)
@@ -239,7 +239,7 @@ short int carp_reg_lookup (const char *s) {
 /*
   Uses strcmp to look up instrs. Could probably use a hashtable.
 */
-short int carp_instr_lookup (const char *s) {
+carp_bool carp_instr_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
