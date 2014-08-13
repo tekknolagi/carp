@@ -7,10 +7,12 @@ int main () {
   carp_value esp;
   carp_value val;
   carp_value to_push = 1;
+  carp_value initial_height = 1;
+  carp_value num_pushes = 5;
 
   plan(NO_PLAN);
 
-  status = carp_stack_init(&s, &esp, 10);
+  status = carp_stack_init(&s, &esp, initial_height);
   ok(status == 0, "Made stack.");
 
   status = carp_stack_empty(&s);
@@ -25,8 +27,12 @@ int main () {
   status = carp_stack_full(&s);
   ok(status == 0, "Stack is not full by default.");
 
-  status = carp_stack_push(&s, to_push);
-  ok(status == 0, "Pushed successfully.");
+  status = 0;
+  for (int i = 0; i < num_pushes; i++)
+    status += carp_stack_push(&s, to_push);
+
+  ok(status == 0, "Pushed %d times successfully.", num_pushes);
+  ok(esp > initial_height, "Height grew by %d spaces.", esp - initial_height);
 
   status = carp_stack_peek(&s, &val);
   ok(status == 0, "Peeked successfully.");
