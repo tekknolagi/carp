@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <assert.h>
 
+#include "lib/carp_types.h"
 #include "carp_registers.h"
 #include "carp_instructions.h"
 
@@ -32,8 +33,8 @@ static char carp_reverse_type[][6] = {
 typedef struct carp_tok_s {
   char lexeme[CARP_TOK_WORD_LENGTH];
   carp_id type;
-  long long pos;
-  long long value;
+  carp_value pos;
+  carp_value value;
 
   struct carp_tok_s *next;
 } carp_tok;

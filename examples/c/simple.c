@@ -7,9 +7,9 @@ int main (int argc, char **argv) {
   };
 
   // I wish there was a better way to do this.
-  long long hellop = (long long) &data[0];
+  carp_value hellop = (carp_value) &data[0];
 
-  long long code[] = {
+  carp_value code[] = {
     // 3 + 9 + 7 == 19?
     CARP_INSTR_LOAD,  CARP_R0, 7,
     CARP_INSTR_PREG,  CARP_R0,

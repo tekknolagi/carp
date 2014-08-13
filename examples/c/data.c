@@ -5,9 +5,9 @@ int main (int argc, char **argv) {
     "max"
   };
 
-  long long strp = (long long) &data[0];
+  carp_value strp = (carp_value) &data[0];
 
-  long long code[] = {
+  carp_value code[] = {
     CARP_INSTR_DBS, strp, 10,
     CARP_INSTR_DBG, strp, CARP_R0,
     CARP_INSTR_PREG, CARP_R0,

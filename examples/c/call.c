@@ -1,7 +1,7 @@
 #include <carp/carp.h>
 
 int main (int argc, char **argv) {
-  long long code[] = {
+  carp_value code[] = {
     CARP_INSTR_GLOAD, -5, // 1st arg
     CARP_INSTR_GLOAD, -4, // 2nd arg
     CARP_INSTR_ADD,

@@ -1,6 +1,7 @@
 #ifndef CARP_LEX_H
 #define CARP_LEX_H
 
+#include "lib/carp_types.h"
 #include "lib/carp_ht.h"
 #include "carp_tokenizer.h"
 #include "carp_machine.h"

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "lib/carp_types.h"
 #include "carp_registers.h"
 #include "carp_instructions.h"
 #include "lib/carp_stack.h"
@@ -20,22 +21,22 @@
 #define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
 
 typedef struct carp_machine_state_s {
-  long long regs[CARP_NUM_REGS];
+  carp_value regs[CARP_NUM_REGS];
   carp_stack stack;
   carp_ht vars;
   carp_ht labels;
 
   // bool
   int running;
-  long long *code;
+  carp_value *code;
 } carp_machine_state;
 
-void carp_vm_init (carp_machine_state *, long, long long);
+void carp_vm_init (carp_machine_state *, long, carp_value);
 void carp_vm_make (carp_machine_state *);
-void carp_vm_load (carp_machine_state *, long long [], long long);
+void carp_vm_load (carp_machine_state *, carp_value [], carp_value);
 void carp_vm_eval (carp_machine_state *);
 void carp_vm_run (carp_machine_state *);
-long long carp_vm_next (carp_machine_state *);
+carp_value carp_vm_next (carp_machine_state *);
 void carp_vm_err (carp_machine_state *, char *);
 void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);

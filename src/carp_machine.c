@@ -3,7 +3,7 @@
 /*
   Initialize the VM - this includes lots of allocation.
 */
-void carp_vm_init (carp_machine_state *m, long stack_height, long long main_addr) {
+void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_addr) {
   assert(m != NULL);
   assert(stack_height > 0);
 
@@ -63,7 +63,7 @@ void carp_vm_make (carp_machine_state *m) {
 /*
   Allocate space for the code, then load it.
 */
-void carp_vm_load (carp_machine_state *m, long long code[], long long length) {
+void carp_vm_load (carp_machine_state *m, carp_value code[], carp_value length) {
   assert(m != NULL);
 
   m->code = calloc(length, sizeof *code);
@@ -102,7 +102,7 @@ void carp_vm_run (carp_machine_state *m) {
 /*
   Increment the instruction pointer and return the next value in the code.
 */
-long long carp_vm_next (carp_machine_state *m) {
+carp_value carp_vm_next (carp_machine_state *m) {
   assert(m != NULL);
 
   return m->code[++m->regs[CARP_IP]];

@@ -51,7 +51,7 @@ static char carp_reverse_instr[][6] = {
 };
 
 #define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
-  long long b, a; \
+  carp_value b, a; \
   if (carp_stack_pop(&m->stack, &b) == -1)\
     carp_vm_err(m, CARP_STACK_EMPTY);\
   if (carp_stack_pop(&m->stack, &a) == -1)\

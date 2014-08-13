@@ -4,9 +4,9 @@
 int main (int argc, char **argv) {
   int status;
   carp_stack s;
-  long long esp;
-  long long val;
-  long long to_push = 1;
+  carp_value esp;
+  carp_value val;
+  carp_value to_push = 1;
 
   plan(NO_PLAN);
 

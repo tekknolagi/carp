@@ -1,7 +1,7 @@
 #include <carp/carp.h>
 
 int main (int argc, char **argv) {
-  long long code[] = {
+  carp_value code[] = {
     CARP_INSTR_PUSH, 5,
     CARP_INSTR_PUSH, 6,
     CARP_INSTR_PREG,  CARP_SP,

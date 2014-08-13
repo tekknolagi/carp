@@ -49,7 +49,7 @@ carp_ht *carp_ht_tail (carp_ht *h) {
 /*
   Set a value in the table and return a pointer to it.
 */
-carp_ht *carp_ht_set (carp_ht *h, char *key, long long value) {
+carp_ht *carp_ht_set (carp_ht *h, char *key, carp_value value) {
   assert(h != NULL);
   assert(key != NULL);
 

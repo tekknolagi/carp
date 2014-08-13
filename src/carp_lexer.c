@@ -41,7 +41,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 	carp_lex_exit(tokens, &m->labels, 1);
       }
 
-      long long instr = CARP_INSTR_NOP;
+      carp_value instr = CARP_INSTR_NOP;
       tmp->value = instr;
       break; }
 
@@ -60,7 +60,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break; }
 
     case CARP_T(INSTR): {
-      long long instr = carp_instr_lookup(tmp->lexeme);
+      carp_value instr = carp_instr_lookup(tmp->lexeme);
       tmp->value = instr;
       break; }
     }
@@ -72,7 +72,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
     length++;
   }
 
-  long long code[length];
+  carp_value code[length];
   tmp = tokens;
 
   while (tmp != NULL) {
