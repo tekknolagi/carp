@@ -24,7 +24,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
   // initialize stack
   // give pointer to SP
   int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], stack_height);
-  if (status == -1)
+  if (status == 1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
   // initialize variable hash table
@@ -54,7 +54,7 @@ void carp_vm_make (carp_machine_state *m) {
   m->running = 1;
 
   int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
-  if (status == -1)
+  if (status == 1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
   carp_ht_init(&m->vars);

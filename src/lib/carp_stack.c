@@ -13,7 +13,7 @@ carp_bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_hei
 
   carp_value *contents = calloc(max_height, sizeof *contents);
   if (contents == NULL)
-    return -1;
+    return 1;
 
   s->contents = contents;
   return 0;
@@ -47,7 +47,7 @@ carp_bool carp_stack_push (carp_stack *s, carp_value i) {
     // give stack 2n + 1 its existing space, hopefully more efficiently allocating
     carp_value *contents = realloc(s->contents, (2*(*s->height) + 1) * sizeof *contents);
     if (contents == NULL)
-      return -1;
+      return 1;
 
     // and of course update max_height
     s->max_height *= 2;
@@ -71,7 +71,7 @@ carp_bool carp_stack_pop (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
-    return -1;
+    return 1;
   else {
     (*s->height)--;
     *v = s->contents[(*s->height)];
@@ -86,7 +86,7 @@ carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 
-    return -1;
+    return 1;
   else
     *v = s->contents[(*s->height) - 1];
 

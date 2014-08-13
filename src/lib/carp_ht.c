@@ -21,7 +21,7 @@ carp_bool carp_ht_del (carp_ht *h, char *key) {
 
   // not found
   if (res == NULL)
-    return -1;
+    return 1;
 
   while (prev->next != res)
     prev = prev->next;

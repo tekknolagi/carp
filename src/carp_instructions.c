@@ -204,7 +204,7 @@ CARP_IDEF (PREG) {
 CARP_IDEF (PTOP) {
   carp_value val;
 
-  if (carp_stack_peek(&m->stack, &val) == -1)
+  if (carp_stack_peek(&m->stack, &val) == 1)
     carp_vm_err(m, CARP_STACK_EMPTY);
 
   printf("%lld\n", val);
