@@ -9,7 +9,7 @@ PROG = carp.out
 TESTS=$(wildcard tests/*.c)
 TESTS_OUTS=$(TESTS:.c=.out)
 
-all: build clean_objs
+all: build clean_objs test
 
 build:
 	$(CC) $(CFLAGS) $(SRCS)
@@ -22,7 +22,7 @@ libtap:
 clean_libtap:
 	cd tests/libtap && make clean
 
-test: libtap $(TESTS_OUTS) runtests
+test: build libtap $(TESTS_OUTS) runtests
 
 tests/%.out: tests/%.c
 	$(CC) $< libcarp.a tests/libtap/libtap.a -o $@
@@ -64,4 +64,4 @@ clean_objs:
 	 | xargs rm -f
 
 clean: clean_objs clean_libtap
-	rm -f $(PROG)
+	rm -f $(PROG) libcarp.a
