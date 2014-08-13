@@ -1,7 +1,7 @@
 # CarpVM
 This is a project I've been slowly working on for about half a year now. The goal is to try and build a small (and decently reliable) VM from the ground up, learning more and more C as I go.
 
-Right now there are instructions, registers, a stack, data memory, and the most basic of gotos.
+Right now there are instructions, registers, a stack, data memory, and calls. Not sure if recursion works... it should in theory. Haven't tested.
 
 CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 
