@@ -34,7 +34,7 @@ carp_bool carp_stack_empty (carp_stack *s) {
 carp_bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
-  return (*s->height) == s->max_height - 1;
+  return (*s->height) == s->max_height;
 }
 
 /*
