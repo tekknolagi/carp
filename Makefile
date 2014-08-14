@@ -22,20 +22,20 @@ libtap:
 clean_libtap:
 	cd tests/libtap && make clean
 
-test: build libtap $(TESTS_OUTS) runtests
+test: build libtap clean_tests $(TESTS_OUTS) run_tests
 
 tests/%.out: tests/%.c
-	$(CC) $< libcarp.a tests/libtap/libtap.a -o $@
+	$(CC) -g3 $< libcarp.a tests/libtap/libtap.a -o $@
 
-runtests:
+run_tests:
 	for file in tests/*.out; do	\
 		echo $$file;		\
 		./$$file; 		\
 		echo; 			\
 	done
 
-cleantests:
-	rm tests/*.out
+clean_tests:
+	rm -f tests/*.out
 
 #tests:
 #	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
