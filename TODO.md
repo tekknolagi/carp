@@ -7,6 +7,12 @@ In no particular order:
 * Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
   * See branch `new_ht_impl`.
 * Read Carp files as lines instead of whole files.
-* Write tests.
+* Write tests for:
+  1. DONE: stack
+  2. DONE: ht
+  3. Instructions
+  4. Tokenizer
+  5. Lexer
 * Have API never exit, but pass up error codes.
-* Take a look at `carp_stack_full` - it may be subject to off by one error.
+* Add way to pass data section so that DBS and DBG can be used in Carp code
+  * Something like in the `c/data.c` example
