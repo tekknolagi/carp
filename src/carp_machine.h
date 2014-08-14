@@ -62,7 +62,7 @@ CARP_IDEF(JNZ); CARP_IDEF(RJNZ);
 CARP_IDEF(JMP); CARP_IDEF(RJMP);
 CARP_IDEF(DBS); CARP_IDEF(DBG);
 CARP_IDEF(CALL); CARP_IDEF(RET);
-CARP_IDEF(PREG); CARP_IDEF(PTOP);
+CARP_IDEF(PREG); CARP_IDEF(PTOP); CARP_IDEF(PVARS);
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
 #define CARP_IASSN(x) [CARP_INSTR_##x] = carp_instr_##x
@@ -87,7 +87,7 @@ static void (*carp_instructions[]) (carp_machine_state *) = {
   CARP_IASSN(JMP), CARP_IASSN(RJMP),
   CARP_IASSN(DBS), CARP_IASSN(DBG),
   CARP_IASSN(CALL), CARP_IASSN(RET),
-  CARP_IASSN(PREG), CARP_IASSN(PTOP),
+  CARP_IASSN(PREG), CARP_IASSN(PTOP), CARP_IASSN(PVARS),
 };
 
 #endif

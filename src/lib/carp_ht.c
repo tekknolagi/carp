@@ -100,21 +100,24 @@ carp_ht *carp_ht_get (carp_ht *h, char *key) {
 /*
   Print the whole table in a JSON-y format.
 */
-void carp_ht_print (carp_ht *h) {
+void carp_ht_print (carp_ht *h, FILE *fp) {
   assert(h != NULL);
 
   carp_ht *tmp = h;
 
-  puts("{");
+  if (fp == NULL)
+    fp = stdout;
+
+  fprintf(fp, "{\n");
 
   while (tmp != NULL) {
     if (tmp != h)
-      printf("%s: %lld,\n", tmp->key, tmp->value);
+      fprintf(fp, "%s: %lld,\n", tmp->key, tmp->value);
 
     tmp = tmp->next;
   }
 
-  puts("}");
+  fprintf(fp, "}\n");
 }
 
 /*

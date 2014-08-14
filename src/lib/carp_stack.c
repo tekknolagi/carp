@@ -96,13 +96,13 @@ carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
 /*
   Print the contents of the stack onto stdout.
 */
-void carp_stack_print (carp_stack *s) {
-  printf("[ ");
+void carp_stack_print (carp_stack *s, FILE *fp) {
+  fprintf(fp, "[ ");
 
   for (carp_value i = 0; i < (*s->height); i++)
-    printf("%lld ", s->contents[i]);
+    fprintf(fp, "%lld ", s->contents[i]);
 
-  printf("]\n");
+  fprintf(fp, "]\n");
 }
 
 /*

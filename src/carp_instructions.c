@@ -209,3 +209,7 @@ CARP_IDEF (PTOP) {
 
   printf("%lld\n", val);
 }
+
+CARP_IDEF (PVARS) {
+  carp_ht_print(&m->vars, stdout);
+}
