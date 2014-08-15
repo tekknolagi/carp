@@ -39,9 +39,6 @@ run_tests:
 clean_tests:
 	rm -f tests/*.out
 
-#tests:
-#	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
-
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/include/carp
 	rm $(DESTDIR)$(PREFIX)/lib/libcarp.a
