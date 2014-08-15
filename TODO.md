@@ -16,3 +16,4 @@ In no particular order:
 * Have API never exit, but pass up error codes.
 * Add way to pass data section so that DBS and DBG can be used in Carp code
   * Something like in the `c/data.c` example
+* Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
