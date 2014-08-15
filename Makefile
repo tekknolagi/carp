@@ -25,7 +25,7 @@ clean_libtap:
 test: build libtap clean_tests $(TESTS_OUTS) run_tests
 
 tests/%.out: tests/%.c
-	$(CC) -g3 $< libcarp.a tests/libtap/libtap.a -o $@
+	$(CC) -g3 -std=c99 $< libcarp.a tests/libtap/libtap.a -o $@
 
 run_tests:
 	for file in tests/*.out; do	\
