@@ -2,7 +2,9 @@ CC ?= gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
 CFLAGS = -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security $(NDEBUG)
-SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
+SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
+	src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c \
+	src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
