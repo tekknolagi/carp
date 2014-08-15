@@ -13,6 +13,7 @@ In no particular order:
   3. Instructions
   4. Tokenizer
   5. Lexer
+  6. DONE: Registers
 * Have API never exit, but pass up error codes.
 * Add way to pass data section so that DBS and DBG can be used in Carp code
   * Something like in the `c/data.c` example
