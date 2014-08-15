@@ -46,7 +46,7 @@ carp_bool carp_stack_push (carp_stack *s, carp_value i) {
   if (carp_stack_full(s)) {
     // give stack 2n + 1 its existing space, hopefully more efficiently allocating
     carp_value new_height = 2*s->max_height + 1;
-    carp_value *new_contents = realloc(s->contents, new_height * sizeof(s->contents[0]));
+    carp_value *new_contents = realloc(s->contents, new_height * sizeof *new_contents);
     if (new_contents == NULL)
       return 1;
 
@@ -55,7 +55,6 @@ carp_bool carp_stack_push (carp_stack *s, carp_value i) {
     s->contents = new_contents;
   }
 
-  assert(!carp_stack_full(s));
   // push the value and increase the height
   s->contents[(*s->height)] = i;
   (*s->height)++;
