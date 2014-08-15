@@ -1,7 +1,7 @@
 CC ?= gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
-CFLAGS = -c -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -static $(NDEBUG)
+CFLAGS = -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security $(NDEBUG)
 SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
@@ -12,9 +12,9 @@ TESTS_OUTS=$(TESTS:.c=.out)
 all: build clean_objs test
 
 build:
-	$(CC) $(CFLAGS) $(SRCS)
+	$(CC) -c $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
-	$(CC) -g -std=c99 src/carp.c libcarp.a -o $(PROG)
+	$(CC) $(CFLAGS) src/carp.c libcarp.a -o $(PROG)
 
 libtap:
 	cd tests/libtap && make
@@ -25,7 +25,7 @@ clean_libtap:
 test: build libtap clean_tests $(TESTS_OUTS) run_tests
 
 tests/%.out: tests/%.c
-	$(CC) -g3 $< libcarp.a tests/libtap/libtap.a -o $@
+	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
 
 run_tests:
 	for file in tests/*.out; do	\
