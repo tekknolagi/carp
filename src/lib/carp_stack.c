@@ -55,6 +55,7 @@ carp_bool carp_stack_push (carp_stack *s, carp_value i) {
     s->contents = new_contents;
   }
 
+  assert(!carp_stack_full(s));
   // push the value and increase the height
   s->contents[(*s->height)] = i;
   (*s->height)++;
