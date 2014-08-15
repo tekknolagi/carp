@@ -11,7 +11,7 @@ CARP_IDEF (NOP) {
 CARP_IDEF (LOAD) {
   carp_value reg = carp_vm_next(m),
     val = carp_vm_next(m);
-  m->regs[reg] = val;
+  carp_reg_set(m->regs, reg, val);
 }
 
 CARP_IDEF (GLOAD) {
@@ -24,7 +24,7 @@ CARP_IDEF (GLOAD) {
 CARP_IDEF (MOV) {
   carp_value dst = carp_vm_next(m),
     src = carp_vm_next(m);
-  m->regs[dst] = m->regs[src];
+  carp_reg_set(m->regs, dst, m->regs[src]);
 }
 
 CARP_BINOP (ADD, +)
@@ -36,9 +36,8 @@ CARP_BINOP (MUL, *)
 CARP_BINOP (MOD, %)
 
 CARP_IDEF (NOT) {
-  carp_value *reg = &m->regs[carp_vm_next(m)];
-
-  *reg = ~(*reg);
+  carp_value reg = carp_vm_next(m);
+  carp_reg_set(m->regs, reg, ~m->regs[reg]);
 }
 
 CARP_BINOP (XOR, ^)
@@ -48,13 +47,11 @@ CARP_BINOP (OR, |)
 CARP_BINOP (AND, &)
 
 CARP_IDEF (INCR) {
-  carp_value reg = carp_vm_next(m);
-  m->regs[reg]++;
+  carp_reg_inc(m->regs, carp_vm_next(m));
 }
 
 CARP_IDEF (DECR) {
-  carp_value reg = carp_vm_next(m);
-  m->regs[reg]--;
+  carp_reg_dec(m->regs, carp_vm_next(m));
 }
 
 CARP_IDEF (INC) {
@@ -70,9 +67,7 @@ CARP_IDEF (DEC) {
 }
 
 CARP_IDEF (PUSHR) {
-  carp_value reg = carp_vm_next(m),
-    a = m->regs[reg];
-  CARP_SPUSH(a);
+  CARP_SPUSH(*carp_reg_get(m->regs, carp_vm_next(m)));
 }
 
 CARP_IDEF (PUSH) {
@@ -81,19 +76,17 @@ CARP_IDEF (PUSH) {
 }
 
 CARP_IDEF (POP) {
-  carp_value reg = carp_vm_next(m),
-    val;
+  carp_value val;
   CARP_SPOP(val);
-  m->regs[reg] = val;
+  carp_reg_set(m->regs, carp_vm_next(m), val);
 }
 
 CARP_IDEF (CMP) {
-  carp_instr_POP(m);
-  carp_value b = m->regs[CARP_GBG];
-  carp_instr_POP(m);
-  carp_value a = m->regs[CARP_GBG];
+  carp_value b, a;
+  CARP_SPOP(b);
+  CARP_SPOP(a);
 
-  m->regs[CARP_AX] = a - b;
+  carp_reg_set(m->regs, CARP_AX, a - b);
 }
 
 CARP_BINOP (LT, <)
@@ -105,7 +98,7 @@ CARP_IDEF (JZ) {
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_IP] = carp_vm_next(m);
+    carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
 CARP_IDEF (RJZ) {
@@ -113,7 +106,7 @@ CARP_IDEF (RJZ) {
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
+    carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
 CARP_IDEF (JNZ) {
@@ -121,7 +114,7 @@ CARP_IDEF (JNZ) {
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_IP] = carp_vm_next(m);
+    carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
 CARP_IDEF (RJNZ) {
@@ -129,15 +122,15 @@ CARP_IDEF (RJNZ) {
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
+    carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
 CARP_IDEF (JMP) {
-  m->regs[CARP_IP] = carp_vm_next(m);
+  carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
 CARP_IDEF (RJMP) {
-  m->regs[CARP_IP] += m->code[m->regs[CARP_IP] + 1];
+  carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
 CARP_IDEF (DBS) {
@@ -157,7 +150,7 @@ CARP_IDEF (DBG) {
   if (res == NULL)
     carp_vm_err(m, CARP_HT_DNE);
 
-  m->regs[reg] = res->value;
+  carp_reg_set(m->regs, reg, res->value);
 }
 
 CARP_IDEF (CALL) {
@@ -168,8 +161,8 @@ CARP_IDEF (CALL) {
   CARP_SPUSH(m->regs[CARP_FP]);
   CARP_SPUSH(m->regs[CARP_IP]);
 
-  m->regs[CARP_FP] = m->regs[CARP_SP];
-  m->regs[CARP_IP] = addr - 1;
+  carp_reg_set(m->regs, CARP_FP, m->regs[CARP_SP]);
+  carp_reg_set(m->regs, CARP_IP, addr - 1);
 }
 
 CARP_IDEF (RET) {
@@ -178,27 +171,26 @@ CARP_IDEF (RET) {
 
   carp_value state;
 
-  m->regs[CARP_SP] = m->regs[CARP_FP];
+  carp_reg_set(m->regs, CARP_SP, m->regs[CARP_FP]);
 
   CARP_SPOP(state);
 
-  m->regs[CARP_IP] = state;
+  carp_reg_set(m->regs, CARP_IP, state);
 
   CARP_SPOP(state);
 
-  m->regs[CARP_FP] = state;
+  carp_reg_set(m->regs, CARP_FP, state);
 
   CARP_SPOP(state);
 
   carp_value nargs = state;
-  m->regs[CARP_SP] -= nargs;
+  carp_reg_sub(m->regs, CARP_SP, nargs);
 
   CARP_SPUSH(rvalue);
 }
 
 CARP_IDEF (PREG) {
-  int reg = carp_vm_next(m);
-  printf("%lld\n", m->regs[reg]);
+  printf("%lld\n", *carp_reg_get(m->regs, carp_vm_next(m)));
 }
 
 CARP_IDEF (PTOP) {

@@ -11,12 +11,11 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
    * - IP
    * - SP
    */
-  for (int i = 0; i < CARP_NUM_REGS; i++)
-    m->regs[i] = 0;
+  carp_reg_init(m->regs);
 
   // defined entrypoint (main)
   // -1 because IP is incremented before each instr
-  m->regs[CARP_IP] = main_addr - 1;
+  carp_reg_set(m->regs, CARP_IP, main_addr - 1);
 
   // "turn VM on"
   m->running = 1;
@@ -42,14 +41,13 @@ void carp_vm_make (carp_machine_state *m) {
   assert(m != NULL);
   assert(&m->labels != NULL);
 
-  for (int i = 0; i < CARP_NUM_REGS; i++)
-    m->regs[i] = 0;
+  carp_reg_init(m->regs);
 
   carp_ht *res = carp_ht_get(&m->labels, "main");
   if (res == NULL)
     carp_vm_err(m, CARP_VM_NO_MAIN);
 
-  m->regs[CARP_IP] = res->value - 1;
+  carp_reg_set(m->regs, CARP_IP, res->value - 1);
 
   m->running = 1;
 
@@ -79,7 +77,7 @@ void carp_vm_load (carp_machine_state *m, carp_value code[], carp_value length) 
 void carp_vm_eval (carp_machine_state *m) {
   assert(m != NULL);
 
-  m->regs[CARP_IP]++;
+  carp_reg_inc(m->regs, CARP_IP);
 
   // fetch instruction
   int instr = m->code[m->regs[CARP_IP]];
