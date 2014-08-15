@@ -78,6 +78,7 @@ Defined as such: NAME (args): Description
 * RET (val): Push return value and load state.
 * PREG (reg): Prints contents of given register.
 * PTOP (): Peeks top of stack and prints top value.
+* PVARS (): Prints JSON-like display of variables.
 
 ## Registers
 
