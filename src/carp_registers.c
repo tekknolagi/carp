@@ -1,0 +1,97 @@
+#include "carp_registers.h"
+
+/*
+  Returns a pointer to a register.
+*/
+carp_value *carp_reg_get (carp_value regs[], carp_reg reg) {
+  assert(regs != NULL);
+
+  if (reg >= CARP_NUM_REGS)
+    return NULL;
+
+  return &regs[reg];
+}
+
+/*
+  Set the value in a given register. Fails if register is outside bounds.
+*/
+carp_bool carp_reg_set (carp_value regs[], carp_reg reg, carp_value value) {
+  assert(regs != NULL);
+
+  carp_value *res = carp_reg_get(regs, reg);
+  if (res == NULL)
+    return 1;
+
+  *res = value;
+  return 0;
+}
+
+/*
+  Adds a value to a register.
+*/
+carp_bool carp_reg_add (carp_value regs[], carp_reg reg, carp_value value) {
+  assert(regs != NULL);
+
+  carp_value *res = carp_reg_get(regs, reg);
+  if (res == NULL)
+    return 1;
+
+  *res += value;
+  return 0;
+}
+
+/*
+  Subtracts a value from a register.
+*/
+carp_bool carp_reg_sub (carp_value regs[], carp_reg reg, carp_value value) {
+  assert(regs != NULL);
+
+  carp_value *res = carp_reg_get(regs, reg);
+  if (res == NULL)
+    return 1;
+
+  *res -= value;
+  return 0;
+}
+
+/*
+  Increments a register.
+*/
+carp_bool carp_reg_inc (carp_value regs[], carp_reg reg) {
+  assert(regs != NULL);
+
+  assert(regs != NULL);
+
+  carp_value *res = carp_reg_get(regs, reg);
+  if (res == NULL)
+    return 1;
+
+  carp_reg_add(regs, reg, 1);
+  return 0;  
+}
+
+/*
+  Decrements a register.
+*/
+carp_bool carp_reg_dec (carp_value regs[], carp_reg reg) {
+  assert(regs != NULL);
+
+  assert(regs != NULL);
+
+  carp_value *res = carp_reg_get(regs, reg);
+  if (res == NULL)
+    return 1;
+
+  carp_reg_sub(regs, reg, 1);
+  return 0;  
+}
+
+/*
+  Initialize all the registers to value 0.
+*/
+void carp_reg_init (carp_value regs[]) {
+  assert(regs != NULL);
+
+  for (int i = 0; i < CARP_NUM_REGS; i++)
+    carp_reg_set(regs, i, 0);
+}
