@@ -1,0 +1,12 @@
+#include "tests_instr.h"
+
+int main () {
+  carp_value code[] = {CARP_I(HALT), 0};
+  carp_machine_state m;
+  int status;
+
+  carp_vm_init(&m, 1, 0);
+  carp_vm_load(&m, code, sizeof code);
+  status = carp_vm_run(&m);
+  carp_vm_exit(&m, EXIT_SUCCESS)
+}

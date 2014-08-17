@@ -10,11 +10,13 @@ int main (int argc, char **argv) {
     CARP_INSTR_POP,
     CARP_INSTR_PREG, CARP_GBG,
 
-    CARP_INSTR_HALT, 0
+    CARP_INSTR_HALT, 1
   };
 
   carp_machine_state m;
   carp_vm_init(&m, 10, 0);
   carp_vm_load(&m, code, sizeof(code));
-  carp_vm_run(&m);
+  carp_value status = carp_vm_run(&m);
+  printf("run code:  %lld\n", status);
+  printf("exit code: %lld\n", m.regs[CARP_EXT]);
 }

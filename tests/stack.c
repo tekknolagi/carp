@@ -24,9 +24,6 @@ int main () {
   status = carp_stack_pop(&s, &val);
   ok(status == 1, "Error popping empty stack.");
 
-  status = carp_stack_full(&s);
-  ok(status == 0, "Stack is not full by default.");
-
   status = 0;
   for (int i = 0; i < num_pushes; i++)
     status += carp_stack_push(&s, to_push);

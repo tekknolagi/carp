@@ -16,7 +16,7 @@ typedef struct carp_stack {
 
 carp_bool carp_stack_init (carp_stack *, carp_value *, carp_value);
 carp_bool carp_stack_empty (carp_stack *);
-carp_bool carp_stack_full (carp_stack *);
+static inline carp_bool carp_stack_full (carp_stack *);
 carp_bool carp_stack_push (carp_stack *, carp_value);
 carp_bool carp_stack_pop (carp_stack *, carp_value *);
 carp_bool carp_stack_peek (carp_stack *, carp_value *);

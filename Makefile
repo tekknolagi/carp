@@ -8,7 +8,7 @@ SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
-TESTS=$(wildcard tests/*.c)
+TESTS=$(wildcard tests/*.c tests/instr/*.c)
 TESTS_OUTS=$(TESTS:.c=.out)
 
 all: build clean_objs test
@@ -29,15 +29,18 @@ test: build libtap clean_tests $(TESTS_OUTS) run_tests
 tests/%.out: tests/%.c
 	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
 
+tests/instr/%.out: tests/instr/%.c
+	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
+
 run_tests:
-	for file in tests/*.out; do	\
-		echo $$file;		\
-		./$$file; 		\
-		echo; 			\
+	for file in $(TESTS_OUTS); do	\
+		echo $$file;	\
+		./$$file; 	\
+		echo; 		\
 	done
 
 clean_tests:
-	rm -f tests/*.out
+	rm -f $(TESTS_OUTS)
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/include/carp

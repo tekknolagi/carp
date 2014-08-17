@@ -31,7 +31,7 @@ carp_bool carp_stack_empty (carp_stack *s) {
 /*
   Return true if the height is the max height (meaning the stack is full).
 */
-carp_bool carp_stack_full (carp_stack *s) {
+static inline carp_bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;

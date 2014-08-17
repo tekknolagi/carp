@@ -18,7 +18,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
   carp_reg_set(m->regs, CARP_IP, main_addr - 1);
 
   // "turn VM on"
-  m->running = 1;
+  m->regs[CARP_RUN] = 1;
 
   // initialize stack
   // give pointer to SP
@@ -49,7 +49,7 @@ void carp_vm_make (carp_machine_state *m) {
 
   carp_reg_set(m->regs, CARP_IP, res->value - 1);
 
-  m->running = 1;
+  m->regs[CARP_RUN] = 1;
 
   int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
   if (status == 1)
@@ -88,13 +88,14 @@ void carp_vm_eval (carp_machine_state *m) {
 /*
   Start the fetch, decode, execute loop, then exit when done.
 */
-void carp_vm_run (carp_machine_state *m) {
+carp_value carp_vm_run (carp_machine_state *m) {
   assert(m != NULL);
 
-  while (m->running)
+  while (m->regs[CARP_RUN] != EXIT_FAILURE)
     carp_vm_eval(m);
 
-  carp_vm_exit(m, EXIT_SUCCESS);
+  return m->regs[CARP_EXT];
+  //carp_vm_exit(m, EXIT_SUCCESS);
 }
 
 /*
@@ -134,7 +135,8 @@ void carp_vm_cleanup (carp_machine_state *m) {
 void carp_vm_exit (carp_machine_state *m, int code) {
   assert(m != NULL);
 
-  m->running = 0;
+  m->regs[CARP_RUN] = 0;
+  m->regs[CARP_EXT] = code;
   carp_vm_cleanup(m);
-  exit(code);
+  //exit(code);
 }
