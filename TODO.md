@@ -18,3 +18,5 @@ In no particular order:
 * Add way to pass data section so that DBS and DBG can be used in Carp code
   * Something like in the `c/data.c` example
 * Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
+* Bytecode format so it does not need to interpret Carp code on the fly
+* Look-behind for lexer so that labels that follow call statements can be easily lexed.
