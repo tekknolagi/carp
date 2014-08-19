@@ -3,3 +3,4 @@ main:
 	push 6
 	add
 	ptop
+	halt 0
