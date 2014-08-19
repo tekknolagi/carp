@@ -51,7 +51,10 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   carp_id type;
   carp_tok *parsed = malloc(sizeof *parsed);
   carp_tok *head = parsed;
+  carp_tok *lookbehind;
   carp_value i = 0;
+
+  const char *call = "call\0";
 
   if (parsed == NULL) {
     fprintf(stderr, "Could not allocate memory for token.\n");
@@ -60,18 +63,25 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 
   while (toks != NULL) {
     toks_len = strlen(toks);
+
     if (is_num(toks))
       type = CARP_T(NUM);
+
     else if (is_reg(toks))
       type = CARP_T(REG);
+
     else if (is_label(toks))
       type = CARP_T(LBL);
-    else if (is_func(toks))
+
+    else if (strcmp(lookbehind->lexeme, "call") == 0) //is_func(toks))
       type = CARP_T(FUNC);
+
     else if (is_var(toks))
       type = CARP_T(VAR);
+
     else if (is_instr(toks))
       type = CARP_T(INSTR);
+
     else
       type = CARP_T(UNDEF);
 
@@ -80,11 +90,13 @@ carp_tok *carp_lex_tokenize (const char *fn) {
       memcpy(parsed->lexeme, toks, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
-    // don't copy @
-    else if (type == CARP_T(FUNC) || type == CARP_T(VAR)) {
+
+    // don't copy @ or proposed $
+    else if (/*type == CARP_T(FUNC) || */type == CARP_T(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
+
     // nothing to avoid
     else {
       memcpy(parsed->lexeme, toks, toks_len);
@@ -98,6 +110,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
     toks = strtok(NULL, delim);
     if (toks != NULL) {
       parsed->next = malloc(sizeof *parsed->next);
+      lookbehind = parsed;
       parsed = parsed->next;
     }
   }
