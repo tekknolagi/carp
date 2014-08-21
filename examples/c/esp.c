@@ -7,7 +7,7 @@ int main (int argc, char **argv) {
     CARP_INSTR_PREG,  CARP_SP,
 
     CARP_INSTR_DECR, CARP_SP,
-    CARP_INSTR_POP,
+    CARP_INSTR_POP, CARP_GBG,
     CARP_INSTR_PREG, CARP_GBG,
 
     CARP_INSTR_HALT, 1
@@ -17,6 +17,5 @@ int main (int argc, char **argv) {
   carp_vm_init(&m, 10, 0);
   carp_vm_load(&m, code, sizeof(code));
   carp_value status = carp_vm_run(&m);
-  printf("run code:  %lld\n", status);
-  printf("exit code: %lld\n", m.regs[CARP_EXT]);
+  printf("exit code:  %lld\n", status);
 }

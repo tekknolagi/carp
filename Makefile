@@ -63,7 +63,12 @@ clean_libs:
 
 clean_objs:
 	find . -name "*.o"	\
-	 | xargs rm -f
+	-o -name "*.dSYM"	\
+	 | xargs rm -rf
+
+clean_outs:
+	find . -name "*.out"	\
+	| xargs rm -f
 
 clean: clean_objs clean_libtap
 	rm -f $(PROG) libcarp.a
