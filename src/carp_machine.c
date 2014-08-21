@@ -81,9 +81,9 @@ void carp_vm_eval (carp_machine_state *m) {
 
   // fetch instruction
   int instr = m->code[m->regs[CARP_IP]];
+
   // decode, execute
   carp_instructions[instr](m);
-  carp_stack_print(&m->stack, NULL);
 }
 
 /*
@@ -92,7 +92,7 @@ void carp_vm_eval (carp_machine_state *m) {
 carp_value carp_vm_run (carp_machine_state *m) {
   assert(m != NULL);
 
-  while (m->regs[CARP_RUN] != EXIT_FAILURE)
+  while (m->regs[CARP_RUN])
     carp_vm_eval(m);
 
   return m->regs[CARP_EXT];
