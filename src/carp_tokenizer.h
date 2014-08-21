@@ -40,7 +40,6 @@ typedef struct carp_tok_s {
 } carp_tok;
 
 carp_tok *carp_lex_tokenize (const char *);
-void carp_lex_cleanup (carp_tok *);
 char *file_read (const char *);
 
 carp_bool is_sign (char);

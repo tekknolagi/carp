@@ -115,8 +115,7 @@ void carp_run_program (const char *fn) {
   }
 
   carp_lex_lex(&m, tokens);
-  carp_vm_run(&m);
-  carp_vm_cleanup(&m);
+  long long val = carp_vm_run(&m);
 }
 
 /*

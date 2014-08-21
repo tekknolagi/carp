@@ -101,7 +101,6 @@ void carp_stack_print (carp_stack *s, FILE *fp) {
   if (fp == NULL)
     fp = stdout;
 
-  printf("printing stack\n");
   fprintf(fp, "[ ");
 
   for (carp_value i = 0; i < (*s->height); i++)

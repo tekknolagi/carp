@@ -121,21 +121,6 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 }
 
 /*
-  Frees the carp_tok linked list.
-*/
-void carp_lex_cleanup (carp_tok *tokens) {
-  assert(tokens != NULL);
-
-  carp_tok *tmp;
-
-  while (tokens != NULL) {
-    tmp = tokens->next;
-    free(tokens);
-    tokens = tmp;
-  }
-}
-
-/*
   Reads a whole file and returns a pointer to its contents.
 */
 char *file_read (const char *fn) {

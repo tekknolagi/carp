@@ -86,6 +86,21 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 }
 
 /*
+  Frees the carp_tok linked list.
+*/
+void carp_lex_cleanup (carp_tok *tokens) {
+  assert(tokens != NULL);
+
+  carp_tok *tmp;
+
+  while (tokens != NULL) {
+    tmp = tokens->next;
+    free(tokens);
+    tokens = tmp;
+  }
+}
+
+/*
   Exits cleanly by cleaning up first.
 */
 void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
