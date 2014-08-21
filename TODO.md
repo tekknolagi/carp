@@ -2,8 +2,6 @@
 
 In no particular order:
 
-* Fix annoying warning about storing char pointer in `long long` array.
-* Make a Carp compiler.
 * Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
   * See branch `new_ht_impl`.
 * Read Carp files as lines instead of whole files.
@@ -15,9 +13,14 @@ In no particular order:
   5. Lexer
   6. DONE: Registers
 * Have API never exit, but pass up error codes.
-* Add way to pass data section so that DBS and DBG can be used in Carp code
-  * Something like in the `c/data.c` example
-* Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
 * Bytecode format so it does not need to interpret Carp code on the fly
 * Look-behind for lexer so that labels that follow call statements can be easily lexed.
-  * DONE except make checking for call cleaner. flag?
+  * DONE except make checking for call cleaner. flag? instruction enum?
+* Make call with nargs actually do something useful. Shortcut for accessing params?
+* Make a Carp compiler.
+* Data:
+  * Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
+    * Sort of like hand-made pointers
+  * Add way to pass data section so that DBS and DBG can be used in Carp code
+    * Something like in the `c/data.c` example
+  * Fix annoying warning about storing char pointer in `long long` array.
