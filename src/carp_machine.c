@@ -83,6 +83,7 @@ void carp_vm_eval (carp_machine_state *m) {
   int instr = m->code[m->regs[CARP_IP]];
   // decode, execute
   carp_instructions[instr](m);
+  carp_stack_print(&m->stack, NULL);
 }
 
 /*
