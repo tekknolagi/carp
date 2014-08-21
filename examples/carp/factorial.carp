@@ -4,5 +4,5 @@ fact:	gload -5
 
 main:	load %reg0, 1
 	load %reg1, 5
-	call @fact, 1
+	call fact, 1
 	halt 0

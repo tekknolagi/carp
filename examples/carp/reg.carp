@@ -9,6 +9,6 @@ main:
 	pushr r0
 	load r1, 9
 	pushr r1
-	call @add, 2
+	call add, 2
 	ptop
 	halt 0
