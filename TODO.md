@@ -20,3 +20,4 @@ In no particular order:
 * Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
 * Bytecode format so it does not need to interpret Carp code on the fly
 * Look-behind for lexer so that labels that follow call statements can be easily lexed.
+  * DONE except make checking for call cleaner. flag?
