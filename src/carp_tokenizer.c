@@ -1,3 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+
+#include "carp_registers.h"
+#include "carp_instructions.h"
 #include "carp_tokenizer.h"
 
 /*

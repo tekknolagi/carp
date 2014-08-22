@@ -1,7 +1,10 @@
 #include <getopt.h>
 
-#include "carp.h"
 #include "carp_lexer.h"
+#include "carp_machine.h"
+#include "carp.h"
+
+#define CARP_VERSION 0.2
 
 /*
   Main Carp interpreter.

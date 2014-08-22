@@ -1,10 +1,6 @@
 #ifndef CARP_H
 #define CARP_H
 
-#include "carp_machine.h"
-
-#define CARP_VERSION 0.2
-
 typedef struct carp_option_s {
   short int version;
   short int license;

@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <assert.h>
+
+#include "lib/carp_messages.h"
 #include "carp_machine.h"
 
 /*

@@ -1,4 +1,23 @@
+#include "lib/carp_messages.h"
+
+#include "carp_instructions.h"
 #include "carp_machine.h"
+
+// yay macros
+
+#define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
+  carp_value b, a; \
+  if (carp_stack_pop(&m->stack, &b) == 1)\
+    carp_vm_err(m, CARP_STACK_EMPTY);\
+  if (carp_stack_pop(&m->stack, &a) == 1)\
+    carp_vm_err(m, CARP_STACK_EMPTY);\
+  carp_stack_push(&m->stack, a F b);}
+
+#define CARP_SPOP(NAME) if (carp_stack_pop(&m->stack, &NAME) == 1) \
+    carp_vm_err(m, CARP_STACK_EMPTY)
+
+#define CARP_SPUSH(NAME) if (carp_stack_push(&m->stack, NAME) == 1) \
+    carp_vm_err(m, CARP_STACK_NO_MEM)
 
 CARP_IDEF (HALT) {
   carp_vm_exit(m, carp_vm_next(m));
