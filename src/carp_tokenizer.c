@@ -51,10 +51,8 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   carp_id type;
   carp_tok *parsed = malloc(sizeof *parsed);
   carp_tok *head = parsed;
-  carp_tok *lookbehind;
+  carp_tok *lookbehind = NULL;
   carp_value i = 0;
-
-  const char *call = "call\0";
 
   if (parsed == NULL) {
     fprintf(stderr, "Could not allocate memory for token.\n");
@@ -73,7 +71,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
     else if (is_label(toks))
       type = CARP_T(LBL);
 
-    else if (strcmp(lookbehind->lexeme, "call") == 0) //is_func(toks))
+    else if (lookbehind != NULL && strcmp(lookbehind->lexeme, "call") == 0)
       type = CARP_T(FUNC);
 
     else if (is_var(toks))
@@ -85,14 +83,14 @@ carp_tok *carp_lex_tokenize (const char *fn) {
     else
       type = CARP_T(UNDEF);
 
-    // don't copy colon
+    // don't copy colon at end
     if (type == CARP_T(LBL)) {
       memcpy(parsed->lexeme, toks, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
 
-    // don't copy @ or proposed $
-    else if (/*type == CARP_T(FUNC) || */type == CARP_T(VAR)) {
+    // don't copy proposed $ at start
+    else if (type == CARP_T(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
     }
@@ -192,15 +190,6 @@ carp_bool is_label (const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
-}
-
-/*
-  Returns true if the string has a @ in it.
-*/
-carp_bool is_func (const char *s) {
-  assert(s != NULL);
-
-  return strchr(s, '@') != NULL;
 }
 
 /*

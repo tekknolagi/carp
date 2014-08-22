@@ -46,7 +46,6 @@ carp_bool is_sign (char);
 carp_bool is_num (const char *);
 carp_bool is_reg (const char *);
 carp_bool is_label (const char *);
-carp_bool is_func (const char *);
 carp_bool is_var (const char *);
 carp_bool is_instr (const char *);
 
