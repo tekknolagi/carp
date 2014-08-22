@@ -111,7 +111,7 @@ void carp_run_program (const char *fn) {
 
   if (tokens == NULL) {
     fprintf(stderr, "Something went wrong with tokenization.\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   carp_lex_lex(&m, tokens);

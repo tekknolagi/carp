@@ -139,5 +139,4 @@ void carp_vm_exit (carp_machine_state *m, int code) {
   m->regs[CARP_RUN] = 0;
   m->regs[CARP_EXT] = code;
   carp_vm_cleanup(m);
-  //exit(code);
 }

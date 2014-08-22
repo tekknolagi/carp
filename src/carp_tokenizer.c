@@ -14,36 +14,10 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
 
-  // empty file, so create main and halt.
+  // empty file, so skip the pain and halt with success
+  // there must be a cleaner way to do this
   if (toks == NULL) {
-    carp_tok *parsed = malloc(sizeof *parsed);
-    if (parsed == NULL) {
-      fprintf(stderr, "Could not allocate memory for token.\n");
-      return NULL;
-    }
-
-    carp_tok *next;
-
-    const char *mainl = "main";
-    const char *halti = "halt";
-
-    parsed->type = CARP_T(LBL);
-    parsed->pos = 0;
-    memcpy(parsed->lexeme, mainl, strlen(mainl));
-
-    parsed->next = malloc(sizeof *parsed->next);
-    if (parsed->next == NULL) {
-      fprintf(stderr, "Could not allocate memory for token.\n");
-      return NULL;
-    }
-
-    next = parsed->next;
-    next->type = CARP_T(INSTR);
-    next->pos = 1;
-    next->next = NULL;
-    memcpy(next->lexeme, halti, strlen(halti));
-
-    return parsed;
+    exit(EXIT_SUCCESS);
   }
 
   int toks_len = 0;
@@ -130,7 +104,7 @@ char *file_read (const char *fn) {
   FILE *fp = fopen(fn, "r");
   if (fp == NULL) {
     fprintf(stderr, "Could not open file `%s' for reading.\n", fn);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   fseek(fp, 0, SEEK_END); // go to end
@@ -140,7 +114,7 @@ char *file_read (const char *fn) {
   contents = malloc(fsize * sizeof *contents);
   if (contents == NULL) {
     fprintf(stderr, "Could not malloc space for file contents.\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   size_t nread = fread(contents, sizeof *contents, fsize, fp);
