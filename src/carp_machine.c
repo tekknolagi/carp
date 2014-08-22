@@ -4,6 +4,30 @@
 #include "lib/carp_messages.h"
 #include "carp_machine.h"
 
+// shortcut so I don't have to keep copy/pasting array indices & whatnot
+#define CARP_IASSN(x) [CARP_INSTR_##x] = carp_instr_##x
+
+carp_instruction_f carp_instructions[] = {
+  CARP_IASSN(HALT),
+  CARP_IASSN(NOP),
+  CARP_IASSN(LOAD), CARP_IASSN(GLOAD),
+  CARP_IASSN(MOV),
+  CARP_IASSN(ADD), CARP_IASSN(SUB), CARP_IASSN(MUL),
+  CARP_IASSN(MOD),
+  CARP_IASSN(NOT), CARP_IASSN(XOR), CARP_IASSN(OR), CARP_IASSN(AND),
+  CARP_IASSN(INCR), CARP_IASSN(DECR),
+  CARP_IASSN(INC), CARP_IASSN(DEC),
+  CARP_IASSN(PUSHR),
+  CARP_IASSN(PUSH), CARP_IASSN(POP),
+  CARP_IASSN(CMP), CARP_IASSN(LT), CARP_IASSN(GT),
+  CARP_IASSN(JZ), CARP_IASSN(RJZ),
+  CARP_IASSN(JNZ), CARP_IASSN(RJNZ),
+  CARP_IASSN(JMP), CARP_IASSN(RJMP),
+  CARP_IASSN(DBS), CARP_IASSN(DBG),
+  CARP_IASSN(CALL), CARP_IASSN(RET),
+  CARP_IASSN(PREG), CARP_IASSN(PTOP), CARP_IASSN(PVARS),
+};
+
 /*
   Initialize the VM - this includes lots of allocation.
 */
