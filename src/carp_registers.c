@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <assert.h>
+
 #include "carp_registers.h"
 
 /*

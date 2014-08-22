@@ -1,9 +1,6 @@
 #ifndef CARP_REGISTERS_H
 #define CARP_REGISTERS_H
 
-#include <stdlib.h>
-#include <assert.h>
-
 #include "lib/carp_types.h"
 
 // make register numbers easier on the eyes

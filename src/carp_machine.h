@@ -1,24 +1,12 @@
 #ifndef CARP_MACHINE_H
 #define CARP_MACHINE_H
 
-#include <stdlib.h>
-#include <assert.h>
-
 #include "lib/carp_types.h"
-#include "carp_registers.h"
-#include "carp_instructions.h"
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"
 
-#define CARP_VM_NO_MAIN "Could not find main."
-
-#define CARP_EXIT_STACK_FAILED "Could not initialize stack."
-#define CARP_STACK_NO_MEM  "Not enough memory."
-#define CARP_STACK_EMPTY "Carp stack is empty."
-
-#define CARP_HT_DNE "Variable not defined."
-#define CARP_HT_NO_MEM "Not enough memory."
-#define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
+#include "carp_registers.h"
+#include "carp_instructions.h"
 
 typedef struct carp_machine_state_s {
   carp_value regs[CARP_NUM_REGS];

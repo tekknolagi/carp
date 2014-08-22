@@ -1,4 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#include "lib/carp_types.h"
+#include "lib/carp_ht.h"
+
+#include "carp_tokenizer.h"
 #include "carp_lexer.h"
+#include "carp_machine.h"
 
 /*
   Assigns values to a series of tokens.
