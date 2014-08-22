@@ -19,5 +19,5 @@ int main (int argc, char **argv) {
   carp_machine_state m;
   carp_vm_init(&m, 1, 6);
   carp_vm_load(&m, code, sizeof(code));
-  carp_vm_run(&m);
+  return carp_vm_run(&m);
 }
