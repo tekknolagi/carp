@@ -5,6 +5,8 @@
 
 // make register numbers easier on the eyes
 typedef enum {
+  CARP_REG_UNDEF = -1,
+
   // regs 0 through 9 for general use
   CARP_R0 ,
   CARP_R1 ,
@@ -17,7 +19,7 @@ typedef enum {
   CARP_R8 ,
   CARP_R9 ,
 
-  // regs used for cmp, et al
+  // regs used for cmp, et al... possibly
   CARP_AX  ,
   CARP_BX  ,
   CARP_CX  ,
@@ -46,9 +48,10 @@ typedef enum {
 } carp_reg;
 
 static char carp_reverse_reg[][5] = {
+  "undef",
   "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9",
   "ax","bx","cx","dx","rx",
-  "ip","sp","fp","gbg","run","ext","undef"
+  "ip","sp","fp","gbg","run","ext",
 };
 
 carp_value *carp_reg_get (carp_value [], carp_reg);

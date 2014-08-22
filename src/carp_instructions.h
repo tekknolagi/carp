@@ -5,6 +5,8 @@
 
 // make instruction numbers easier on the eyes
 typedef enum {
+  CARP_I(UNDEF) = -1,
+
   CARP_I(HALT) ,
   CARP_I(NOP)  ,
   CARP_I(LOAD) ,
@@ -46,10 +48,10 @@ typedef enum {
 } carp_instr;
 
 static char carp_reverse_instr[][6] = {
+  "undef",
   "halt","nop","load","gload","mov","add","sub","mul","mod","not","xor","or",
   "amd","incr","decr","inc","dec","pushr","push","pop","cmp","lt","gt","jz",
   "rjz","jnz","rjnz","jmp","rjmp","dbs","dbg","call","ret","preg","ptop","pvars",
-  "undef"
 };
 
 #endif

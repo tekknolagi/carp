@@ -3,6 +3,9 @@
 
 #include "lib/carp_types.h"
 
+#include "carp_registers.h"
+#include "carp_instructions.h"
+
 #define CARP_TOK_WORD_LENGTH 10
 
 // shortcut
@@ -41,7 +44,7 @@ carp_bool is_label (const char *);
 carp_bool is_var (const char *);
 carp_bool is_instr (const char *);
 
-carp_bool carp_reg_lookup (const char *);
-carp_bool carp_instr_lookup (const char *);
+carp_reg carp_reg_lookup (const char *);
+carp_instr carp_instr_lookup (const char *);
 
 #endif

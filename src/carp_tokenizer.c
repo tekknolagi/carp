@@ -162,7 +162,7 @@ carp_bool is_num (const char *s) {
 carp_bool is_reg (const char *s) {
   assert(s != NULL);
 
-  return carp_reg_lookup(s) != -1;
+  return carp_reg_lookup(s) != CARP_REG_UNDEF;
 }
 
 /*
@@ -189,31 +189,31 @@ carp_bool is_var (const char *s) {
 carp_bool is_instr (const char *s) {
   assert(s != NULL);
 
-  return carp_instr_lookup(s) != -1;
+  return carp_instr_lookup(s) != CARP_INSTR_UNDEF;
 }
 
 /*
   Uses strcmp to look up regs. Could probably use a hashtable.
 */
-carp_bool carp_reg_lookup (const char *s) {
+carp_reg carp_reg_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_REGS; i++)
     if (!strcmp(carp_reverse_reg[i], s))
       return i;
 
-  return -1;
+  return CARP_REG_UNDEF;
 }
 
 /*
   Uses strcmp to look up instrs. Could probably use a hashtable.
 */
-carp_bool carp_instr_lookup (const char *s) {
+carp_instr carp_instr_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
     if (!strcmp(carp_reverse_instr[i], s))
       return i;
 
-  return -1;
+  return CARP_INSTR_UNDEF;
 }
