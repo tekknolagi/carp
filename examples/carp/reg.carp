@@ -1,13 +1,13 @@
 add:
-	gload -5
-	gload -4
+	load -5
+	load -4
 	add
 	ret
 
 main:
-	load r0, 7
+	loadr r0, 7
 	pushr r0
-	load r1, 9
+	loadr r1, 9
 	pushr r1
 	call add, 2
 	ptop

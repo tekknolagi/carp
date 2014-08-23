@@ -14,8 +14,8 @@ Example:
 
 ```asm
 add:
-	gload -5
-	gload -4
+	load -5
+	load -4
 	add
 	ret
 

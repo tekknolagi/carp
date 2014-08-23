@@ -27,13 +27,13 @@ CARP_IDEF (NOP) {
   ;
 }
 
-CARP_IDEF (LOAD) {
+CARP_IDEF (LOADR) {
   carp_value reg = carp_vm_next(m),
     val = carp_vm_next(m);
   carp_reg_set(m->regs, reg, val);
 }
 
-CARP_IDEF (GLOAD) {
+CARP_IDEF (LOAD) {
   carp_value reladdr = carp_vm_next(m),
     fp = m->regs[CARP_FP],
     val = m->stack.contents[fp + reladdr];

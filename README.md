@@ -47,7 +47,8 @@ Defined as such: NAME (args): Description
 
 * HALT (code): Halts and attempts to clean up stack, data memory, and label memory before exiting with given exit code.
 * NOP (): Does nothing. Seriously.
-* LOAD (reg, val): Loads given integer value into given register.
+* LOADR (reg, val): Loads given integer value into given register.
+* LOAD (diff): Loads value at location FP + diff in the stack.
 * MOV (dst, src): Copies contents of src register into dst register.
 * ADD (): Pops the top two integers from the stack and pushes their sum.
 * SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).

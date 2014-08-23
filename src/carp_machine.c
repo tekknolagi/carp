@@ -168,7 +168,7 @@ carp_value carp_run_program (const char *fn) {
 carp_instruction_f carp_instructions[] = {
   CARP_IASSN(HALT),
   CARP_IASSN(NOP),
-  CARP_IASSN(LOAD), CARP_IASSN(GLOAD),
+  CARP_IASSN(LOADR), CARP_IASSN(LOAD),
   CARP_IASSN(MOV),
   CARP_IASSN(ADD), CARP_IASSN(SUB), CARP_IASSN(MUL),
   CARP_IASSN(MOD),

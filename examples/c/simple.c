@@ -11,7 +11,7 @@ int main (int argc, char **argv) {
 
   carp_value code[] = {
     // 3 + 9 + 7 == 19?
-    CARP_INSTR_LOAD,  CARP_R0, 7,
+    CARP_INSTR_LOADR,  CARP_R0, 7,
     CARP_INSTR_PREG,  CARP_R0,
     CARP_INSTR_PUSH,  3,
     CARP_INSTR_PUSH,  9,
