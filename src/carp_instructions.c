@@ -226,7 +226,7 @@ CARP_IDEF (PTOP) {
   if (carp_stack_peek(&m->stack, &val) == 1)
     carp_vm_err(m, CARP_STACK_EMPTY);
 
-  printf("top: %lld\n", val);
+  printf("%lld\n", val);
 }
 
 CARP_IDEF (PVARS) {

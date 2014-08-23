@@ -89,8 +89,6 @@ void carp_vm_eval (carp_machine_state *m) {
 
   // decode, execute
   carp_instructions[instr](m);
-
-  carp_stack_print(&m->stack, NULL);
 }
 
 /*

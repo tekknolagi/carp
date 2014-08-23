@@ -5,6 +5,6 @@ mod:	store -5, 7
 main:	push 5
 	push 6
 	call mod, 1
-	pop
+	pop gbg
 	ptop
 	halt 0
