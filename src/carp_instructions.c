@@ -182,9 +182,7 @@ CARP_IDEF (DBG) {
 
 CARP_IDEF (CALL) {
   carp_value addr = carp_vm_next(m);
-  carp_value nargs = carp_vm_next(m);
 
-  CARP_SPUSH(nargs);
   CARP_SPUSH(m->regs[CARP_FP]);
   CARP_SPUSH(m->regs[CARP_IP]);
 
@@ -193,27 +191,15 @@ CARP_IDEF (CALL) {
 }
 
 CARP_IDEF (RET) {
-  carp_value rvalue;
-  CARP_SPOP(rvalue);
-
   carp_value state;
 
   carp_reg_set(m->regs, CARP_SP, m->regs[CARP_FP]);
 
   CARP_SPOP(state);
-
   carp_reg_set(m->regs, CARP_IP, state);
 
   CARP_SPOP(state);
-
   carp_reg_set(m->regs, CARP_FP, state);
-
-  CARP_SPOP(state);
-
-  carp_value nargs = state;
-  carp_reg_sub(m->regs, CARP_SP, nargs);
-
-  CARP_SPUSH(rvalue);
 }
 
 CARP_IDEF (PREG) {

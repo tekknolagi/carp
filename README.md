@@ -75,8 +75,8 @@ Defined as such: NAME (args): Description
 * RJMP (diff): Adds differential to current IP (relative jump).
 * DBS (key, val): Sets data memory at key (string pointer) to given value.
 * DBG (key, reg): Gets value from data memory at key (string pointer) and dumps it into given register.
-* CALL (key, nargs): Save state and set IP to value in data memory at key.
-* RET (val): Push return value and load state.
+* CALL (key, nargs): Save state and set IP to value in data memory at key. Function may return value in `ax`.
+* RET (): Load state.
 * PREG (reg): Prints contents of given register.
 * PTOP (): Peeks top of stack and prints top value.
 * PVARS (): Prints JSON-like display of variables.
