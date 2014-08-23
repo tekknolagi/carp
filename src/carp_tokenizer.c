@@ -8,6 +8,14 @@
 #include "carp_instructions.h"
 #include "carp_tokenizer.h"
 
+static char *file_read (const char *);
+static carp_bool is_sign (char);
+static carp_bool is_num (const char *);
+static carp_bool is_reg (const char *);
+static carp_bool is_label (const char *);
+static carp_bool is_var (const char *);
+static carp_bool is_instr (const char *);
+
 /*
   Reads a whole file into memory (really should change to line-by-line), then goes through and
   copies lexemes, types, and program positions in.

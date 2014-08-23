@@ -1,5 +1,7 @@
 #include "carp_stack.h"
 
+static carp_bool carp_stack_full (carp_stack *);
+
 /*
   Initialize the stack with pointer to the height and initial height.
 */
@@ -31,7 +33,7 @@ carp_bool carp_stack_empty (carp_stack *s) {
 /*
   Return true if the height is the max height (meaning the stack is full).
 */
-static inline carp_bool carp_stack_full (carp_stack *s) {
+static carp_bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;

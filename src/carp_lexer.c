@@ -9,6 +9,9 @@
 #include "carp_lexer.h"
 #include "carp_machine.h"
 
+static void carp_lex_cleanup (carp_tok *);
+static void carp_lex_exit (carp_tok *, carp_ht *, int);
+
 /*
   Assigns values to a series of tokens.
   NUM is obvious.
@@ -97,7 +100,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 /*
   Frees the carp_tok linked list.
 */
-void carp_lex_cleanup (carp_tok *tokens) {
+static void carp_lex_cleanup (carp_tok *tokens) {
   assert(tokens != NULL);
 
   carp_tok *tmp;
@@ -112,7 +115,7 @@ void carp_lex_cleanup (carp_tok *tokens) {
 /*
   Exits cleanly by cleaning up first.
 */
-void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
+static void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
   assert(tokens != NULL);
   assert(labels != NULL);
 

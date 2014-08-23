@@ -35,15 +35,6 @@ typedef struct carp_tok_s {
 } carp_tok;
 
 carp_tok *carp_lex_tokenize (const char *);
-char *file_read (const char *);
-
-carp_bool is_sign (char);
-carp_bool is_num (const char *);
-carp_bool is_reg (const char *);
-carp_bool is_label (const char *);
-carp_bool is_var (const char *);
-carp_bool is_instr (const char *);
-
 carp_reg carp_reg_lookup (const char *);
 carp_instr carp_instr_lookup (const char *);
 

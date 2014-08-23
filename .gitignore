@@ -4,6 +4,6 @@
 *.out
 *.gch
 *\#
-*.\#
+*.\#*
 carp.out
 *.dSYM
