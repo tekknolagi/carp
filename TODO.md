@@ -19,7 +19,6 @@ In no particular order:
 * Bytecode format so it does not need to interpret Carp code on the fly
 * Look-behind for lexer so that labels that follow call statements can be easily lexed.
   * DONE except make checking for call cleaner. flag? instruction enum?
-* Make call with nargs actually do something useful. Shortcut for accessing params?
 * Make a Carp compiler.
 * Figure out a better way for the tokenizer to exit cleanly on an empty file.
 * Data:
