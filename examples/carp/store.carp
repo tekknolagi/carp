@@ -1,0 +1,10 @@
+mod:	store -5, 7
+	push 1
+	ret
+
+main:	push 5
+	push 6
+	call mod, 1
+	pop
+	ptop
+	halt 0
