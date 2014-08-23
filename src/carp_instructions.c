@@ -40,6 +40,14 @@ CARP_IDEF (LOAD) {
   CARP_SPUSH(val);
 }
 
+CARP_IDEF (STORE) {
+  carp_value reladdr = carp_vm_next(m),
+    val = carp_vm_next(m),
+    fp = m->regs[CARP_FP];
+
+  m->stack.contents[fp + reladdr] = val;
+}
+
 CARP_IDEF (MOV) {
   carp_value dst = carp_vm_next(m),
     src = carp_vm_next(m);

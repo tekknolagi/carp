@@ -36,7 +36,7 @@ carp_value carp_run_program (const char *);
 // this is where the declaration/definition macro comes in handy
 CARP_IDEF(HALT);
 CARP_IDEF(NOP);
-CARP_IDEF(LOADR); CARP_IDEF(LOAD);
+CARP_IDEF(LOADR); CARP_IDEF(LOAD); CARP_IDEF(STORE);
 CARP_IDEF(MOV);
 CARP_IDEF(ADD); CARP_IDEF(SUB); CARP_IDEF(MUL);
 CARP_IDEF(MOD);

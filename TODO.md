@@ -32,6 +32,7 @@ In no particular order:
 * `ldstr` method that reads string into memory and pushes address onto the stack
 * Hash lookup for regs and instr names.
 * NUL-terminate in file_read.
+* Add bounds checking on LOAD/STORE, among others
 * Increment IP after instruction fetched?
 
 Other commentary that I am too lazy to bullet right now:
