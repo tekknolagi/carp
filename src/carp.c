@@ -1,10 +1,15 @@
 #include <getopt.h>
 
-#include "carp_lexer.h"
 #include "carp_machine.h"
 #include "carp.h"
 
 #define CARP_VERSION 0.2
+
+static void carp_print_version ();
+static void carp_print_license ();
+static void carp_print_warranty ();
+static void carp_print_conditions ();
+static void carp_print_help ();
 
 /*
   Main Carp interpreter.
@@ -103,22 +108,6 @@ void carp_print_warranty () {
 */
 void carp_print_conditions () {
   puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
-}
-
-/*
-  Read, tokenize, lex, and execute the contents of a Carp file.
-*/
-void carp_run_program (const char *fn) {
-  carp_machine_state m;
-  carp_tok *tokens = carp_lex_tokenize(fn);
-
-  if (tokens == NULL) {
-    fprintf(stderr, "Something went wrong with tokenization.\n");
-    exit(EXIT_FAILURE);
-  }
-
-  carp_lex_lex(&m, tokens);
-  long long val = carp_vm_run(&m);
 }
 
 /*

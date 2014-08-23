@@ -9,11 +9,4 @@ typedef struct carp_option_s {
   char *file;
 } carp_option;
 
-void carp_print_version ();
-void carp_print_license ();
-void carp_print_warranty ();
-void carp_print_conditions ();
-void carp_run_program (const char *);
-void carp_print_help ();
-
 #endif

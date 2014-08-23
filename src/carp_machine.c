@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "lib/carp_messages.h"
+#include "carp_lexer.h"
 #include "carp_machine.h"
 
 /*
@@ -143,6 +144,22 @@ void carp_vm_exit (carp_machine_state *m, int code) {
   m->regs[CARP_RUN] = 0;
   m->regs[CARP_EXT] = code;
   carp_vm_cleanup(m);
+}
+
+/*
+  Read, tokenize, lex, and execute the contents of a Carp file.
+*/
+carp_value carp_run_program (const char *fn) {
+  carp_machine_state m;
+  carp_tok *tokens = carp_lex_tokenize(fn);
+
+  if (tokens == NULL) {
+    fprintf(stderr, "Something went wrong with tokenization.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  carp_lex_lex(&m, tokens);
+  return carp_vm_run(&m);
 }
 
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
