@@ -31,3 +31,23 @@ In no particular order:
 * Brainfuck compiler...
 * `ldstr` method that reads string into memory and pushes address onto the stack
 * Hash lookup for regs and instr names.
+* NUL-terminate in file_read.
+* Increment IP after instruction fetched?
+
+Other commentary that I am too lazy to bullet right now:
+
+<pre>
+>
+> In the function carp_lex_lex(), the variable 'length' ends up
+> being too small by 1.  It should be initialized to 0, not -1.
+>
+> Unused - function carp_vm_init();  in carp.c, variables 'opts'
+> and 'this_option_optind'.   Also, 'opts' has fewer initializers
+> than members.
+>
+> Style comment - where ever you picked up the habit of putting
+> a space between a function name and the following parenthesis,
+> unlearn it.  That style is good in some programming languages
+> but C is not one of them.
+>
+</pre>
