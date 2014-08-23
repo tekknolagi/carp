@@ -1,7 +1,8 @@
 add:
-	load -5
 	load -4
+	load -3
 	add
+	pop ax
 	ret
 
 main:
@@ -9,6 +10,6 @@ main:
 	pushr r0
 	loadr r1, 9
 	pushr r1
-	call add, 2
-	ptop
+	call add
+	preg ax
 	halt 0

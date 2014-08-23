@@ -1,13 +1,13 @@
 add:
-	load -5
 	load -4
+	load -3
 	add
+	pop ax
 	ret
 
 main:
 	push 7
 	push 9
-	call add, 2
-
-	ptop
+	call add
+	preg ax
 	halt 0
