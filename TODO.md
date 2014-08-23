@@ -30,3 +30,4 @@ In no particular order:
   * Fix annoying warning about storing char pointer in `long long` array.
 * Brainfuck compiler...
 * `ldstr` method that reads string into memory and pushes address onto the stack
+* Hash lookup for regs and instr names.
