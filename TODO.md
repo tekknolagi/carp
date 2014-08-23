@@ -23,6 +23,7 @@ In no particular order:
 * Figure out a better way for the tokenizer to exit cleanly on an empty file.
 * Data:
   * Use data[] array (mem) for strings and then use addresses - don't store string pointers in program array
+    * RAM/Heap of sorts
     * Sort of like hand-made pointers
   * Add way to pass data section so that DBS and DBG can be used in Carp code
     * Something like in the `c/data.c` example
