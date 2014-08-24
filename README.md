@@ -54,7 +54,7 @@ Defined as such: NAME (args): Description
 * SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
 * MUL (): Pops the top two integers from the stack and pushes their product.
 * MOD (): Pops the two top integers from the stack and pushes lower % upper.
-* NOT (reg): Computes bitwise NOT of reg and stores in reg.
+* NOT (): Pops top integer from stack and pushes bitwise not of that integer.
 * XOR (): Pops the top two integers from the stack and XORs them.
 * OR (): Pops the top two integers from the stack and ORs them.
 * AND (): Pops the top two integers from the stack and ANDs them.

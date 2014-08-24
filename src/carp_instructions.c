@@ -63,8 +63,9 @@ CARP_BINOP (MUL, *)
 CARP_BINOP (MOD, %)
 
 CARP_IDEF (NOT) {
-  carp_value reg = carp_vm_next(m);
-  carp_reg_set(m->regs, reg, ~m->regs[reg]);
+  carp_value val;
+  CARP_SPOP(val);
+  CARP_SPUSH(~val);
 }
 
 CARP_BINOP (XOR, ^)
