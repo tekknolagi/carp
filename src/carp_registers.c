@@ -89,6 +89,20 @@ carp_bool carp_reg_dec (carp_value regs[], carp_reg reg) {
   return 0;  
 }
 
+void carp_reg_print (carp_value regs[], FILE *fp) {
+  assert(regs != NULL);
+
+  if (fp == NULL)
+    fp = stdout;
+
+  fprintf(fp, "{\n");
+
+  for (int i = 0; i < CARP_NUM_REGS; i++)
+    fprintf(fp, "%s: %lld,\n", carp_reverse_reg[i], regs[i]);
+
+  fprintf(fp, "}\n");
+}
+
 /*
   Initialize all the registers to value 0.
 */

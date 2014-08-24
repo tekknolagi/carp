@@ -1,6 +1,8 @@
 #ifndef CARP_REGISTERS_H
 #define CARP_REGISTERS_H
 
+#include <stdio.h>
+
 #include "lib/carp_types.h"
 
 // make register numbers easier on the eyes
@@ -60,6 +62,7 @@ carp_bool carp_reg_add (carp_value [], carp_reg, carp_value);
 carp_bool carp_reg_sub (carp_value [], carp_reg, carp_value);
 carp_bool carp_reg_inc (carp_value [], carp_reg);
 carp_bool carp_reg_dec (carp_value [], carp_reg);
+void carp_reg_print (carp_value [], FILE *);
 void carp_reg_init(carp_value []);
 
 #endif
