@@ -53,7 +53,9 @@ Defined as such: NAME (args): Description
 * ADD (): Pops the top two integers from the stack and pushes their sum.
 * SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
 * MUL (): Pops the top two integers from the stack and pushes their product.
-* MOD (): Pops the two top integers from the stack and pushes lower % upper.
+* MOD (): Pops the top two integers from the stack and pushes lower % upper.
+* SHR (): Pops the top two integers from the stack and pushes lower >> upper.
+* SHL (): Pops the top two integers from the stack and pushes lower << upper.
 * NOT (): Pops top integer from stack and pushes bitwise not of that integer.
 * XOR (): Pops the top two integers from the stack and XORs them.
 * OR (): Pops the top two integers from the stack and ORs them.

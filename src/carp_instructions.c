@@ -62,6 +62,10 @@ CARP_BINOP (MUL, *)
 
 CARP_BINOP (MOD, %)
 
+CARP_BINOP (SHR, >>)
+
+CARP_BINOP (SHL, <<)
+
 CARP_IDEF (NOT) {
   carp_value val;
   CARP_SPOP(val);
