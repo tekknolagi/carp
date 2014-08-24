@@ -77,13 +77,10 @@ Defined as such: NAME (args): Description
 * RJNZ (diff): Adds differential to current IP (relative jump) if top of the stack is not 0.
 * JMP (addr): Jumps to given absolute address.
 * RJMP (diff): Adds differential to current IP (relative jump).
-* DBS (key, val): Sets data memory at key (string pointer) to given value.
-* DBG (key, reg): Gets value from data memory at key (string pointer) and dumps it into given register.
 * CALL (key): Save state and set IP to value in data memory at key. Function may return value in `ax`.
 * RET (): Load state.
 * PREG (reg): Prints contents of given register.
 * PTOP (): Peeks top of stack and prints top value.
-* PVARS (): Prints JSON-like display of variables.
 
 ## Registers
 

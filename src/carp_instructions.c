@@ -165,26 +165,6 @@ CARP_IDEF (RJMP) {
   carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
-CARP_IDEF (DBS) {
-  char *key = (char *) carp_vm_next(m);
-  carp_value val = carp_vm_next(m);
-
-  carp_ht *res = carp_ht_set(&m->vars, key, val);
-  if (res == NULL)
-    carp_vm_err(m, CARP_HT_NO_MEM);
-}
-
-CARP_IDEF (DBG) {
-  char *key = (char *) carp_vm_next(m);
-  carp_value reg = carp_vm_next(m);
-
-  carp_ht *res = carp_ht_get(&m->vars, key);
-  if (res == NULL)
-    carp_vm_err(m, CARP_HT_DNE);
-
-  carp_reg_set(m->regs, reg, res->value);
-}
-
 CARP_IDEF (CALL) {
   carp_value addr = carp_vm_next(m);
 
@@ -220,6 +200,3 @@ CARP_IDEF (PTOP) {
   printf("%lld\n", val);
 }
 
-CARP_IDEF (PVARS) {
-  carp_ht_print(&m->vars, stdout);
-}

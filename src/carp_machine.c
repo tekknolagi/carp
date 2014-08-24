@@ -31,9 +31,6 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
   if (status == 1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
-  // initialize variable hash table
-  carp_ht_init(&m->vars);
-
   // initialize label hash table
   carp_ht_init(&m->labels);
 }
@@ -59,8 +56,6 @@ void carp_vm_make (carp_machine_state *m) {
   int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
   if (status == 1)
     carp_vm_err(m, CARP_STACK_NO_MEM);
-
-  carp_ht_init(&m->vars);
 }
 
 /*
@@ -131,7 +126,6 @@ void carp_vm_cleanup (carp_machine_state *m) {
 
   free(m->code);
   carp_stack_cleanup(&m->stack);
-  carp_ht_cleanup(&m->vars);
   carp_ht_cleanup(&m->labels);
 }
 
@@ -182,7 +176,6 @@ carp_instruction_f carp_instructions[] = {
   CARP_IASSN(JZ), CARP_IASSN(RJZ),
   CARP_IASSN(JNZ), CARP_IASSN(RJNZ),
   CARP_IASSN(JMP), CARP_IASSN(RJMP),
-  CARP_IASSN(DBS), CARP_IASSN(DBG),
   CARP_IASSN(CALL), CARP_IASSN(RET),
-  CARP_IASSN(PREG), CARP_IASSN(PTOP), CARP_IASSN(PVARS),
+  CARP_IASSN(PREG), CARP_IASSN(PTOP),
 };
