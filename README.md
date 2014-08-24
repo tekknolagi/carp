@@ -5,6 +5,8 @@ Right now there are instructions, registers, a stack, data memory, and calls. No
 
 CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 
+[![Build Status](https://travis-ci.org/tekknolagi/carp.svg?branch=master)](https://travis-ci.org/tekknolagi/carp)
+
 ## Installation
 
 ### Getting Carp
