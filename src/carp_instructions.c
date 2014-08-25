@@ -5,19 +5,18 @@
 
 // yay macros
 
-#define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
-  carp_value b, a; \
-  if (carp_stack_pop(&m->stack, &b) == 1)\
-    carp_vm_err(m, CARP_STACK_EMPTY);\
-  if (carp_stack_pop(&m->stack, &a) == 1)\
-    carp_vm_err(m, CARP_STACK_EMPTY);\
-  carp_stack_push(&m->stack, a F b);}
-
 #define CARP_SPOP(NAME) if (carp_stack_pop(&m->stack, &NAME) == 1) \
     carp_vm_err(m, CARP_STACK_EMPTY)
 
 #define CARP_SPUSH(NAME) if (carp_stack_push(&m->stack, NAME) == 1) \
     carp_vm_err(m, CARP_STACK_NO_MEM)
+
+#define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
+  carp_value b, a; \
+  CARP_SPOP(b);	\
+  CARP_SPOP(a); \
+  CARP_SPUSH(a F b); }
+
 
 CARP_IDEF (HALT) {
   carp_vm_exit(m, carp_vm_next(m));
@@ -44,7 +43,6 @@ CARP_IDEF (STORE) {
   carp_value reladdr = carp_vm_next(m),
     val = carp_vm_next(m),
     fp = m->regs[CARP_FP];
-
   m->stack.contents[fp + reladdr] = val;
 }
 
@@ -117,8 +115,7 @@ CARP_IDEF (CMP) {
   carp_value b, a;
   CARP_SPOP(b);
   CARP_SPOP(a);
-
-  carp_reg_set(m->regs, CARP_AX, a - b);
+  CARP_SPUSH(a - b);
 }
 
 CARP_BINOP (LT, <)
