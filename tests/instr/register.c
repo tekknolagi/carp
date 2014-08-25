@@ -17,6 +17,7 @@ int main () {
   carp_vm_init(&m, 1, 0);
   carp_vm_load(&m, code, sizeof(code)/sizeof(*code));
   carp_vm_run(&m);
+  carp_vm_cleanup(&m);
 
   plan(NO_PLAN);
 
