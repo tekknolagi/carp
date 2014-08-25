@@ -36,6 +36,7 @@ In no particular order:
 * Increment IP after instruction fetched?
 * Logical operators (AND, OR) and how to segment from bitwise operators
 * Segment tests for stack ops into possibly separate machines... but definitely independent states somehow.
+* Better way to track size of code for API
 
 Other commentary that I am too lazy to bullet right now:
 
