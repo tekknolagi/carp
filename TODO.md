@@ -34,6 +34,8 @@ In no particular order:
 * NUL-terminate in file_read.
 * Add bounds checking on LOAD/STORE, among others
 * Increment IP after instruction fetched?
+* Logical operators (AND, OR) and how to segment from bitwise operators
+* Segment tests for stack ops into possibly separate machines... but definitely independent states somehow.
 
 Other commentary that I am too lazy to bullet right now:
 
