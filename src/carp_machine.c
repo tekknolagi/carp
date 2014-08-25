@@ -96,7 +96,6 @@ carp_value carp_vm_run (carp_machine_state *m) {
     carp_vm_eval(m);
 
   return m->regs[CARP_EXT];
-  //carp_vm_exit(m, EXIT_SUCCESS);
 }
 
 /*
