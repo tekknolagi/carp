@@ -19,13 +19,11 @@ typedef struct carp_ht_s {
   carp_ht_entry *buckets;
 } carp_ht;
 
-unsigned long carp_ht_hash (const char *, long);
-
 short int carp_ht_init (carp_ht *, long);
 short int carp_ht_del (carp_ht *, const char *);
 short int carp_ht_set (carp_ht *, const char *, long long);
 carp_ht_entry *carp_ht_get (carp_ht *, const char *);
-short int carp_ht_resize (carp_ht *, long);
+short int carp_ht_resize (carp_ht *);
 void carp_ht_print (carp_ht *);
 void carp_ht_cleanup (carp_ht *);
 
