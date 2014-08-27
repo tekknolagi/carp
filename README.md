@@ -29,6 +29,8 @@ NOTE: If `git submodule status` doesn't return a SHA1 hash and repository name, 
 1. `make`
 2. `make install`
 
+Carp has been successfully built on Ubuntu 12.04 (precise) with gcc 4.6.3 (64-bit), and on Ubuntu 14.04 (trusty) on 4.8.2 on both 32-bit and 64-bit processors.
+
 ## Use
 
 NOTE: See `carp -h` for help with command-line options.
