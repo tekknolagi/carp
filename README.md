@@ -29,6 +29,15 @@ NOTE: If `git submodule status` doesn't return a SHA1 hash and repository name, 
 1. `make`
 2. `make install`
 
+#### Tested Machines
+
+1. Ubuntu 12.04 (precise) with gcc 4.6.3 (64-bit)
+2. Ubuntu 14.04 (trusty) with gcc 4.8.2 (32-bit and 64-bit)
+3. OS X 10.9.4 (Mavericks) with clang 3.2 (64-bit)
+4. OS X 10.9.4 (Mavericks) with gcc 4.2.1 (32-bit)
+5. Arch Linux 3.13.6-1-ARCH with gcc 4.9.0 20140604 (64-bit?)
+6. Arch Linux 3.13.6-1-ARCH with clang 3.4.2 (64-bit)
+
 ## Use
 
 NOTE: See `carp -h` for help with command-line options.
