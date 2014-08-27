@@ -31,12 +31,15 @@ NOTE: If `git submodule status` doesn't return a SHA1 hash and repository name, 
 
 #### Tested Machines
 
-1. Ubuntu 12.04 (precise) with gcc 4.6.3 (64-bit)
-2. Ubuntu 14.04 (trusty) with gcc 4.8.2 (32-bit and 64-bit)
-3. OS X 10.9.4 (Mavericks) with clang 3.2 (64-bit)
-4. OS X 10.9.4 (Mavericks) with gcc 4.2.1 (32-bit)
-5. Arch Linux 3.13.6-1-ARCH with gcc 4.9.0 20140604 (64-bit?)
-6. Arch Linux 3.13.6-1-ARCH with clang 3.4.2 (64-bit)
+Arch (bit) | OS (with version, name) | Compiler (with version)
+---------- | ----------------------- | -----------------------
+64-bit     | Ubuntu 12.04 (precise)  | gcc 4.6.3
+64-bit     | Ubuntu 14.04 (trusty)   | gcc 4.8.2
+32-bit     | Ubuntu 14.04 (trusty)   | gcc 4.8.2
+64-bit     | OS X 10.9.4 (Mavericks) | clang 3.2
+32-bit     | OS X 10.9.4 (Mavericks) | gcc 4.2.1
+64-bit     | Arch Linux 3.13.6-1     | clang 3.4.2
+64-bit?    | Arch Linux 3.13.6-1     | gcc 4.9.0 20140604
 
 ## Use
 
