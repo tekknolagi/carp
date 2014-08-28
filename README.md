@@ -59,48 +59,52 @@ NOTE: See `carp -h` for help with command-line options.
 
 Defined as such: NAME (args): Description
 
-* HALT (code): Halts and attempts to clean up stack, data memory, and label memory before exiting with given exit code.
-* NOP (): Does nothing. Seriously.
-* LOADR (reg, val): Loads given integer value into given register.
-* LOAD (diff): Loads value at location FP + diff in the stack.
-* MOV (dst, src): Copies contents of src register into dst register.
-* ADD (): Pops the top two integers from the stack and pushes their sum.
-* SUB (): Pops the top two integers from the stack and pushes the difference (lower minus upper).
-* MUL (): Pops the top two integers from the stack and pushes their product.
-* MOD (): Pops the top two integers from the stack and pushes lower % upper.
-* SHR (): Pops the top two integers from the stack and pushes lower >> upper.
-* SHL (): Pops the top two integers from the stack and pushes lower << upper.
-* NOT (): Pops top integer from stack and pushes bitwise not of that integer.
-* XOR (): Pops the top two integers from the stack and XORs them.
-* OR (): Pops the top two integers from the stack and ORs them.
-* AND (): Pops the top two integers from the stack and ANDs them.
-* INCR (reg): Increments value in given register.
-* DECR (reg): Decrements value in given register.
-* INC (): Increments the value at the top of the stack.
-* DEC (): Decrements the value at the top of the stack.
-* PUSHR (reg): Pushes value in given register.
-* PUSH (val): Pushes given value.
-* POP (reg): Pops an integer from the stack and dumps it into given register.
-* CMP (): Pops the top two integers from the stack and checks if equal. 0 means equal. Result will be pushed onto the stack.
-* MOV (rega, regb): Move value in rega to regb.
-* JZ (addr): Jumps to given absolute address if top of the stack is 0.
-* RJZ (diff): Adds differential to current IP (relative jump) if top of the stack is 0.
-* JNZ (addr): Jumps to given absolute address if top of the stack is not 0.
-* RJNZ (diff): Adds differential to current IP (relative jump) if top of the stack is not 0.
-* JMP (addr): Jumps to given absolute address.
-* RJMP (diff): Adds differential to current IP (relative jump).
-* CALL (key): Save state and set IP to value in data memory at key. Function may return value in `ax`.
-* RET (): Load state.
-* PREG (reg): Prints contents of given register.
-* PTOP (): Peeks top of stack and prints top value.
+Opcode | Arguments | Description
+------ | --------- | -----------
+HALT   | exit code | Sets `ext` to given code, halts, and attempts to clean up stack, data memory, and label memory.
+NOP    |           | Does nothing. Seriously.
+LOADR  | reg, val  | Loads given integer value into given register.
+LOAD   | diff      | Loads value at location `fp` + diff in the stack.
+MOV    | dst, src  | Copies contents of src register into dst register.
+ADD    |           | Pops the top two integers from the stack and pushes their sum.
+SUB    |           | Pops the top two integers from the stack and pushes the difference (lower minus upper).
+MUL    |           | Pops the top two integers from the stack and pushes their product.
+MOD    |           | Pops the top two integers from the stack and pushes lower % upper.
+SHR    |           | Pops the top two integers from the stack and pushes lower >> upper.
+SHL    |           | Pops the top two integers from the stack and pushes lower << upper.
+NOT    |           | Pops top integer from stack and pushes bitwise NOT of that integer.
+XOR    |           | Pops the top two integers from the stack and pushes bitwise XOR..
+OR     |           | Pops the top two integers from the stack and pushes bitwise OR.
+AND    |           | Pops the top two integers from the stack and pushes bitwise AND.
+INCR   | reg       | Increments value in given register.
+DECR   | reg       | Decrements value in given register.
+INC    |           | Increments the value at the top of the stack.
+DEC    |           | Decrements the value at the top of the stack.
+PUSHR  | reg       | Pushes value in given register.
+PUSH   | val       | Pushes given value.
+POP    | reg       | Pops an integer from the stack and dumps it into given register.
+CMP    |           | Pops the top two integers from the stack and checks if equal. 0 means equal. Pushes result.
+JZ     | addr      | Jumps to given absolute address if top of the stack is 0.
+RJZ    | diff      | Adds differential to `ip` (relative jump) if top of the stack is 0.
+JNZ    | addr      | Jumps to given absolute address if top of the stack is not 0.
+RJNZ   | diff      | Adds differential to `ip` (relative jump) if top of the stack is not 0.
+JMP    | addr      | Jumps to given absolute address unconditionally.
+RJMP   | diff      | Adds differential to `ip` (relative jump) unconditionally.
+CALL   | key/addr  | Save state and set IP to value in data memory at key. Function may return value in `ax`.
+RET    |           | Put top of the stack into `ax` and load previous state.
+PREG   | reg       | Prints contents of given register.
+PTOP   |           | Peeks top of stack and prints top value.
 
 ## Registers
 
-* R0 ... R9: General purpose.
-* AX, BX, CX, DX, RX: Used for ... something in the future. Just taking up space for now.
-* IP: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
-* SP: Stack pointer. Now working! :D
-* GBG: Garbage register mainly used for popping.
+* `r0` ... `r9`: General purpose.
+* `ax`, `bx`, `cx`, `dx`, `rx`: Used for ... something in the future. Just taking up space for now.
+* `ip`: Instruction pointer. Used for keeping place in code, gotos, calling, etc.
+* `sp`: Stack pointer.
+* `fp`: Frame pointer. Used to keep state for function calls.
+* `gbg`: Garbage register mainly used for popping.
+* `run`: Boolean - is machine running?
+* `ext`: Exit code.
 
 ## How to contribute
 
