@@ -98,14 +98,14 @@ PTOP   |           | Peeks top of stack and prints top value.
 Name | Purpose
 ---- | -------
 `r0` ... `r9` | General purpose.
-* `ax` | Return value for user-defined function.
-* `bx`, `cx`, `dx`, `rx` | ... something in the future. Just taking up space for now.
-* `ip` | Instruction pointer. Used for keeping place in code, gotos, calling, etc.
-* `sp` | Stack pointer.
-* `fp` | Frame pointer. Used to keep state for function calls.
-* `gbg` | Garbage register mainly used for popping.
-* `run` | Boolean - is machine running?
-* `ext` | Exit code.
+`ax` | Return value for user-defined function.
+`bx`, `cx`, `dx`, `rx` | ... something in the future. Just taking up space for now.
+`ip` | Instruction pointer. Used for keeping place in code, gotos, calling, etc.
+`sp` | Stack pointer.
+`fp` | Frame pointer. Used to keep state for function calls.
+`gbg` | Garbage register mainly used for popping.
+`run` | Boolean - is machine running?
+`ext` | Exit code.
 
 ## How to contribute
 
