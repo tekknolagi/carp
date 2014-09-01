@@ -23,6 +23,7 @@ CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 * `git clone --recursive`
 
 NOTE: If `git submodule status` doesn't return a SHA1 hash and repository name, you have a problem.
+NOTE: Recursive clone is for testing library. If not included, tests will not build.
 
 ### Building Carp
 
