@@ -7,7 +7,7 @@ static short int carp_ht_used (carp_ht *);
 int main () {
   carp_ht h;
   int status;
-
+  printf("jesus\n");
   status = carp_ht_init(&h, 10);
   if (status == 1) {
     fprintf(stderr, "Memory could not be allocated.\n");
@@ -128,8 +128,13 @@ static unsigned long carp_ht_hash (const char *str, long size) {
 static short int carp_ht_used (carp_ht *h) {
   long in_use = 0;
 
-  for (long i = 0; i < h->size; i++)
-    if (h->buckets[i].used) in_use++;
+  for (long i = 0; i < h->size; i++) {
+    carp_ht_entry *base = h->buckets[i];
+    while (base) {
+	in_use++;
+	base = base->next;
+    }
+  }
 
   return in_use * 100 / h->size;
 }
@@ -139,12 +144,12 @@ short int carp_ht_init (carp_ht *h, long size) {
   assert(size > 0);
 
   h->size = size;
-  h->buckets = malloc(size * sizeof(h->buckets));
+  h->buckets = malloc(size * sizeof(carp_ht_entry *));
   if (h->buckets == NULL)
     return 1;
 
   for (long i = 0; i < h->size; i++)
-    h->buckets[i].used = 0;
+    h->buckets[i] = 0;
 
   return 0;
 }
@@ -154,18 +159,26 @@ short int carp_ht_del (carp_ht *h, const char *key) {
   assert(key != NULL);
 
   unsigned long hash = carp_ht_hash(key, h->size);
+  if (h->buckets[hash] == NULL) return 0;
 
   // different key, same hash! collision!
-  if (!strcmp(h->buckets[hash].key, key))
-    return 1;
-
+  if (!strcmp(h->buckets[hash]->key, key)) {
+    carp_ht_entry *base = h->buckets[hash];
+    while (!strcmp(base->next->key, key)) { //possible issue if key is empty string?
+      if (base->next == NULL) return 0;
+      base = base->next;
+    }
+    carp_ht_entry *next = base->next;
+    base->next = base->next->next;
+    free(next);
+  }
   // unused bucket
-  if (!h->buckets[hash].used)
+  if (!h->buckets[hash])
     return 2;
 
-  h->buckets[hash].used = 0;
-  h->buckets[hash].key[0] = 0; // NUL-terminate
-  h->buckets[hash].value = 0;
+  carp_ht_entry *next = h->buckets[hash]->next;
+  h->buckets[hash]->next = h->buckets[hash]->next->next;
+  free(next);
 
   return 0;
 }
@@ -174,12 +187,22 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
 
+  carp_ht_entry *new = calloc(1, sizeof(carp_ht_entry));
+
   unsigned long rhash = carp_ht_rhash(key, h->size);
   unsigned long hash = rhash % h->size;
 
+  if (h->buckets[hash] == NULL) {
+    strncpy(new->key, key, strlen(key));
+    new->value = value;
+    h->buckets[hash] = new;
+    return 0;
+  }
+
   // different key, same hash! collision!
   // TODO: linear probing!
-  while (h->buckets[hash].used != 0 && strcmp(h->buckets[hash].key, key) != 0) {
+  carp_ht_entry *base = h->buckets[hash];
+  while (base->next != NULL && strcmp(base->next->key, key) != 0) {
     // resize? o.O
     if (hash >= h->size || carp_ht_used(h) > 60) {
       if (carp_ht_resize(h) == 1) {
@@ -190,12 +213,12 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
 	carp_ht_set(h, key, value);
     }
 
-    hash = ++rhash % h->size;
+    base = base->next;
   }
 
-  h->buckets[hash].used = 1;
-  strncpy(h->buckets[hash].key, key, strlen(key));
-  h->buckets[hash].value = value;
+  base->next = new;
+  strncpy(new->key, key, strlen(key));
+  new->value = value;
 
   return 0;
 }
@@ -207,40 +230,36 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   unsigned long rhash = carp_ht_rhash(key, h->size);
   unsigned long hash = rhash % h->size;
 
-  while (h->buckets[hash].used && strcmp(h->buckets[hash].key, key) != 0) {
+  carp_ht_entry *base = h->buckets[hash];
+  while (base && strcmp(base->key, key) != 0) {
     if (hash >= h->size) return NULL; // not found
 
-    hash = ++rhash % h->size;
+    base = base->next;
   }
 
-  return &h->buckets[hash];
+  return base;
 }
 
 short int carp_ht_resize (carp_ht *h) {
+  //TODO: This probably still leaks memory, did not try to free entry lists...
   assert(h != NULL);
 
   long newsize = 2 * h->size + 1;
   carp_ht newh = {newsize, NULL};
-  newh.buckets = malloc(newsize * sizeof *h->buckets);
+  newh.buckets = calloc(newsize, sizeof(carp_ht_entry *));
   if (newh.buckets == NULL)
     return 1;
 
-  for (long i = 0; i < newsize; i++) {
-    newh.buckets[i].used = 0;
-    newh.buckets[i].key[0] = 0;
-    newh.buckets[i].value = 0;
-  }
-
   for (long i = 0; i < h->size; i++)
-    if (h->buckets[i].used) {
-      const char *key = h->buckets[i].key;
+    if (h->buckets[i]) {
+      const char *key = h->buckets[i]->key;
       unsigned long hash = carp_ht_hash(key, h->size);
       printf("adding [%ld] %s\n", hash, key);
 
       /* newh.buckets[hash].used = 1; */
       /* strncpy(newh.buckets[hash].key, key, strlen(key)); */
       /* newh.buckets[hash].value = h->buckets[i].value; */
-      carp_ht_set(&newh, key, h->buckets[i].value);
+      newh.buckets[i] = h->buckets[i];
     }
 
   free(h->buckets);
@@ -254,14 +273,22 @@ void carp_ht_print (carp_ht *h) {
 
   printf("{ %d%% full (size %ld)\n", carp_ht_used(h), h->size);;
 
+  //TODO: Does not print along collision lists.
   for (long int i = 0; i < h->size; i++)
-    if (h->buckets[i].used)
-      printf("  \"%s\": %lld,\n", h->buckets[i].key, h->buckets[i].value);
+    if (h->buckets[i]) {
+      carp_ht_entry *base = h->buckets[i];
+      do {
+	printf("  \"%s\": %lld,", base->key, base->value);
+      } while ((base = base->next));
+      printf("\n");
+    }
 
   printf("}\n\n");
 }
 
 void carp_ht_cleanup (carp_ht *h) {
+
+  //TODO: Definitely leaks memory.
   assert(h != NULL);
 
   free(h->buckets);
