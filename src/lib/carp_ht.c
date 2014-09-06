@@ -209,8 +209,10 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
 	fprintf(stderr, "Could not resize.\n");
 	return 1;
       }
-      else
+      else {
 	carp_ht_set(h, key, value);
+	return 0;
+      }
     }
 
     base = base->next;
@@ -252,14 +254,17 @@ short int carp_ht_resize (carp_ht *h) {
 
   for (long i = 0; i < h->size; i++)
     if (h->buckets[i]) {
-      const char *key = h->buckets[i]->key;
-      unsigned long hash = carp_ht_hash(key, h->size);
-      printf("adding [%ld] %s\n", hash, key);
-
-      /* newh.buckets[hash].used = 1; */
-      /* strncpy(newh.buckets[hash].key, key, strlen(key)); */
-      /* newh.buckets[hash].value = h->buckets[i].value; */
-      newh.buckets[i] = h->buckets[i];
+      carp_ht_entry *base = h->buckets[i];
+      while (base) {
+	const char *key = base->key;
+	unsigned long hash = carp_ht_hash(key, h->size);
+	printf("adding [%ld] %s, ", hash, key);
+	carp_ht_set(&newh, base->key, base->value);
+	carp_ht_entry *next = base->next;
+	free(base);
+	base = next;
+      }
+      printf("\n");
     }
 
   free(h->buckets);
@@ -290,6 +295,14 @@ void carp_ht_cleanup (carp_ht *h) {
 
   //TODO: Definitely leaks memory.
   assert(h != NULL);
-
+  for (long i = 0; i < h->size; i++)
+    if (h->buckets[i]) {
+      carp_ht_entry *base = h->buckets[i];
+      while (base) {
+	carp_ht_entry *next = base->next;
+	free(base);
+        base = next;
+      }
+    }
   free(h->buckets);
 }
