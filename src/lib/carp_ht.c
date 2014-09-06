@@ -107,7 +107,7 @@ int main () {
 }
 
 // djb2 raw hash
-static unsigned long carp_ht_rhash (const char *str, long size) {
+static unsigned long carp_ht_rhash (const char *str) {
   assert(str != NULL);
 
   unsigned long hash = 5381;
@@ -122,7 +122,7 @@ static unsigned long carp_ht_rhash (const char *str, long size) {
 static unsigned long carp_ht_hash (const char *str, long size) {
   assert(str != NULL);
 
-  return carp_ht_rhash(str, size) % size;
+  return carp_ht_rhash(str) % size;
 }
 
 static short int carp_ht_used (carp_ht *h) {
