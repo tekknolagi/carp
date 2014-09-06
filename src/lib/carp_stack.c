@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include "carp_stack.h"
 
 static carp_bool carp_stack_full (carp_stack *);
@@ -106,7 +107,7 @@ void carp_stack_print (carp_stack *s, FILE *fp) {
   fprintf(fp, "[ ");
 
   for (carp_value i = 0; i < (*s->height); i++)
-    fprintf(fp, "%lld ", s->contents[i]);
+    fprintf(fp, "%" PRId64 " ", s->contents[i]);
 
   fprintf(fp, "]\n");
 }
