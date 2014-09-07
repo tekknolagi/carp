@@ -27,7 +27,7 @@ int main () {
 
   carp_ht_print(&h);
 
-  res = carp_ht_get(&h, "butts");
+  res = carp_ht_get(&h, "halp");
   printf("get status: %d\n", res == NULL);
 
   status = carp_ht_del(&h, "butts");
