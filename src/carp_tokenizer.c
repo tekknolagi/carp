@@ -156,10 +156,10 @@ carp_bool is_sign (char c) {
 carp_bool is_num (const char *s) {
   assert(s != NULL);
 
-  if (!(is_sign(s[0]) || isdigit(s[0]))) return 0;
+  if (!(is_sign(s[0]) || isdigit((int) s[0]))) return 0;
 
   for (int i = 1; i < strlen(s); i++)
-    if (!isdigit(s[i])) return 0;
+    if (!isdigit((int) s[i])) return 0;
 
   return 1;
 }
