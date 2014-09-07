@@ -6,25 +6,31 @@ static short int carp_ht_used (carp_ht *);
 
 int main () {
   carp_ht h;
-  int status;
+  int status = 0;
+  carp_ht_entry *res = NULL;
 
   carp_ht_init(&h, 10);
 
-  carp_ht_set(&h, "Maxwell\0", 17);
-  carp_ht_set(&h, "llewxaM\0", 18);
-  carp_ht_set(&h, "axwellM\0", 19);
-  carp_ht_set(&h, "a\0", 19);
-  carp_ht_set(&h, "b\0", 19);
-  carp_ht_set(&h, "c\0", 19);
-  carp_ht_set(&h, "d\0", 19);
-  carp_ht_set(&h, "e\0", 19);
-  carp_ht_set(&h, "f\0", 19);
-  carp_ht_set(&h, "g\0", 19);
-  carp_ht_set(&h, "h\0", 19);
+  carp_ht_set(&h, "halp", 5);
+  carp_ht_set(&h, "Maxwell", 17);
+  carp_ht_set(&h, "clouds yeah", 9);
+  /* carp_ht_set(&h, "llewxaM", 18); */
+  /* carp_ht_set(&h, "axwellM", 19); */
+  carp_ht_set(&h, "a", 19);
+  carp_ht_set(&h, "b", 19);
+  carp_ht_set(&h, "c", 19);
+  carp_ht_set(&h, "d", 19);
+  carp_ht_set(&h, "e", 19);
+  carp_ht_set(&h, "f", 19);
+  carp_ht_set(&h, "g", 19);
+  carp_ht_set(&h, "h", 19);
 
   carp_ht_print(&h);
 
-  status = carp_ht_del(&h, "Maxwell\0");
+  res = carp_ht_get(&h, "butts");
+  printf("get status: %d\n", res == NULL);
+
+  status = carp_ht_del(&h, "butts");
   printf("del status: %d\n", status);
 
   carp_ht_print(&h);
@@ -85,8 +91,7 @@ short int carp_ht_del (carp_ht *h, const char *key) {
   assert(key != NULL);
 
   unsigned long hash = carp_ht_hash(key, h->size);
-  carp_ht_entry *base = h->buckets[hash];
-  carp_ht_entry *prev = NULL;
+  carp_ht_entry *base = carp_ht_get(h, key);
 
   // nothing in hashed bucket; error
   if (base == NULL) return 1;
@@ -98,19 +103,17 @@ short int carp_ht_del (carp_ht *h, const char *key) {
   }
 
   else {
-    // look for bucket in chain
-    while (strcmp(base->key, key) != 0) {
-      // not found
-      if (base->next == NULL) return 2;
+    while (base->next) {
+      if (strcmp(base->next->key, key) != 0) {
+	carp_ht_entry *ptr = base->next;
+	base->next = ptr->next;
+	free(ptr);
+      }
 
-      prev = base;
       base = base->next;
     }
 
-    // if base is last, then next is NULL
-    // if base is not last, then next is next in chain
-    prev->next = base->next;
-    free(base);
+    return 2;
   }
 
   return 0;
@@ -148,7 +151,7 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
       base = base->next;
     }
 
-    base->next = calloc(1, sizeof base->next);
+    base->next = calloc(1, sizeof *base->next);
     base = base->next;
   }
 
@@ -167,8 +170,7 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   carp_ht_entry *base = h->buckets[hash];
 
   while (base && strcmp(base->key, key) != 0) {
-    if (hash >= h->size) return NULL; // not found
-
+    printf("looking at %s\n", base->key);
     base = base->next;
   }
 
@@ -214,9 +216,10 @@ void carp_ht_print (carp_ht *h) {
   for (long int i = 0; i < h->size; i++)
     if (h->buckets[i]) {
       carp_ht_entry *base = h->buckets[i];
-      do {
+      while (base) {
 	printf("  [%ld] \"%s\": %lld,", i, base->key, base->value);
-      } while ((base = base->next));
+	base = base->next;
+      }
       printf("\n");
     }
 
