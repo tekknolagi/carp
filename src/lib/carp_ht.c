@@ -16,21 +16,21 @@ int main () {
   carp_ht_set(&h, "clouds yeah", 9);
   /* carp_ht_set(&h, "llewxaM", 18); */
   /* carp_ht_set(&h, "axwellM", 19); */
-  carp_ht_set(&h, "a", 19);
-  carp_ht_set(&h, "b", 19);
-  carp_ht_set(&h, "c", 19);
-  carp_ht_set(&h, "d", 19);
-  carp_ht_set(&h, "e", 19);
-  carp_ht_set(&h, "f", 19);
-  carp_ht_set(&h, "g", 19);
-  carp_ht_set(&h, "h", 19);
+  /* carp_ht_set(&h, "a", 19); */
+  /* carp_ht_set(&h, "b", 19); */
+  /* carp_ht_set(&h, "c", 19); */
+  /* carp_ht_set(&h, "d", 19); */
+  /* carp_ht_set(&h, "e", 19); */
+  /* carp_ht_set(&h, "f", 19); */
+  /* carp_ht_set(&h, "g", 19); */
+  /* carp_ht_set(&h, "h", 19); */
 
   carp_ht_print(&h);
 
   res = carp_ht_get(&h, "halp");
   printf("get status: %d\n", res == NULL);
 
-  status = carp_ht_del(&h, "butts");
+  status = carp_ht_del(&h, "halp");
   printf("del status: %d\n", status);
 
   carp_ht_print(&h);
