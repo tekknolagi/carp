@@ -1,15 +1,22 @@
 #include <getopt.h>
 
 #include "carp_machine.h"
-#include "carp.h"
 
-#define CARP_VERSION 0.2
+#define CARP_VERSION 0.3
 
 static void carp_print_version ();
 static void carp_print_license ();
 static void carp_print_warranty ();
 static void carp_print_conditions ();
 static void carp_print_help ();
+
+typedef struct carp_option_s {
+  short int version;
+  short int license;
+  short int warranty;
+  short int conditions;
+  char *file;
+} carp_option;
 
 /*
   Main Carp interpreter.
