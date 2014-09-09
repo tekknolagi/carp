@@ -1,50 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+
+#include "carp_registers.h"
+#include "carp_instructions.h"
 #include "carp_tokenizer.h"
 
-carp_tok *carp_lex_tokenize (char *fn) {
+static char *file_read (const char *);
+static carp_bool is_sign (char);
+static carp_bool is_num (const char *);
+static carp_bool is_reg (const char *);
+static carp_bool is_label (const char *);
+static carp_bool is_var (const char *);
+static carp_bool is_instr (const char *);
+
+/*
+  Reads a whole file into memory (really should change to line-by-line), then goes through and
+  copies lexemes, types, and program positions in.
+*/
+carp_tok *carp_lex_tokenize (const char *fn) {
   assert(fn != NULL);
 
   char *str = file_read(fn);
+
+  assert(str != NULL);
+
   char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
+
+  // empty file, so skip the pain and halt with success
+  // there must be a cleaner way to do this
+  if (toks == NULL) {
+    exit(EXIT_SUCCESS);
+  }
+
   int toks_len = 0;
 
   carp_id type;
-  carp_tok *parsed = malloc(sizeof(carp_tok));
+  carp_tok *parsed = malloc(sizeof *parsed);
   carp_tok *head = parsed;
-  long long i = 0;
+  carp_tok *lookbehind = NULL;
+  carp_value i = 0;
 
+  if (parsed == NULL) {
+    fprintf(stderr, "Could not allocate memory for token.\n");
+    return NULL;
+  }
 
   while (toks != NULL) {
     toks_len = strlen(toks);
-    if (is_num(toks))
-      type = ct(NUM);
-    else if (is_reg(toks))
-      type = ct(REG);
-    else if (is_label(toks))
-      type = ct(LBL);
-    else if (is_func(toks))
-      type = ct(FUNC);
-    else if (is_var(toks))
-      type = ct(VAR);
-    else if (is_instr(toks))
-      type = ct(INSTR);
-    else
-      type = ct(UNDEF);
 
-    // don't copy colon
-    if (type == ct(LBL)) {
+    if (is_num(toks))
+      type = CARP_T(NUM);
+
+    else if (is_reg(toks))
+      type = CARP_T(REG);
+
+    else if (is_label(toks))
+      type = CARP_T(LBL);
+
+    else if (lookbehind != NULL && strcmp(lookbehind->lexeme, "call") == 0)
+      type = CARP_T(FUNC);
+
+    else if (is_var(toks))
+      type = CARP_T(VAR);
+
+    else if (is_instr(toks))
+      type = CARP_T(INSTR);
+
+    else
+      type = CARP_T(UNDEF);
+
+    // don't copy colon at end
+    if (type == CARP_T(LBL)) {
       memcpy(parsed->lexeme, toks, toks_len - 1);
-      parsed->lexeme[ toks_len - 1 ] = 0;
+      parsed->lexeme[toks_len - 1] = 0;
     }
-    // don't copy @
-    else if (type == ct(REG) || type == ct(FUNC) || type == ct(VAR)) {
+
+    // don't copy proposed $ at start
+    else if (type == CARP_T(VAR)) {
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
-      parsed->lexeme[ toks_len - 1 ] = 0;
+      parsed->lexeme[toks_len - 1] = 0;
     }
+
     // nothing to avoid
     else {
       memcpy(parsed->lexeme, toks, toks_len);
-      parsed->lexeme[ toks_len ] = 0;
+      parsed->lexeme[toks_len] = 0;
     }
 
     parsed->type = type;
@@ -53,7 +97,8 @@ carp_tok *carp_lex_tokenize (char *fn) {
 
     toks = strtok(NULL, delim);
     if (toks != NULL) {
-      parsed->next = malloc(sizeof(carp_tok));
+      parsed->next = malloc(sizeof *parsed->next);
+      lookbehind = parsed;
       parsed = parsed->next;
     }
   }
@@ -63,89 +108,120 @@ carp_tok *carp_lex_tokenize (char *fn) {
   return head;
 }
 
-void carp_lex_cleanup (carp_tok *tokens) {
-  assert(tokens != NULL);
-
-  carp_tok *tmp;
-
-  while (tokens != NULL) {
-    tmp = tokens->next;
-    free(tokens);
-    tokens = tmp;
-  }
-}
-
-void *file_read (char *fn) {
+/*
+  Reads a whole file and returns a pointer to its contents.
+*/
+char *file_read (const char *fn) {
   assert(fn != NULL);
 
   char *contents;
   long long fsize;
 
-  FILE *fp = fopen(fn, "rb");
-  assert(fp != NULL);
+  FILE *fp = fopen(fn, "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Could not open file `%s' for reading.\n", fn);
+    exit(EXIT_FAILURE);
+  }
 
   fseek(fp, 0, SEEK_END); // go to end
   fsize = ftell(fp);
   fseek(fp, 0, SEEK_SET); // go to beginning
 
-  contents = malloc(fsize * sizeof(char));
+  contents = malloc(fsize * sizeof *contents);
   if (contents == NULL) {
     fprintf(stderr, "Could not malloc space for file contents.\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
-  int nread = fread(contents, sizeof(char), fsize, fp);
-  assert(nread == fsize);
+  size_t nread = fread(contents, sizeof *contents, fsize, fp);
+  if (nread != fsize) {
+    fprintf(stderr, "WARNING: Something was wonky while reading this file.\n");
+  }
+
   fclose(fp);
 
   return contents;
 }
 
-int is_sign (char c) {
+/*
+  Returns true if the character is a numeric sign.
+*/
+carp_bool is_sign (char c) {
   return c == '+' || c == '-';
 }
 
-int is_num (char *s) {
+/*
+  Returns true if the string contains all numbers (can start with a sign).
+*/
+carp_bool is_num (const char *s) {
   assert(s != NULL);
 
-  if (!(is_sign(s[0]) || isdigit(s[0]))) return 0;
+  if (!(is_sign(s[0]) || isdigit((int) s[0]))) return 0;
 
   for (int i = 1; i < strlen(s); i++)
-    if (!isdigit(s[i])) return 0;
+    if (!isdigit((int) s[i])) return 0;
 
   return 1;
 }
 
-char *is_reg (char *s) {
+/*
+  Returns true if the string is in the registers list.
+*/
+carp_bool is_reg (const char *s) {
   assert(s != NULL);
 
-  return strchr(s, '%');
+  return carp_reg_lookup(s) != CARP_REG_UNDEF;
 }
 
-char *is_label (char *s) {
+/*
+  Returns true if the string has a : in it.
+*/
+carp_bool is_label (const char *s) {
   assert(s != NULL);
 
-  return strchr(s, ':');
+  return strchr(s, ':') != NULL;
 }
 
-char *is_func (char *s) {
+/*
+  Returns true if the string has a $ in it.
+*/
+carp_bool is_var (const char *s) {
   assert(s != NULL);
 
-  return strchr(s, '@');
+  return strchr(s, '$') != NULL;
 }
 
-char *is_var (char *s) {
+/*
+  Returns true if the string is in the instructions list.
+*/
+carp_bool is_instr (const char *s) {
   assert(s != NULL);
 
-  return strchr(s, '$');
+  return carp_instr_lookup(s) != CARP_INSTR_UNDEF;
 }
 
-int is_instr (char *s) {
+/*
+  Uses strcmp to look up regs. Could probably use a hashtable.
+*/
+carp_reg carp_reg_lookup (const char *s) {
+  assert(s != NULL);
+
+  for (int i = 0; i < CARP_NUM_REGS; i++)
+    if (!strcmp(carp_reverse_reg[i], s))
+      return i;
+
+  return CARP_REG_UNDEF;
+}
+
+/*
+  Uses strcmp to look up instrs. Could probably use a hashtable.
+*/
+carp_instr carp_instr_lookup (const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)
     if (!strcmp(carp_reverse_instr[i], s))
-      return 1;
+      return i;
 
-  return 0;
+  return CARP_INSTR_UNDEF;
 }

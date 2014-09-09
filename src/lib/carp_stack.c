@@ -1,6 +1,12 @@
+#include <inttypes.h>
 #include "carp_stack.h"
 
-int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
+static carp_bool carp_stack_full (carp_stack *);
+
+/*
+  Initialize the stack with pointer to the height and initial height.
+*/
+carp_bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_height) {
   assert(s != NULL);
   assert(height != NULL);
   assert(max_height > 0);
@@ -8,58 +14,66 @@ int carp_stack_init (carp_stack *s, long long *height, long long max_height) {
   s->max_height = max_height;
   s->height = height;
 
-  long long *contents = calloc(max_height, sizeof(*contents));
+  carp_value *contents = calloc(max_height, sizeof *contents);
   if (contents == NULL)
-    return -1;
+    return 1;
 
   s->contents = contents;
   return 0;
 }
 
-// boolean
-int carp_stack_empty (carp_stack *s) {
+/*
+  Return true if the height is 0 (meaning the stack is empty).
+*/
+carp_bool carp_stack_empty (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == 0;
 }
 
-// boolean
-int carp_stack_full (carp_stack *s) {
+/*
+  Return true if the height is the max height (meaning the stack is full).
+*/
+static carp_bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;
 }
 
-int carp_stack_push (carp_stack *s, long long i) {
+/*
+  Push value onto the stack. Return 0 if stack push succeeds.
+*/
+carp_bool carp_stack_push (carp_stack *s, carp_value i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
     // give stack 2n + 1 its existing space, hopefully more efficiently allocating
-    long long *contents = realloc(s->contents, (2*(*s->height) + 1) * sizeof(*contents));
-    if (contents == NULL)
-      return -1;
+    carp_value new_height = 2*s->max_height + 1;
+    carp_value *new_contents = realloc(s->contents, new_height * sizeof *new_contents);
+    if (new_contents == NULL)
+      return 1;
 
-    // and of course update max_height
-    s->max_height *= 2;
-    s->max_height++;
-
-    // and update the pointer
-    s->contents = contents;
+    // if all is well, update pointer and capacity
+    s->max_height = new_height;
+    s->contents = new_contents;
   }
 
-  // in either case, push a value and increase the height
+  assert(!carp_stack_full(s));
+  // push the value and increase the height
   s->contents[(*s->height)] = i;
   (*s->height)++;
 
   return 0;
 }
 
-// pop top into external variable
-int carp_stack_pop (carp_stack *s, long long *v) {
+/*
+  Pop the top of the stack into v. Return 0 if stack pop succeeds.
+*/
+carp_bool carp_stack_pop (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
-    return -1;
+    return 1;
   else {
     (*s->height)--;
     *v = s->contents[(*s->height)];
@@ -67,27 +81,40 @@ int carp_stack_pop (carp_stack *s, long long *v) {
   }
 }
 
-// peek top into external variable
-int carp_stack_peek (carp_stack *s, long long *v) {
+/*
+  Peek the top of the stack into v. Return 0 if the peek succeeds.
+*/
+carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s)) 
-    return -1;
+    return 1;
   else
     *v = s->contents[(*s->height) - 1];
 
   return 0;
 }
 
-void carp_stack_print (carp_stack *s) {
-  printf("[ ");
+/*
+  Print the contents of the stack onto stdout.
+*/
+void carp_stack_print (carp_stack *s, FILE *fp) {
+  assert(s != NULL);
 
-  for (long long i = 0; i < (*s->height); i++)
-    printf("%lld ", s->contents[i]);
+  if (fp == NULL)
+    fp = stdout;
 
-  printf("]\n");
+  fprintf(fp, "[ ");
+
+  for (carp_value i = 0; i < (*s->height); i++)
+    fprintf(fp, "%" PRId64 " ", s->contents[i]);
+
+  fprintf(fp, "]\n");
 }
 
+/*
+  Clean up the stack memory.
+*/
 void carp_stack_cleanup (carp_stack *s) {
   assert(s != NULL);
 

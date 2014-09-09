@@ -1,11 +1,7 @@
-#ifndef CARP_TOK_H
-#define CARP_TOK_H
+#ifndef CARP_TOKENIZER_H
+#define CARP_TOKENIZER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <assert.h>
+#include "lib/carp_types.h"
 
 #include "carp_registers.h"
 #include "carp_instructions.h"
@@ -13,16 +9,16 @@
 #define CARP_TOK_WORD_LENGTH 10
 
 // shortcut
-#define ct(x) CARP_TOK_##x
+#define CARP_T(x) CARP_TOK_##x
 
 typedef enum {
-  ct(UNDEF),
-  ct(NUM),
-  ct(REG),
-  ct(LBL),
-  ct(FUNC),
-  ct(VAR),
-  ct(INSTR),
+  CARP_T(UNDEF),
+  CARP_T(NUM),
+  CARP_T(REG),
+  CARP_T(LBL),
+  CARP_T(FUNC),
+  CARP_T(VAR),
+  CARP_T(INSTR),
 } carp_id;
 
 static char carp_reverse_type[][6] = {
@@ -32,22 +28,14 @@ static char carp_reverse_type[][6] = {
 typedef struct carp_tok_s {
   char lexeme[CARP_TOK_WORD_LENGTH];
   carp_id type;
-  long long pos;
-  long long value;
+  carp_value pos;
+  carp_value value;
 
   struct carp_tok_s *next;
 } carp_tok;
 
-carp_tok *carp_lex_tokenize (char *);
-void carp_lex_cleanup (carp_tok *);
-void *file_read (char *);
-int is_sign (char);
-int is_num (char *);
-char *is_reg (char *);
-char *is_label (char *);
-char *is_func (char *);
-char *is_var (char *);
-int is_instr (char *);
-
+carp_tok *carp_lex_tokenize (const char *);
+carp_reg carp_reg_lookup (const char *);
+carp_instr carp_instr_lookup (const char *);
 
 #endif

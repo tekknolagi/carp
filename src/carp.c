@@ -1,8 +1,19 @@
 #include <getopt.h>
 
+#include "carp_machine.h"
 #include "carp.h"
-#include "carp_lexer.h"
 
+#define CARP_VERSION 0.2
+
+static void carp_print_version ();
+static void carp_print_license ();
+static void carp_print_warranty ();
+static void carp_print_conditions ();
+static void carp_print_help ();
+
+/*
+  Main Carp interpreter.
+*/
 int main (int argc, char **argv) {
   static struct option long_options[] = {
     {"version", 0, 0, 'v'},
@@ -25,7 +36,7 @@ int main (int argc, char **argv) {
       printf("option %s", long_options[option_index].name);
       if (optarg)
 	printf(" with arg %s", optarg);
-      puts("");
+      putchar('\n');
       break;
 
     case 'v':
@@ -64,45 +75,44 @@ int main (int argc, char **argv) {
     }
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
+/*
+  Print Carp software version.
+*/
 void carp_print_version () {
   printf("carp %1.1f\n", CARP_VERSION);
 }
 
+/*
+  Print part of the license and directions to find full license.
+ */
 void carp_print_license () {
   puts("carp  Copyright (C) 2014  Maxwell Bernstein\n\
     This program comes with ABSOLUTELY NO WARRANTY; for details type `carp -w'.\n\
     This is free software, and you are welcome to redistribute it\n\
     under certain conditions; type `carp -c' for details.");
+  puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
 }
 
+/*
+  Print warranty.
+*/
 void carp_print_warranty () {
   puts("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.");
 }
 
+/*
+  Print conditions.
+*/
 void carp_print_conditions () {
   puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
 }
 
-void carp_run_program (char *fn) {
-  carp_tok *tokens = carp_lex_tokenize(fn);
-
-  //for (carp_tok* tt = tokens; tt; tt = tt->next)
-  //printf("%s %d\n", tt->lexeme, tt->type);
-
-  if (tokens == NULL) {
-    fprintf(stderr, "Something went wrong with tokenization.\n");
-    exit(1);
-  }
-
-  carp_machine_state m;
-  carp_lex_lex(&m, tokens);
-  carp_vm_run(&m);
-  carp_vm_cleanup(&m);
-}
-
+/*
+  Print the help message.
+*/
 void carp_print_help () {
   puts("Usage:");
   puts("-v, --version\n\tsee version number");

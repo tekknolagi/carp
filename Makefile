@@ -1,22 +1,46 @@
 CC ?= gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
-CFLAGS = -c -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security -static $(NDEBUG)
-SRCS = src/carp_instructions.c src/carp_lexer.c src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c src/lib/carp_ht.c
+CFLAGS = -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security $(NDEBUG)
+SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
+	src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c \
+	src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
+TESTS=$(wildcard tests/*.c tests/instr/*.c)
+TESTS_OUTS=$(TESTS:.c=.out)
 
-all:
-	$(CC) $(CFLAGS) $(SRCS)
+all: build clean_objs test
+
+build:
+	$(CC) -c $(CFLAGS) $(SRCS)
 	ar cr libcarp.a $(OBJS)
-	$(CC) -g -std=c99 src/carp.c libcarp.a -o $(PROG)
-	make clean_objs
+	$(CC) $(CFLAGS) src/carp.c libcarp.a -o $(PROG)
 
-#.PHONY: tests
+libtap:
+	cd tests/libtap && make
 
-#tests:
-#	gcc tests/stack.c libcarp.a ../libtap/tap.c -o tests/stack
+clean_libtap:
+	cd tests/libtap && make clean
+
+test: build libtap clean_tests $(TESTS_OUTS) run_tests
+
+tests/%.out: tests/%.c
+	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
+
+tests/instr/%.out: tests/instr/%.c
+	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
+
+run_tests:
+	for file in $(TESTS_OUTS); do	\
+		echo $$file;	\
+		./$$file; 	\
+		echo; 		\
+	done
+
+clean_tests:
+	rm -f $(TESTS_OUTS)
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/include/carp
@@ -39,8 +63,12 @@ clean_libs:
 
 clean_objs:
 	find . -name "*.o"	\
-	 | xargs rm -f
+	-o -name "*.dSYM"	\
+	 | xargs rm -rf
 
-clean:
-	make clean_objs
-	rm -f $(PROG)
+clean_outs:
+	find . -name "*.out"	\
+	| xargs rm -f
+
+clean: clean_objs clean_libtap
+	rm -f $(PROG) libcarp.a

@@ -1,14 +1,15 @@
 add:
-	gload -5
-	gload -4
+	load -4
+	load -3
 	add
+	pop ax
 	ret
 
 main:
-	load %reg0, 7
-	pushr %reg0
-	load %reg1, 9
-	pushr %reg1
-	call @add, 2
-	ptop
+	loadr r0, 7
+	pushr r0
+	loadr r1, 9
+	pushr r1
+	call add
+	preg ax
 	halt 0

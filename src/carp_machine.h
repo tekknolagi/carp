@@ -1,92 +1,64 @@
 #ifndef CARP_MACHINE_H
 #define CARP_MACHINE_H
 
-#include <stdlib.h>
-#include <assert.h>
-
-#include "carp_registers.h"
-#include "carp_instructions.h"
+#include "lib/carp_types.h"
 #include "lib/carp_stack.h"
 #include "lib/carp_ht.h"
 
-#define CARP_VM_NO_MAIN "Could not find main."
-
-#define CARP_EXIT_STACK_FAILED "Could not initialize stack."
-#define CARP_STACK_NO_MEM  "Not enough memory."
-#define CARP_STACK_EMPTY "Carp stack is empty."
-
-#define CARP_HT_DNE "Variable not defined."
-#define CARP_HT_NO_MEM "Not enough memory."
-#define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
+#include "carp_registers.h"
+#include "carp_instructions.h"
 
 typedef struct carp_machine_state_s {
-  long long regs[CARP_NUM_REGS];
+  carp_value regs[CARP_NUM_REGS];
   carp_stack stack;
   carp_ht vars;
   carp_ht labels;
 
-  // bool
-  int running;
-  long long *code;
+  carp_value *code;
 } carp_machine_state;
 
-void carp_vm_init (carp_machine_state *, long, long long);
+void carp_vm_init (carp_machine_state *, long, carp_value);
 void carp_vm_make (carp_machine_state *);
-void carp_vm_load (carp_machine_state *, long long [], long long);
+void carp_vm_load (carp_machine_state *, carp_value [], carp_value);
 void carp_vm_eval (carp_machine_state *);
-void carp_vm_run (carp_machine_state *);
-long long carp_vm_next (carp_machine_state *);
+carp_value carp_vm_run (carp_machine_state *);
+carp_value carp_vm_next (carp_machine_state *);
 void carp_vm_err (carp_machine_state *, char *);
 void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);
 
+carp_value carp_run_program (const char *);
+
 // shortcut so I don't have to keep copy/pasting declarations & definitions
-#define definstr(x) void carp_instr_##x (carp_machine_state *m)
+#define CARP_IDEF(x) void carp_instr_##x (carp_machine_state *m)
+// #define CARP_IDECL(x) void carp_instr_##x (carp_machine_state *)
 
 // this is where the declaration/definition macro comes in handy
-definstr(HALT);
-definstr(NOP);
-definstr(LOAD); definstr(GLOAD);
-definstr(MOV);
-definstr(ADD); definstr(SUB); definstr(MUL);
-definstr(MOD);
-definstr(NOT); definstr(XOR); definstr(OR); definstr(AND);
-definstr(INCR); definstr(DECR);
-definstr(INC); definstr(DEC);
-definstr(PUSHR);
-definstr(PUSH); definstr(POP);
-definstr(CMP); definstr(LT); definstr(GT);
-definstr(JZ); definstr(RJZ);
-definstr(JNZ); definstr(RJNZ);
-definstr(JMP); definstr(RJMP);
-definstr(DBS); definstr(DBG);
-definstr(CALL); definstr(RET);
-definstr(PREG); definstr(PTOP);
+CARP_IDEF(HALT);
+CARP_IDEF(NOP);
+CARP_IDEF(LOADR); CARP_IDEF(LOAD); CARP_IDEF(STORE);
+CARP_IDEF(MOV);
+CARP_IDEF(ADD); CARP_IDEF(SUB); CARP_IDEF(MUL);
+CARP_IDEF(MOD);
+CARP_IDEF(SHR); CARP_IDEF(SHL);
+CARP_IDEF(NOT); CARP_IDEF(XOR); CARP_IDEF(OR); CARP_IDEF(AND);
+CARP_IDEF(INCR); CARP_IDEF(DECR);
+CARP_IDEF(INC); CARP_IDEF(DEC);
+CARP_IDEF(PUSHR);
+CARP_IDEF(PUSH); CARP_IDEF(POP);
+CARP_IDEF(CMP); CARP_IDEF(LT); CARP_IDEF(GT);
+CARP_IDEF(JZ); CARP_IDEF(RJZ);
+CARP_IDEF(JNZ); CARP_IDEF(RJNZ);
+CARP_IDEF(JMP); CARP_IDEF(RJMP);
+CARP_IDEF(DBS); CARP_IDEF(DBG);
+CARP_IDEF(CALL); CARP_IDEF(RET);
+CARP_IDEF(PREG); CARP_IDEF(PTOP); CARP_IDEF(PVARS);
 
-// shortcut so I don't have to keep copy/pasting array indices & whatnot
-#define assigninstr(x) [CARP_INSTR_##x] = carp_instr_##x
+// pointer to carp_instruction function
+typedef void (*carp_instruction_f) (carp_machine_state *);
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
-static void (*carp_instructions[]) (carp_machine_state *) = {
-  assigninstr(HALT),
-  assigninstr(NOP),
-  assigninstr(LOAD), assigninstr(GLOAD),
-  assigninstr(MOV),
-  assigninstr(ADD), assigninstr(SUB), assigninstr(MUL),
-  assigninstr(MOD),
-  assigninstr(NOT), assigninstr(XOR), assigninstr(OR), assigninstr(AND),
-  assigninstr(INCR), assigninstr(DECR),
-  assigninstr(INC), assigninstr(DEC),
-  assigninstr(PUSHR),
-  assigninstr(PUSH), assigninstr(POP),
-  assigninstr(CMP), assigninstr(LT), assigninstr(GT),
-  assigninstr(JZ), assigninstr(RJZ),
-  assigninstr(JNZ), assigninstr(RJNZ),
-  assigninstr(JMP), assigninstr(RJMP),
-  assigninstr(DBS), assigninstr(DBG),
-  assigninstr(CALL), assigninstr(RET),
-  assigninstr(PREG), assigninstr(PTOP),
-};
+carp_instruction_f carp_instructions[CARP_NUM_INSTRS];
 
 #endif

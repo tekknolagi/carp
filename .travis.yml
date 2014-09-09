@@ -1,0 +1,5 @@
+language: c
+compiler:
+  - gcc
+  - clang
+script: git submodule init && git submodule update && make

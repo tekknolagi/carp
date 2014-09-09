@@ -1,0 +1,8 @@
+fact:	load -5
+	ptop
+	ret
+
+main:	loadr r0, 1
+	loadr r1, 5
+	call fact, 1
+	halt 0

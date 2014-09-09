@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include "carp_ht.h"
 
 static unsigned long carp_ht_rhash (const char *);
@@ -204,23 +205,27 @@ short int carp_ht_resize (carp_ht *h) {
   return 0;
 }
 
-void carp_ht_print (carp_ht *h) {
+/*
+  Clean up the table memory.
+*/
+void carp_ht_cleanup (carp_ht *h, FILE *fp) {
   assert(h != NULL);
+  assert(fp != NULL);
 
-  printf("{ %d%% full (size %ld)\n", carp_ht_used(h), h->size);;
+  fprintf(fp, "{ %d%% full (size %ld)\n", carp_ht_used(h), h->size);;
 
   //TODO: Does not print along collision lists.
   for (long int i = 0; i < h->size; i++)
     if (h->buckets[i]) {
       carp_ht_entry *base = h->buckets[i];
       while (base) {
-	printf("  [%ld] \"%s\": %lld,", i, base->key, base->value);
+	fprintf(fp, "  [%ld] \"%s\": %lld,", i, base->key, base->value);
 	base = base->next;
       }
-      printf("\n");
+      fprintf(fp, "\n");
     }
 
-  printf("}\n\n");
+  fprintf(fp, "}\n\n");
 }
 
 void carp_ht_cleanup (carp_ht *h) {

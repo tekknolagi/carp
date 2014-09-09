@@ -1,30 +1,56 @@
+#include <inttypes.h>
+#include "lib/carp_messages.h"
+
+#include "carp_instructions.h"
 #include "carp_machine.h"
 
-definstr (HALT) {
+// yay macros
+
+#define CARP_SPOP(NAME) if (carp_stack_pop(&m->stack, &NAME) == 1) \
+    carp_vm_err(m, CARP_STACK_EMPTY)
+
+#define CARP_SPUSH(NAME) if (carp_stack_push(&m->stack, NAME) == 1) \
+    carp_vm_err(m, CARP_STACK_NO_MEM)
+
+#define CARP_BINOP(NAME, F) CARP_IDEF (NAME) { \
+  carp_value b, a; \
+  CARP_SPOP(b);	\
+  CARP_SPOP(a); \
+  CARP_SPUSH(a F b); }
+
+
+CARP_IDEF (HALT) {
   carp_vm_exit(m, carp_vm_next(m));
 }
 
-definstr (NOP) {
+CARP_IDEF (NOP) {
   ;
 }
 
-definstr (LOAD) {
-  long long reg = carp_vm_next(m),
+CARP_IDEF (LOADR) {
+  carp_value reg = carp_vm_next(m),
     val = carp_vm_next(m);
-  m->regs[reg] = val;
+  carp_reg_set(m->regs, reg, val);
 }
 
-definstr (GLOAD) {
-  long long reladdr = carp_vm_next(m),
-    fp = m->regs[CARP_EFP],
+CARP_IDEF (LOAD) {
+  carp_value reladdr = carp_vm_next(m),
+    fp = m->regs[CARP_FP],
     val = m->stack.contents[fp + reladdr];
   CARP_SPUSH(val);
 }
 
-definstr (MOV) {
-  long long dst = carp_vm_next(m),
+CARP_IDEF (STORE) {
+  carp_value reladdr = carp_vm_next(m),
+    val = carp_vm_next(m),
+    fp = m->regs[CARP_FP];
+  m->stack.contents[fp + reladdr] = val;
+}
+
+CARP_IDEF (MOV) {
+  carp_value dst = carp_vm_next(m),
     src = carp_vm_next(m);
-  m->regs[dst] = m->regs[src];
+  carp_reg_set(m->regs, dst, m->regs[src]);
 }
 
 CARP_BINOP (ADD, +)
@@ -33,17 +59,16 @@ CARP_BINOP (SUB, -)
 
 CARP_BINOP (MUL, *)
 
-definstr (MOD) {
-  long long a = m->regs[carp_vm_next(m)],
-    b = m->regs[carp_vm_next(m)];
+CARP_BINOP (MOD, %)
 
-  m->regs[CARP_ERX] = a % b;
-}
+CARP_BINOP (SHR, >>)
 
-definstr (NOT) {
-  long long *reg = &m->regs[carp_vm_next(m)];
+CARP_BINOP (SHL, <<)
 
-  *reg = ~(*reg);
+CARP_IDEF (NOT) {
+  carp_value val;
+  CARP_SPOP(val);
+  CARP_SPUSH(~val);
 }
 
 CARP_BINOP (XOR, ^)
@@ -52,164 +77,124 @@ CARP_BINOP (OR, |)
 
 CARP_BINOP (AND, &)
 
-definstr (INCR) {
-  long long reg = carp_vm_next(m);
-  m->regs[reg]++;
+CARP_IDEF (INCR) {
+  carp_reg_inc(m->regs, carp_vm_next(m));
 }
 
-definstr (DECR) {
-  long long reg = carp_vm_next(m);
-  m->regs[reg]--;
+CARP_IDEF (DECR) {
+  carp_reg_dec(m->regs, carp_vm_next(m));
 }
 
-definstr (INC) {
-  long long a;
+CARP_IDEF (INC) {
+  carp_value a;
   CARP_SPOP(a);
   CARP_SPUSH(a + 1);
 }
 
-definstr (DEC) {
-  long long a;
+CARP_IDEF (DEC) {
+  carp_value a;
   CARP_SPOP(a);
   CARP_SPUSH(a - 1);
 }
 
-definstr (PUSHR) {
-  long long reg = carp_vm_next(m),
-    a = m->regs[reg];
+CARP_IDEF (PUSHR) {
+  CARP_SPUSH(*carp_reg_get(m->regs, carp_vm_next(m)));
+}
+
+CARP_IDEF (PUSH) {
+  carp_value a = carp_vm_next(m);
   CARP_SPUSH(a);
 }
 
-definstr (PUSH) {
-  long long a = carp_vm_next(m);
-  CARP_SPUSH(a);
-}
-
-definstr (POP) {
-  long long val;
+CARP_IDEF (POP) {
+  carp_value val;
   CARP_SPOP(val);
-  m->regs[CARP_GBG] = val;
+  carp_reg_set(m->regs, carp_vm_next(m), val);
 }
 
-definstr (CMP) {
-  carp_instr_POP(m);
-  long long b = m->regs[CARP_GBG];
-  carp_instr_POP(m);
-  long long a = m->regs[CARP_GBG];
-
-  m->regs[CARP_EAX] = a - b;
+CARP_IDEF (CMP) {
+  carp_value b, a;
+  CARP_SPOP(b);
+  CARP_SPOP(a);
+  CARP_SPUSH(a - b);
 }
 
 CARP_BINOP (LT, <)
 
 CARP_BINOP (GT, >)
 
-definstr (JZ) {
-  long long a;
+CARP_IDEF (JZ) {
+  carp_value a;
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_EIP] = carp_vm_next(m);
+    carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
-definstr (RJZ) {
-  long long a;
+CARP_IDEF (RJZ) {
+  carp_value a;
   CARP_SPOP(a);
   // zero
   if (!a)
-    m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+    carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
-definstr (JNZ) {
-  long long a;
+CARP_IDEF (JNZ) {
+  carp_value a;
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_EIP] = carp_vm_next(m);
+    carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
-definstr (RJNZ) {
-  long long a;
+CARP_IDEF (RJNZ) {
+  carp_value a;
   CARP_SPOP(a);
   // not zero
   if (a)
-    m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+    carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
-definstr (JMP) {
-  m->regs[CARP_EIP] = carp_vm_next(m);
+CARP_IDEF (JMP) {
+  carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
 }
 
-definstr (RJMP) {
-  m->regs[CARP_EIP] += m->code[m->regs[CARP_EIP] + 1];
+CARP_IDEF (RJMP) {
+  carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
 }
 
-definstr (DBS) {
-  char *key = (char *) carp_vm_next(m);
-  long long val = carp_vm_next(m);
+CARP_IDEF (CALL) {
+  carp_value addr = carp_vm_next(m);
 
-  carp_ht *res = carp_ht_set(&m->vars, key, val);
-  if (res == NULL)
-    carp_vm_err(m, CARP_HT_NO_MEM);
+  CARP_SPUSH(m->regs[CARP_FP]);
+  CARP_SPUSH(m->regs[CARP_IP]);
+
+  carp_reg_set(m->regs, CARP_FP, m->regs[CARP_SP]);
+  carp_reg_set(m->regs, CARP_IP, addr - 1);
 }
 
-definstr (DBG) {
-  char *key = (char *) carp_vm_next(m);
-  long long reg = carp_vm_next(m);
+CARP_IDEF (RET) {
+  carp_value state;
 
-  carp_ht *res = carp_ht_get(&m->vars, key);
-  if (res == NULL)
-    carp_vm_err(m, CARP_HT_DNE);
-
-  m->regs[reg] = res->value;
-}
-
-definstr (CALL) {
-  long long addr = carp_vm_next(m);
-  long long nargs = carp_vm_next(m);
-
-  CARP_SPUSH(nargs);
-  CARP_SPUSH(m->regs[CARP_EFP]);
-  CARP_SPUSH(m->regs[CARP_EIP]);
-
-  m->regs[CARP_EFP] = m->regs[CARP_ESP];
-  m->regs[CARP_EIP] = addr - 1;
-}
-
-definstr (RET) {
-  long long rvalue;
-  CARP_SPOP(rvalue);
-
-  long long state;
-
-  m->regs[CARP_ESP] = m->regs[CARP_EFP];
+  carp_reg_set(m->regs, CARP_SP, m->regs[CARP_FP]);
 
   CARP_SPOP(state);
-
-  m->regs[CARP_EIP] = state;
-
-  CARP_SPOP(state);
-
-  m->regs[CARP_EFP] = state;
+  carp_reg_set(m->regs, CARP_IP, state);
 
   CARP_SPOP(state);
-
-  long long nargs = state;
-  m->regs[CARP_ESP] -= nargs;
-
-  CARP_SPUSH(rvalue);
+  carp_reg_set(m->regs, CARP_FP, state);
 }
 
-definstr (PREG) {
-  int reg = carp_vm_next(m);
-  printf("%lld\n", m->regs[reg]);
+CARP_IDEF (PREG) {
+  printf("%" PRId64 "\n", *carp_reg_get(m->regs, carp_vm_next(m)));
 }
 
-definstr (PTOP) {
-  long long val;
+CARP_IDEF (PTOP) {
+  carp_value val;
 
-  if (carp_stack_peek(&m->stack, &val) == -1)
+  if (carp_stack_peek(&m->stack, &val) == 1)
     carp_vm_err(m, CARP_STACK_EMPTY);
 
-  printf("%lld\n", val);
+  printf("%" PRId64 "\n", val);
 }
+

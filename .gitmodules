@@ -1,0 +1,3 @@
+[submodule "tests/libtap"]
+	path = tests/libtap
+	url = http://github.com/tekknolagi/libtap.git
