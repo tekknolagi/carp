@@ -1,141 +1,248 @@
 #include <inttypes.h>
 #include "carp_ht.h"
 
-/*
-  Set next key to NULL.
-*/
-void carp_ht_init (carp_ht *h) {
-  assert(h != NULL);
+static unsigned long carp_ht_rhash (const char *);
+static unsigned long carp_ht_hash (const char *, long);
+static short int carp_ht_used (carp_ht *);
 
-  h->next = NULL;
+/* int main () { */
+/*   carp_ht h; */
+/*   int status = 0; */
+/*   carp_ht_entry *res = NULL; */
+/*   const char *key = "Maxwell"; */
+
+/*   carp_ht_init(&h, 10); */
+
+/*   carp_ht_set(&h, "halp", 5); */
+/*   carp_ht_set(&h, key, 17); */
+/*   carp_ht_set(&h, "clouds yeah", 9); */
+/*   carp_ht_set(&h, "llewxaM", 18); */
+/*   carp_ht_set(&h, "axwellM", 19); */
+/*   carp_ht_set(&h, "a", 19); */
+/*   carp_ht_set(&h, "b", 19); */
+/*   carp_ht_set(&h, "c", 19); */
+/*   carp_ht_set(&h, "d", 19); */
+/*   carp_ht_set(&h, "e", 19); */
+/*   carp_ht_set(&h, "f", 19); */
+/*   carp_ht_set(&h, "g", 19); */
+/*   carp_ht_set(&h, "h", 19); */
+
+/*   carp_ht_print(&h, NULL); */
+
+/*   res = carp_ht_get(&h, key); */
+
+/*   status = carp_ht_del(&h, key); */
+
+/*   carp_ht_print(&h, NULL); */
+
+/*   carp_ht_cleanup(&h); */
+/* } */
+
+// djb2 raw hash
+static unsigned long carp_ht_rhash (const char *str) {
+  assert(str != NULL);
+
+  unsigned long hash = 5381;
+  int c;
+
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+  return hash;
 }
 
-/*
-  Find and delete a key in the table. Return 0 if delete succeeds.
-*/
-carp_bool carp_ht_del (carp_ht *h, char *key) {
+static unsigned long carp_ht_hash (const char *str, long size) {
+  assert(str != NULL);
+
+  return carp_ht_rhash(str) % size;
+}
+
+static short int carp_ht_used (carp_ht *h) {
+  long in_use = 0;
+
+  for (long i = 0; i < h->size; i++) {
+    carp_ht_entry *base = h->buckets[i];
+    while (base) {
+	in_use++;
+	base = base->next;
+    }
+  }
+
+  return in_use * 100 / h->size;
+}
+
+carp_bool carp_ht_init (carp_ht *h, long size) {
   assert(h != NULL);
-  assert(key != NULL);
+  assert(size > 0);
 
-  carp_ht *res = carp_ht_get(h, key);
-  carp_ht *prev = h;
-
-  // not found
-  if (res == NULL)
+  h->size = size;
+  h->buckets = malloc(size * sizeof *h->buckets);
+  if (h->buckets == NULL)
     return 1;
 
-  while (prev->next != res)
-    prev = prev->next;
-
-  prev->next = res->next;
-  free(res);
+  for (long i = 0; i < h->size; i++)
+    h->buckets[i] = 0;
 
   return 0;
 }
 
-/*
-  Find the tail of the table.
-*/
-carp_ht *carp_ht_tail (carp_ht *h) {
-  assert(h != NULL);
-
-  carp_ht *tail = h;
-
-  while (tail->next != NULL)
-    tail = tail->next;
-
-  return tail;
-}
-
-/*
-  Set a value in the table and return a pointer to it.
-*/
-carp_ht *carp_ht_set (carp_ht *h, char *key, carp_value value) {
+carp_bool carp_ht_del (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
-  carp_ht *res = carp_ht_get(h, key);
+  unsigned long hash = carp_ht_hash(key, h->size);
+  carp_ht_entry *base = carp_ht_get(h, key);
 
-  // exists
-  if (res != NULL) {
-    res->value = value;
+  // nothing in hashed bucket; error
+  if (base == NULL) return 1;
 
-    return res;
+  // first bucket is right bucket
+  if (!strcmp(base->key, key)) {
+    h->buckets[hash] = base->next;
+    free(base);
   }
-  // does not exist
+
   else {
-    carp_ht *tail = carp_ht_tail(h);
-    tail->next = malloc(sizeof *tail->next);
-    if (tail->next == NULL)
-      return NULL;	
+    while (base->next) {
+      if (strcmp(base->next->key, key) != 0) {
+	carp_ht_entry *ptr = base->next;
+	base->next = ptr->next;
+	free(ptr);
+      }
 
-    tail = tail->next;
+      base = base->next;
+    }
 
-    tail->value = value;
-    tail->next = NULL;
-    strncpy(tail->key, key, CARP_HT_KEY_LENGTH);
-
-    return tail;
+    return 2;
   }
+
+  return 0;
 }
 
-/*
-  Get a value in the table by key and return a pointer to it.
-*/
-carp_ht *carp_ht_get (carp_ht *h, char *key) {
+
+carp_bool carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
 
-  carp_ht *res = h;
+  // too full? resize
+  if (carp_ht_used(h) > 60)
+    if (carp_ht_resize(h) == 1)
+      return 1;
 
-  while (strcmp(res->key, key) != 0) {
-    if (res->next == NULL)
-      return NULL;
-    
-    res = res->next;
+  unsigned long hash = carp_ht_hash(key, h->size);
+  carp_ht_entry *base = h->buckets[hash];
+
+  // unused bucket
+  if (base == NULL) {
+    unsigned long hash = carp_ht_hash(key, h->size);
+    h->buckets[hash] = calloc(1, sizeof *base);
+    base = h->buckets[hash];
+  }
+  // in the chain?
+  else {
+    while (base->next) {
+      if (strcmp(base->next->key, key) != 0) {
+	base->next->value = value;
+	return 0;
+      }
+
+      base = base->next;
+    }
+
+    base->next = calloc(1, sizeof *base->next);
+    base = base->next;
   }
 
-  return res;
+  strncpy(base->key, key, strlen(key));
+  base->value = value;
+  base->next = NULL;
+
+  return 0;
 }
 
-/*
-  Print the whole table in a JSON-y format.
-*/
-void carp_ht_print (carp_ht *h, FILE *fp) {
+carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   assert(h != NULL);
+  assert(key != NULL);
 
-  carp_ht *tmp = h;
+  unsigned long hash = carp_ht_hash(key, h->size);
+  carp_ht_entry *base = h->buckets[hash];
 
-  if (fp == NULL)
-    fp = stdout;
-
-  fprintf(fp, "{\n");
-
-  while (tmp != NULL) {
-    if (tmp != h)
-      fprintf(fp, "%s: %" PRId64 ",\n", tmp->key, tmp->value);
-
-    tmp = tmp->next;
+  while (base && strcmp(base->key, key) != 0) {
+    printf("looking at %s\n", base->key);
+    base = base->next;
   }
 
-  fprintf(fp, "}\n");
+  return base;
+}
+
+carp_bool carp_ht_resize (carp_ht *h) {
+  // TODO: This probably still leaks memory, did not try to free entry lists...
+  assert(h != NULL);
+
+  long newsize = 2 * h->size + 1;
+  carp_ht newh = { newsize, NULL };
+
+  newh.buckets = calloc(newsize, sizeof *newh.buckets);
+  if (newh.buckets == NULL)
+    return 1;
+
+  for (long i = 0; i < h->size; i++)
+    if (h->buckets[i]) {
+      carp_ht_entry *base = h->buckets[i];
+
+      while (base) {
+	const char *key = base->key;
+	unsigned long hash = carp_ht_hash(key, h->size);
+
+	carp_ht_set(&newh, base->key, base->value);
+	base = base->next;
+      }
+    }
+
+  carp_ht_cleanup(h);
+  h->size = newsize;
+  h->buckets = newh.buckets;
+  return 0;
 }
 
 /*
   Clean up the table memory.
 */
-void carp_ht_cleanup (carp_ht *h) {
+void carp_ht_print (carp_ht *h, FILE *fp) {
   assert(h != NULL);
 
-  carp_ht *tmp = h;
-  carp_ht *cur;
+  if (fp == NULL) fp = stdout;
 
-  while (tmp != NULL) {
-    cur = tmp->next;
-    // the head is not malloc'ed - it is just a struct
-    if (tmp != h)
-      free(tmp);
+  fprintf(fp, "{ %d%% full (size %ld)\n", carp_ht_used(h), h->size);;
 
-    tmp = cur;
-  }
+  //TODO: Does not print along collision lists.
+  for (long int i = 0; i < h->size; i++)
+    if (h->buckets[i]) {
+      carp_ht_entry *base = h->buckets[i];
+      while (base) {
+	fprintf(fp, "  [%ld] \"%s\": %lld,", i, base->key, base->value);
+	base = base->next;
+      }
+      fprintf(fp, "\n");
+    }
+
+  fprintf(fp, "}\n\n");
+}
+
+void carp_ht_cleanup (carp_ht *h) {
+  // TODO: Definitely leaks memory.
+  assert(h != NULL);
+
+  for (long i = 0; i < h->size; i++)
+    if (h->buckets[i]) {
+      carp_ht_entry *base = h->buckets[i];
+
+       while (base) {
+	carp_ht_entry *next = base->next;
+	free(base);
+        base = next;
+      }
+    }
+
+  free(h->buckets);
 }

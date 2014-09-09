@@ -32,7 +32,7 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
     carp_vm_err(m, CARP_STACK_NO_MEM);
 
   // initialize label hash table
-  carp_ht_init(&m->labels);
+  carp_ht_init(&m->labels, 10);
 }
 
 /*
@@ -45,7 +45,7 @@ void carp_vm_make (carp_machine_state *m) {
 
   carp_reg_init(m->regs);
 
-  carp_ht *res = carp_ht_get(&m->labels, "main");
+  carp_ht_entry *res = carp_ht_get(&m->labels, "main");
   if (res == NULL)
     carp_vm_err(m, CARP_VM_NO_MAIN);
 
