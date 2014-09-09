@@ -8,30 +8,29 @@ int main () {
   carp_ht h;
   int status = 0;
   carp_ht_entry *res = NULL;
+  const char *key = "Maxwell";
 
   carp_ht_init(&h, 10);
 
   carp_ht_set(&h, "halp", 5);
-  carp_ht_set(&h, "Maxwell", 17);
+  carp_ht_set(&h, key, 17);
   carp_ht_set(&h, "clouds yeah", 9);
-  /* carp_ht_set(&h, "llewxaM", 18); */
-  /* carp_ht_set(&h, "axwellM", 19); */
-  /* carp_ht_set(&h, "a", 19); */
-  /* carp_ht_set(&h, "b", 19); */
-  /* carp_ht_set(&h, "c", 19); */
-  /* carp_ht_set(&h, "d", 19); */
-  /* carp_ht_set(&h, "e", 19); */
-  /* carp_ht_set(&h, "f", 19); */
-  /* carp_ht_set(&h, "g", 19); */
-  /* carp_ht_set(&h, "h", 19); */
+  carp_ht_set(&h, "llewxaM", 18);
+  carp_ht_set(&h, "axwellM", 19);
+  carp_ht_set(&h, "a", 19);
+  carp_ht_set(&h, "b", 19);
+  carp_ht_set(&h, "c", 19);
+  carp_ht_set(&h, "d", 19);
+  carp_ht_set(&h, "e", 19);
+  carp_ht_set(&h, "f", 19);
+  carp_ht_set(&h, "g", 19);
+  carp_ht_set(&h, "h", 19);
 
   carp_ht_print(&h);
 
-  res = carp_ht_get(&h, "halp");
-  printf("get status: %d\n", res == NULL);
+  res = carp_ht_get(&h, key);
 
-  status = carp_ht_del(&h, "halp");
-  printf("del status: %d\n", status);
+  status = carp_ht_del(&h, key);
 
   carp_ht_print(&h);
 
@@ -76,7 +75,7 @@ short int carp_ht_init (carp_ht *h, long size) {
   assert(size > 0);
 
   h->size = size;
-  h->buckets = malloc(size * sizeof(carp_ht_entry *));
+  h->buckets = malloc(size * sizeof *h->buckets);
   if (h->buckets == NULL)
     return 1;
 
@@ -125,14 +124,12 @@ short int carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(key != NULL);
 
   // too full? resize
-  if (carp_ht_used(h) > 60) {
+  if (carp_ht_used(h) > 60)
     if (carp_ht_resize(h) == 1)
       return 1;
-    else if (carp_ht_set(h, key, value) != 0)
-      return 1;
-  }
 
-  carp_ht_entry *base = carp_ht_get(h, key);
+  unsigned long hash = carp_ht_hash(key, h->size);
+  carp_ht_entry *base = h->buckets[hash];
 
   // unused bucket
   if (base == NULL) {
@@ -184,7 +181,7 @@ short int carp_ht_resize (carp_ht *h) {
   long newsize = 2 * h->size + 1;
   carp_ht newh = { newsize, NULL };
 
-  newh.buckets = calloc(newsize, sizeof(*newh.buckets));
+  newh.buckets = calloc(newsize, sizeof *newh.buckets);
   if (newh.buckets == NULL)
     return 1;
 
