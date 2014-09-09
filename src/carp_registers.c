@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <inttypes.h>
 #include <assert.h>
 
 #include "carp_registers.h"
@@ -98,7 +99,7 @@ void carp_reg_print (carp_value regs[], FILE *fp) {
   fprintf(fp, "{\n");
 
   for (int i = 0; i < CARP_NUM_REGS; i++)
-    fprintf(fp, "%s: %lld,\n", carp_reverse_reg[i], regs[i]);
+    fprintf(fp, "%s: %" PRId64 ",\n", carp_reverse_reg[i], regs[i]);
 
   fprintf(fp, "}\n");
 }
