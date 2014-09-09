@@ -27,7 +27,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
   long long length = -1;
   carp_tok *tmp = tokens;
 
-  carp_ht_init(&m->labels);
+  carp_ht_init(&m->labels, 10);
 
   while (tmp != NULL) {
     switch (tmp->type) {
@@ -47,8 +47,8 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break; }
 
     case CARP_T(LBL): {
-      carp_ht *res = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
-      if (res == NULL) {
+      carp_bool status = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
+      if (status != 0) {
 	fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
 	carp_lex_exit(tokens, &m->labels, 1);
       }
@@ -58,7 +58,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break; }
 
     case CARP_T(FUNC): {
-      carp_ht *res = carp_ht_get(&m->labels, tmp->lexeme);
+      carp_ht_entry *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
 	fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
 	carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);

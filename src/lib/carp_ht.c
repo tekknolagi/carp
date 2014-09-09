@@ -5,38 +5,38 @@ static unsigned long carp_ht_rhash (const char *);
 static unsigned long carp_ht_hash (const char *, long);
 static short int carp_ht_used (carp_ht *);
 
-int main () {
-  carp_ht h;
-  int status = 0;
-  carp_ht_entry *res = NULL;
-  const char *key = "Maxwell";
+/* int main () { */
+/*   carp_ht h; */
+/*   int status = 0; */
+/*   carp_ht_entry *res = NULL; */
+/*   const char *key = "Maxwell"; */
 
-  carp_ht_init(&h, 10);
+/*   carp_ht_init(&h, 10); */
 
-  carp_ht_set(&h, "halp", 5);
-  carp_ht_set(&h, key, 17);
-  carp_ht_set(&h, "clouds yeah", 9);
-  carp_ht_set(&h, "llewxaM", 18);
-  carp_ht_set(&h, "axwellM", 19);
-  carp_ht_set(&h, "a", 19);
-  carp_ht_set(&h, "b", 19);
-  carp_ht_set(&h, "c", 19);
-  carp_ht_set(&h, "d", 19);
-  carp_ht_set(&h, "e", 19);
-  carp_ht_set(&h, "f", 19);
-  carp_ht_set(&h, "g", 19);
-  carp_ht_set(&h, "h", 19);
+/*   carp_ht_set(&h, "halp", 5); */
+/*   carp_ht_set(&h, key, 17); */
+/*   carp_ht_set(&h, "clouds yeah", 9); */
+/*   carp_ht_set(&h, "llewxaM", 18); */
+/*   carp_ht_set(&h, "axwellM", 19); */
+/*   carp_ht_set(&h, "a", 19); */
+/*   carp_ht_set(&h, "b", 19); */
+/*   carp_ht_set(&h, "c", 19); */
+/*   carp_ht_set(&h, "d", 19); */
+/*   carp_ht_set(&h, "e", 19); */
+/*   carp_ht_set(&h, "f", 19); */
+/*   carp_ht_set(&h, "g", 19); */
+/*   carp_ht_set(&h, "h", 19); */
 
-  carp_ht_print(&h);
+/*   carp_ht_print(&h, NULL); */
 
-  res = carp_ht_get(&h, key);
+/*   res = carp_ht_get(&h, key); */
 
-  status = carp_ht_del(&h, key);
+/*   status = carp_ht_del(&h, key); */
 
-  carp_ht_print(&h);
+/*   carp_ht_print(&h, NULL); */
 
-  carp_ht_cleanup(&h);
-}
+/*   carp_ht_cleanup(&h); */
+/* } */
 
 // djb2 raw hash
 static unsigned long carp_ht_rhash (const char *str) {
@@ -71,7 +71,7 @@ static short int carp_ht_used (carp_ht *h) {
   return in_use * 100 / h->size;
 }
 
-short int carp_ht_init (carp_ht *h, long size) {
+carp_bool carp_ht_init (carp_ht *h, long size) {
   assert(h != NULL);
   assert(size > 0);
 
@@ -86,7 +86,7 @@ short int carp_ht_init (carp_ht *h, long size) {
   return 0;
 }
 
-short int carp_ht_del (carp_ht *h, const char *key) {
+carp_bool carp_ht_del (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -120,7 +120,7 @@ short int carp_ht_del (carp_ht *h, const char *key) {
 }
 
 
-short int carp_ht_set (carp_ht *h, const char *key, long long value) {
+carp_bool carp_ht_set (carp_ht *h, const char *key, long long value) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -175,7 +175,7 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   return base;
 }
 
-short int carp_ht_resize (carp_ht *h) {
+carp_bool carp_ht_resize (carp_ht *h) {
   // TODO: This probably still leaks memory, did not try to free entry lists...
   assert(h != NULL);
 
@@ -208,9 +208,10 @@ short int carp_ht_resize (carp_ht *h) {
 /*
   Clean up the table memory.
 */
-void carp_ht_cleanup (carp_ht *h, FILE *fp) {
+void carp_ht_print (carp_ht *h, FILE *fp) {
   assert(h != NULL);
-  assert(fp != NULL);
+
+  if (fp == NULL) fp = stdout;
 
   fprintf(fp, "{ %d%% full (size %ld)\n", carp_ht_used(h), h->size);;
 
