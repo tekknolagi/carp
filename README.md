@@ -53,7 +53,7 @@ NOTE: See `carp -h` for help with command-line options.
 
 ### API
 
-1. Include `carp/carp.h` in your program.
+1. Include `carp/carp_machine.h` in your program.
 2. Run `gcc program.c /usr/local/lib/libcarp.a -o program.out`.
 
 ## Instruction set

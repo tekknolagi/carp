@@ -1,4 +1,4 @@
-#include <carp/carp.h>
+#include <carp/carp_machine.h>
 
 int main (int argc, char **argv) {
   carp_value code[] = {
