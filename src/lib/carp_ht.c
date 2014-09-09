@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include "carp_ht.h"
 
 /*
@@ -112,7 +113,7 @@ void carp_ht_print (carp_ht *h, FILE *fp) {
 
   while (tmp != NULL) {
     if (tmp != h)
-      fprintf(fp, "%s: %lld,\n", tmp->key, tmp->value);
+      fprintf(fp, "%s: %" PRId64 ",\n", tmp->key, tmp->value);
 
     tmp = tmp->next;
   }

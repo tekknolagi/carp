@@ -1,7 +1,9 @@
 #ifndef CARP_TYPES_H
 #define CARP_TYPES_H
 
-typedef long long carp_value;
-typedef short int carp_bool;
+#include <stdint.h>
+
+typedef int64_t carp_value;
+typedef uint8_t carp_bool;
 
 #endif

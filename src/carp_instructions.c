@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include "lib/carp_messages.h"
 
 #include "carp_instructions.h"
@@ -185,7 +186,7 @@ CARP_IDEF (RET) {
 }
 
 CARP_IDEF (PREG) {
-  printf("%lld\n", *carp_reg_get(m->regs, carp_vm_next(m)));
+  printf("%" PRId64 "\n", *carp_reg_get(m->regs, carp_vm_next(m)));
 }
 
 CARP_IDEF (PTOP) {
@@ -194,6 +195,6 @@ CARP_IDEF (PTOP) {
   if (carp_stack_peek(&m->stack, &val) == 1)
     carp_vm_err(m, CARP_STACK_EMPTY);
 
-  printf("%lld\n", val);
+  printf("%" PRId64 "\n", val);
 }
 
