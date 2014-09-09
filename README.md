@@ -6,6 +6,8 @@ Right now there are instructions, registers, a stack, data memory, and calls. No
 CONSIDER THIS PRE-ALPHA SOFTWARE. Things change more than they do in Rust!
 
 [![Build Status](https://travis-ci.org/tekknolagi/carp.svg?branch=master)](https://travis-ci.org/tekknolagi/carp)
+![](https://ga-beacon.appspot.com/UA-47678422-4/tekknolagi/carp)
+[![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/3268893/tekknolagicarp-on-GitHub)
 
 ## Installation
 
@@ -122,7 +124,3 @@ Another way:
 ## License
 
 GPLv3. See [LICENSE.txt](http://github.com/tekknolagi/carp/tree/master/LICENSE.txt).
-
-## Badges and Things
-
-![](https://ga-beacon.appspot.com/UA-47678422-4/tekknolagi/carp)
