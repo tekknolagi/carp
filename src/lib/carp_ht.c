@@ -5,39 +5,6 @@ static unsigned long carp_ht_rhash (const char *);
 static unsigned long carp_ht_hash (const char *, long);
 static short int carp_ht_used (carp_ht *);
 
-/* int main () { */
-/*   carp_ht h; */
-/*   int status = 0; */
-/*   carp_ht_entry *res = NULL; */
-/*   const char *key = "Maxwell"; */
-
-/*   carp_ht_init(&h, 10); */
-
-/*   carp_ht_set(&h, "halp", 5); */
-/*   carp_ht_set(&h, key, 17); */
-/*   carp_ht_set(&h, "clouds yeah", 9); */
-/*   carp_ht_set(&h, "llewxaM", 18); */
-/*   carp_ht_set(&h, "axwellM", 19); */
-/*   carp_ht_set(&h, "a", 19); */
-/*   carp_ht_set(&h, "b", 19); */
-/*   carp_ht_set(&h, "c", 19); */
-/*   carp_ht_set(&h, "d", 19); */
-/*   carp_ht_set(&h, "e", 19); */
-/*   carp_ht_set(&h, "f", 19); */
-/*   carp_ht_set(&h, "g", 19); */
-/*   carp_ht_set(&h, "h", 19); */
-
-/*   carp_ht_print(&h, NULL); */
-
-/*   res = carp_ht_get(&h, key); */
-
-/*   status = carp_ht_del(&h, key); */
-
-/*   carp_ht_print(&h, NULL); */
-
-/*   carp_ht_cleanup(&h); */
-/* } */
-
 // djb2 raw hash
 static unsigned long carp_ht_rhash (const char *str) {
   assert(str != NULL);
@@ -120,7 +87,7 @@ carp_bool carp_ht_del (carp_ht *h, const char *key) {
 }
 
 
-carp_bool carp_ht_set (carp_ht *h, const char *key, long long value) {
+carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
   assert(h != NULL);
   assert(key != NULL);
 
