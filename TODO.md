@@ -2,8 +2,6 @@
 
 In no particular order:
 
-* Re-implement the ht as an actual hashtable. In progress. Adding linear probing.
-  * See branch `new_ht_impl`.
 * Read Carp files as lines instead of whole files.
 * Write tests for:
   1. DONE: stack
