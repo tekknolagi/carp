@@ -8,8 +8,8 @@ SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
 PROG = carp.out
-TESTS=$(wildcard tests/*.c tests/instr/*.c)
-TESTS_OUTS=$(TESTS:.c=.out)
+TESTS = $(wildcard tests/*.c tests/instr/*.c)
+TESTS_OUTS = $(TESTS:.c=.out)
 
 all: build clean_objs test
 
