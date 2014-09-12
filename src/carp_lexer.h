@@ -4,6 +4,6 @@
 #include "carp_tokenizer.h"
 #include "carp_machine.h"
 
-void carp_lex_lex (carp_machine_state *, carp_tok *);
+void carp_lex_lex(carp_machine_state *, carp_tok *);
 
 #endif

@@ -1,12 +1,12 @@
 #include <inttypes.h>
 #include "carp_ht.h"
 
-static unsigned long carp_ht_rhash (const char *);
-static unsigned long carp_ht_hash (const char *, long);
-static short int carp_ht_used (carp_ht *);
+static unsigned long carp_ht_rhash(const char *);
+static unsigned long carp_ht_hash(const char *, long);
+static short int carp_ht_used(carp_ht *);
 
 // djb2 raw hash
-static unsigned long carp_ht_rhash (const char *str) {
+static unsigned long carp_ht_rhash(const char *str) {
   assert(str != NULL);
 
   unsigned long hash = 5381;
@@ -18,13 +18,13 @@ static unsigned long carp_ht_rhash (const char *str) {
   return hash;
 }
 
-static unsigned long carp_ht_hash (const char *str, long size) {
+static unsigned long carp_ht_hash(const char *str, long size) {
   assert(str != NULL);
 
   return carp_ht_rhash(str) % size;
 }
 
-static short int carp_ht_used (carp_ht *h) {
+static short int carp_ht_used(carp_ht *h) {
   long in_use = 0;
 
   for (long i = 0; i < h->size; i++) {
@@ -38,7 +38,7 @@ static short int carp_ht_used (carp_ht *h) {
   return in_use * 100 / h->size;
 }
 
-carp_bool carp_ht_init (carp_ht *h, long size) {
+carp_bool carp_ht_init(carp_ht *h, long size) {
   assert(h != NULL);
   assert(size > 0);
 
@@ -53,7 +53,7 @@ carp_bool carp_ht_init (carp_ht *h, long size) {
   return 0;
 }
 
-carp_bool carp_ht_del (carp_ht *h, const char *key) {
+carp_bool carp_ht_del(carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -87,7 +87,7 @@ carp_bool carp_ht_del (carp_ht *h, const char *key) {
 }
 
 
-carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
+carp_bool carp_ht_set(carp_ht *h, const char *key, carp_value value) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -127,7 +127,7 @@ carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
   return 0;
 }
 
-carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
+carp_ht_entry *carp_ht_get(carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -142,7 +142,7 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   return base;
 }
 
-carp_bool carp_ht_resize (carp_ht *h) {
+carp_bool carp_ht_resize(carp_ht *h) {
   // TODO: This probably still leaks memory, did not try to free entry lists...
   assert(h != NULL);
 
@@ -175,7 +175,7 @@ carp_bool carp_ht_resize (carp_ht *h) {
 /*
   Clean up the table memory.
 */
-void carp_ht_print (carp_ht *h, FILE *fp) {
+void carp_ht_print(carp_ht *h, FILE *fp) {
   assert(h != NULL);
 
   if (fp == NULL) fp = stdout;
@@ -196,7 +196,7 @@ void carp_ht_print (carp_ht *h, FILE *fp) {
   fprintf(fp, "}\n\n");
 }
 
-void carp_ht_cleanup (carp_ht *h) {
+void carp_ht_cleanup(carp_ht *h) {
   // TODO: Definitely leaks memory.
   assert(h != NULL);
 

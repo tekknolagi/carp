@@ -9,8 +9,8 @@
 #include "carp_lexer.h"
 #include "carp_machine.h"
 
-static void carp_lex_cleanup (carp_tok *);
-static void carp_lex_exit (carp_tok *, carp_ht *, int);
+static void carp_lex_cleanup(carp_tok *);
+static void carp_lex_exit(carp_tok *, carp_ht *, int);
 
 /*
   Assigns values to a series of tokens.
@@ -20,7 +20,7 @@ static void carp_lex_exit (carp_tok *, carp_ht *, int);
   FUNC is label lookup value.
   INSTR is obvious.
 */
-void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
+void carp_lex_lex(carp_machine_state *m, carp_tok *tokens) {
   assert(m != NULL);
   assert(tokens != NULL);
 
@@ -35,7 +35,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       fprintf(stderr, "Unknown token <%s>\n", tmp->lexeme);
       carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
       break; }
-      
+
     case CARP_T(NUM): {
       long long num = atoi(tmp->lexeme);
       tmp->value = num;
@@ -68,7 +68,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break; }
 
     case CARP_T(VAR): {
-      
+
       break; }
 
     case CARP_T(INSTR): {
@@ -100,7 +100,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 /*
   Frees the carp_tok linked list.
 */
-static void carp_lex_cleanup (carp_tok *tokens) {
+static void carp_lex_cleanup(carp_tok *tokens) {
   assert(tokens != NULL);
 
   carp_tok *tmp;
@@ -115,7 +115,7 @@ static void carp_lex_cleanup (carp_tok *tokens) {
 /*
   Exits cleanly by cleaning up first.
 */
-static void carp_lex_exit (carp_tok *tokens, carp_ht *labels, int code) {
+static void carp_lex_exit(carp_tok *tokens, carp_ht *labels, int code) {
   assert(tokens != NULL);
   assert(labels != NULL);
 

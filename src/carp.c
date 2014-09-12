@@ -4,11 +4,11 @@
 
 #define CARP_VERSION 0.3
 
-static void carp_print_version ();
-static void carp_print_license ();
-static void carp_print_warranty ();
-static void carp_print_conditions ();
-static void carp_print_help ();
+static void carp_print_version();
+static void carp_print_license();
+static void carp_print_warranty();
+static void carp_print_conditions();
+static void carp_print_help();
 
 typedef struct carp_option_s {
   short int version;
@@ -21,7 +21,7 @@ typedef struct carp_option_s {
 /*
   Main Carp interpreter.
 */
-int main (int argc, char **argv) {
+int main(int argc, char **argv) {
   static struct option long_options[] = {
     {"version", 0, 0, 'v'},
     {"license", 0, 0, 'l'},
@@ -88,14 +88,14 @@ int main (int argc, char **argv) {
 /*
   Print Carp software version.
 */
-void carp_print_version () {
+void carp_print_version() {
   printf("carp %1.1f\n", CARP_VERSION);
 }
 
 /*
   Print part of the license and directions to find full license.
  */
-void carp_print_license () {
+void carp_print_license() {
   puts("carp  Copyright (C) 2014  Maxwell Bernstein\n\
     This program comes with ABSOLUTELY NO WARRANTY; for details type `carp -w'.\n\
     This is free software, and you are welcome to redistribute it\n\
@@ -106,21 +106,21 @@ void carp_print_license () {
 /*
   Print warranty.
 */
-void carp_print_warranty () {
+void carp_print_warranty() {
   puts("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.");
 }
 
 /*
   Print conditions.
 */
-void carp_print_conditions () {
+void carp_print_conditions() {
   puts("See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.txt");
 }
 
 /*
   Print the help message.
 */
-void carp_print_help () {
+void carp_print_help() {
   puts("Usage:");
   puts("-v, --version\n\tsee version number");
   puts("-l, --license:\n\tsee licensing information");
