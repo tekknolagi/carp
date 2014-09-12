@@ -8,19 +8,19 @@
 #include "carp_instructions.h"
 #include "carp_tokenizer.h"
 
-static char *file_read (const char *);
-static carp_bool is_sign (char);
-static carp_bool is_num (const char *);
-static carp_bool is_reg (const char *);
-static carp_bool is_label (const char *);
-static carp_bool is_var (const char *);
-static carp_bool is_instr (const char *);
+static char *file_read(const char *);
+static carp_bool is_sign(char);
+static carp_bool is_num(const char *);
+static carp_bool is_reg(const char *);
+static carp_bool is_label(const char *);
+static carp_bool is_var(const char *);
+static carp_bool is_instr(const char *);
 
 /*
   Reads a whole file into memory (really should change to line-by-line), then goes through and
   copies lexemes, types, and program positions in.
 */
-carp_tok *carp_lex_tokenize (const char *fn) {
+carp_tok *carp_lex_tokenize(const char *fn) {
   assert(fn != NULL);
 
   char *str = file_read(fn);
@@ -111,7 +111,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 /*
   Reads a whole file and returns a pointer to its contents.
 */
-char *file_read (const char *fn) {
+char *file_read(const char *fn) {
   assert(fn != NULL);
 
   char *contents;
@@ -146,14 +146,14 @@ char *file_read (const char *fn) {
 /*
   Returns true if the character is a numeric sign.
 */
-carp_bool is_sign (char c) {
+carp_bool is_sign(char c) {
   return c == '+' || c == '-';
 }
 
 /*
   Returns true if the string contains all numbers (can start with a sign).
 */
-carp_bool is_num (const char *s) {
+carp_bool is_num(const char *s) {
   assert(s != NULL);
 
   if (!(is_sign(s[0]) || isdigit((unsigned char) s[0]))) return 0;
@@ -167,7 +167,7 @@ carp_bool is_num (const char *s) {
 /*
   Returns true if the string is in the registers list.
 */
-carp_bool is_reg (const char *s) {
+carp_bool is_reg(const char *s) {
   assert(s != NULL);
 
   return carp_reg_lookup(s) != CARP_REG_UNDEF;
@@ -176,7 +176,7 @@ carp_bool is_reg (const char *s) {
 /*
   Returns true if the string has a : in it.
 */
-carp_bool is_label (const char *s) {
+carp_bool is_label(const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
@@ -185,7 +185,7 @@ carp_bool is_label (const char *s) {
 /*
   Returns true if the string has a $ in it.
 */
-carp_bool is_var (const char *s) {
+carp_bool is_var(const char *s) {
   assert(s != NULL);
 
   return strchr(s, '$') != NULL;
@@ -194,7 +194,7 @@ carp_bool is_var (const char *s) {
 /*
   Returns true if the string is in the instructions list.
 */
-carp_bool is_instr (const char *s) {
+carp_bool is_instr(const char *s) {
   assert(s != NULL);
 
   return carp_instr_lookup(s) != CARP_INSTR_UNDEF;
@@ -203,7 +203,7 @@ carp_bool is_instr (const char *s) {
 /*
   Uses strcmp to look up regs. Could probably use a hashtable.
 */
-carp_reg carp_reg_lookup (const char *s) {
+carp_reg carp_reg_lookup(const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_REGS; i++)
@@ -216,7 +216,7 @@ carp_reg carp_reg_lookup (const char *s) {
 /*
   Uses strcmp to look up instrs. Could probably use a hashtable.
 */
-carp_instr carp_instr_lookup (const char *s) {
+carp_instr carp_instr_lookup(const char *s) {
   assert(s != NULL);
 
   for (int i = 0; i < CARP_NUM_INSTRS; i++)

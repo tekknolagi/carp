@@ -34,8 +34,8 @@ typedef struct carp_tok_s {
   struct carp_tok_s *next;
 } carp_tok;
 
-carp_tok *carp_lex_tokenize (const char *);
-carp_reg carp_reg_lookup (const char *);
-carp_instr carp_instr_lookup (const char *);
+carp_tok *carp_lex_tokenize(const char *);
+carp_reg carp_reg_lookup(const char *);
+carp_instr carp_instr_lookup(const char *);
 
 #endif

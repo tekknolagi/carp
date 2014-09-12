@@ -14,12 +14,12 @@ typedef struct carp_stack {
   carp_value *contents;
 } carp_stack;
 
-carp_bool carp_stack_init (carp_stack *, carp_value *, carp_value);
-carp_bool carp_stack_empty (carp_stack *);
-carp_bool carp_stack_push (carp_stack *, carp_value);
-carp_bool carp_stack_pop (carp_stack *, carp_value *);
-carp_bool carp_stack_peek (carp_stack *, carp_value *);
-void carp_stack_print (carp_stack *, FILE *);
-void carp_stack_cleanup (carp_stack *);
+carp_bool carp_stack_init(carp_stack *, carp_value *, carp_value);
+carp_bool carp_stack_empty(carp_stack *);
+carp_bool carp_stack_push(carp_stack *, carp_value);
+carp_bool carp_stack_pop(carp_stack *, carp_value *);
+carp_bool carp_stack_peek(carp_stack *, carp_value *);
+void carp_stack_print(carp_stack *, FILE *);
+void carp_stack_cleanup(carp_stack *);
 
 #endif
