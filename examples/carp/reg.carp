@@ -10,6 +10,6 @@ main:
 	pushr r0
 	loadr r1, 9
 	pushr r1
-	call add
+	call aasd
 	preg ax
 	halt 0
