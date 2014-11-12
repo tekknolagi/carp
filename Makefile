@@ -9,7 +9,7 @@ SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
 	src/lib/carp_ht.c
 #$(wildcard src/*.c src/lib/*.c)
 OBJS = *.o
-PROG = carp.out
+PROG = carp
 TESTS = $(wildcard tests/*.c tests/instr/*.c)
 TESTS_OUTS = $(TESTS:.c=.out)
 
@@ -57,7 +57,7 @@ install:
 	cp src/*.h $(DESTDIR)$(PREFIX)/include/carp
 	cp src/lib/*.h $(DESTDIR)$(PREFIX)/include/carp/lib
 	cp libcarp.a $(DESTDIR)$(PREFIX)/lib
-	install -pm 755 $(PROG) $(DESTDIR)$(PREFIX)/bin/carp
+	install -pm 755 $(PROG) $(DESTDIR)$(PREFIX)/bin
 
 clean_libs:
 	find . -name "*.a"	\
