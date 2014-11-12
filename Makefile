@@ -1,7 +1,9 @@
 CC ?= gcc #/usr/local/bin/gcc-4.2
 PREFIX = /usr/local
 NDEBUG ?= 
-CFLAGS = -g3 -std=c99 -O3 -flto -Wall -Werror -Wno-unused-variable -Wno-format-security $(NDEBUG)
+FLTO ?= 
+CFLAGS ?= -g3 -std=c99 -O3 $(FLTO) -Wall -Werror -Wno-unused-variable \
+	-Wno-format-security $(NDEBUG)
 SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
 	src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c \
 	src/lib/carp_ht.c
@@ -43,7 +45,7 @@ clean_tests:
 	rm -f $(TESTS_OUTS)
 
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/include/carp
+	rm -r $(DESTDIR)$(PREFIX)/include/carp
 	rm $(DESTDIR)$(PREFIX)/lib/libcarp.a
 	rm $(DESTDIR)$(PREFIX)/bin/$(PROG)
 
