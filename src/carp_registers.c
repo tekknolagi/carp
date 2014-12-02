@@ -4,6 +4,31 @@
 
 #include "carp_registers.h"
 
+char carp_reverse_reg[][5] = {
+  "r0",
+  "r1",
+  "r2",
+  "r3",
+  "r4",
+  "r5",
+  "r6",
+  "r7",
+  "r8",
+  "r9",
+  "ax",
+  "bx",
+  "cx",
+  "dx",
+  "rx",
+  "ip",
+  "sp",
+  "fp",
+  "gbg",
+  "run",
+  "ext",
+  "undef",
+};
+
 /*
   Returns a pointer to a register.
 */

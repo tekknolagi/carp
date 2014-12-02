@@ -21,9 +21,7 @@ typedef enum {
   CARP_T(INSTR),
 } carp_id;
 
-static char carp_reverse_type[][6] = {
-  "undef","num","reg","lbl","func","var","instr"
-};
+extern char carp_reverse_type[][6];
 
 typedef struct carp_tok_s {
   char lexeme[CARP_TOK_WORD_LENGTH];

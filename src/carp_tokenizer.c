@@ -8,6 +8,16 @@
 #include "carp_instructions.h"
 #include "carp_tokenizer.h"
 
+char carp_reverse_type[][6] = {
+  "undef",
+  "num",
+  "reg",
+  "lbl",
+  "func",
+  "var",
+  "instr"
+};
+
 static char *file_read (const char *);
 static carp_bool is_sign (char);
 static carp_bool is_num (const char *);
