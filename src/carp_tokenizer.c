@@ -27,7 +27,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 
   assert(str != NULL);
 
-  char *delim = " ,\t\n";
+  const char *delim = " ,\t\n";
   char *toks = strtok(str, delim);
 
   /* empty file, so skip the pain and halt with success there must be
