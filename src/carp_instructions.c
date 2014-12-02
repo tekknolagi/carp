@@ -197,4 +197,3 @@ CARP_IDEF (PTOP) {
 
   printf("%" PRId64 "\n", val);
 }
-
