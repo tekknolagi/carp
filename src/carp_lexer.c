@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-
 #include "lib/carp_types.h"
 #include "lib/carp_ht.h"
-
 #include "carp_tokenizer.h"
 #include "carp_lexer.h"
 #include "carp_machine.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdbool.h>
 
 static void carp_lex_cleanup (carp_tok *);
 static void carp_lex_exit (carp_tok *, carp_ht *, int);
@@ -31,55 +30,55 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
 
   while (tmp != NULL) {
     switch (tmp->type) {
-    case CARP_T(UNDEF): {
+    case CARP_TOK_UNDEF: {
       fprintf(stderr, "Unknown token <%s>\n", tmp->lexeme);
       carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
-      break; }
-      
-    case CARP_T(NUM): {
+      break;
+    }
+    case CARP_TOK_NUM: {
       long long num = atoi(tmp->lexeme);
       tmp->value = num;
-      break; }
-
-    case CARP_T(REG): {
+      break;
+    }
+    case CARP_TOK_REG: {
       carp_reg reg = carp_reg_lookup(tmp->lexeme);
       tmp->value = reg;
-      break; }
-
-    case CARP_T(LBL): {
-      carp_bool status = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
+      break;
+    }
+    case CARP_TOK_LBL: {
+      bool status = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
       if (status != 0) {
-	fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
-	carp_lex_exit(tokens, &m->labels, 1);
+        fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
+        carp_lex_exit(tokens, &m->labels, 1);
       }
 
       carp_value instr = CARP_INSTR_NOP;
       tmp->value = instr;
-      break; }
-
-    case CARP_T(FUNC): {
+      break;
+    }
+    case CARP_TOK_FUNC: {
       carp_ht_entry *res = carp_ht_get(&m->labels, tmp->lexeme);
       if (res == NULL) {
-	fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
-	carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
+        fprintf(stderr, "Unknown label <%s>\n", tmp->lexeme);
+        carp_lex_exit(tokens, &m->labels, EXIT_FAILURE);
       }
 
       tmp->value = res->value;
-      break; }
-
-    case CARP_T(VAR): {
-      
-      break; }
-
-    case CARP_T(INSTR): {
+      break;
+    }
+    case CARP_TOK_VAR: {
+      break;
+    }
+    case CARP_TOK_INSTR: {
       carp_value instr = carp_instr_lookup(tmp->lexeme);
       tmp->value = instr;
       break; }
     }
 
-    /*printf("[%04lld] %5s (%5s) = %4lld\n",
-      tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
-    // */
+    /* printf("[%04lld] %5s (%5s) = %4lld\n",
+     *        tmp->pos, tmp->lexeme, carp_reverse_type[tmp->type], tmp->value);
+     */
+
     tmp = tmp->next;
     length++;
   }

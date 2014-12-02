@@ -17,20 +17,21 @@ typedef struct carp_machine_state_s {
   carp_value *code;
 } carp_machine_state;
 
-void carp_vm_init (carp_machine_state *, long, carp_value);
-void carp_vm_make (carp_machine_state *);
-void carp_vm_load (carp_machine_state *, carp_value [], carp_value);
-void carp_vm_eval (carp_machine_state *);
-carp_value carp_vm_run (carp_machine_state *);
-carp_value carp_vm_next (carp_machine_state *);
-void carp_vm_err (carp_machine_state *, char *);
-void carp_vm_cleanup (carp_machine_state *);
-void carp_vm_exit (carp_machine_state *, int);
+void carp_vm_init(carp_machine_state *, long, carp_value);
+void carp_vm_make(carp_machine_state *);
+void carp_vm_load(carp_machine_state *, carp_value [], carp_value);
+void carp_vm_eval(carp_machine_state *);
+carp_value carp_vm_run(carp_machine_state *);
+carp_value carp_vm_next(carp_machine_state *);
+void carp_vm_err(carp_machine_state *, const char *);
+void carp_vm_cleanup(carp_machine_state *);
+void carp_vm_exit(carp_machine_state *, int);
 
 carp_value carp_run_program (const char *);
 
 // shortcut so I don't have to keep copy/pasting declarations & definitions
-#define CARP_IDEF(x) void carp_instr_##x (carp_machine_state *m)
+#define CARP_IDEF(x) void carp_instr_##x \
+  (__attribute__((unused)) carp_machine_state *m)
 // #define CARP_IDECL(x) void carp_instr_##x (carp_machine_state *)
 
 // this is where the declaration/definition macro comes in handy

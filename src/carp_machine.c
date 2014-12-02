@@ -1,9 +1,8 @@
-#include <stdlib.h>
-#include <assert.h>
-
 #include "lib/carp_messages.h"
 #include "carp_lexer.h"
 #include "carp_machine.h"
+#include <stdlib.h>
+#include <assert.h>
 
 /*
   Initialize the VM - this includes lots of allocation.
@@ -66,7 +65,7 @@ void carp_vm_load (carp_machine_state *m, carp_value code[], carp_value length) 
 
   m->code = calloc(length, sizeof *code);
   if (m->code == NULL)
-    carp_vm_err(m, "Could not allocate memory for code.");
+    carp_vm_err(m, CARP_CODE_NO_MEM);
 
   memcpy(m->code, code, length * sizeof *code);
 }
@@ -111,8 +110,8 @@ carp_value carp_vm_next (carp_machine_state *m) {
   Writes an error message to stderr, then signals for the machine
   to cleanly exit.
 */
-void carp_vm_err (carp_machine_state *m, char *e) {
-  fprintf(stderr, e);
+void carp_vm_err (carp_machine_state *m, const char *e) {
+  fprintf(stderr, "%s", e);
   putchar('\n');
   carp_vm_exit(m, EXIT_FAILURE);
 }
@@ -138,10 +137,11 @@ void carp_vm_exit (carp_machine_state *m, int code) {
   m->regs[CARP_EXT] = code;
 }
 
-/*
-  Read, tokenize, lex, and execute the contents of a Carp file.
-*/
+
+/* Read, tokenize, lex, and execute the contents of a Carp file. */
 carp_value carp_run_program (const char *fn) {
+  assert(fn != NULL);
+
   carp_machine_state m;
   carp_tok *tokens = carp_lex_tokenize(fn);
 

@@ -30,7 +30,9 @@ NOTE: Recursive clone is for testing library. If not included, tests will not bu
 ### Building Carp
 
 1. `make`
-2. `make install`
+2. `make test` (optional)
+3. `make install`
+4. `make clean` (optional)
 
 #### Tested Machines
 

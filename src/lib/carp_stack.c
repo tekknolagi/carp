@@ -1,12 +1,14 @@
-#include <inttypes.h>
 #include "carp_stack.h"
+#include <inttypes.h>
+#include <stdbool.h>
+#include <assert.h>
 
-static carp_bool carp_stack_full (carp_stack *);
+static bool carp_stack_full (carp_stack *);
 
 /*
   Initialize the stack with pointer to the height and initial height.
 */
-carp_bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_height) {
+bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_height) {
   assert(s != NULL);
   assert(height != NULL);
   assert(max_height > 0);
@@ -25,7 +27,7 @@ carp_bool carp_stack_init (carp_stack *s, carp_value *height, carp_value max_hei
 /*
   Return true if the height is 0 (meaning the stack is empty).
 */
-carp_bool carp_stack_empty (carp_stack *s) {
+bool carp_stack_empty (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == 0;
@@ -34,7 +36,7 @@ carp_bool carp_stack_empty (carp_stack *s) {
 /*
   Return true if the height is the max height (meaning the stack is full).
 */
-static carp_bool carp_stack_full (carp_stack *s) {
+static bool carp_stack_full (carp_stack *s) {
   assert(s != NULL);
 
   return (*s->height) == s->max_height;
@@ -43,7 +45,7 @@ static carp_bool carp_stack_full (carp_stack *s) {
 /*
   Push value onto the stack. Return 0 if stack push succeeds.
 */
-carp_bool carp_stack_push (carp_stack *s, carp_value i) {
+bool carp_stack_push (carp_stack *s, carp_value i) {
   assert(s != NULL);
 
   if (carp_stack_full(s)) {
@@ -69,7 +71,7 @@ carp_bool carp_stack_push (carp_stack *s, carp_value i) {
 /*
   Pop the top of the stack into v. Return 0 if stack pop succeeds.
 */
-carp_bool carp_stack_pop (carp_stack *s, carp_value *v) {
+bool carp_stack_pop (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
   if (carp_stack_empty(s))
@@ -84,13 +86,14 @@ carp_bool carp_stack_pop (carp_stack *s, carp_value *v) {
 /*
   Peek the top of the stack into v. Return 0 if the peek succeeds.
 */
-carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
+bool carp_stack_peek (carp_stack *s, carp_value *v) {
   assert(s != NULL);
 
-  if (carp_stack_empty(s)) 
+  if (carp_stack_empty(s)) {
     return 1;
-  else
+  } else {
     *v = s->contents[(*s->height) - 1];
+  }
 
   return 0;
 }
@@ -101,13 +104,15 @@ carp_bool carp_stack_peek (carp_stack *s, carp_value *v) {
 void carp_stack_print (carp_stack *s, FILE *fp) {
   assert(s != NULL);
 
-  if (fp == NULL)
+  if (fp == NULL) {
     fp = stdout;
+  }
 
   fprintf(fp, "[ ");
 
-  for (carp_value i = 0; i < (*s->height); i++)
+  for (carp_value i = 0; i < (*s->height); i++) {
     fprintf(fp, "%" PRId64 " ", s->contents[i]);
+  }
 
   fprintf(fp, "]\n");
 }

@@ -1,12 +1,13 @@
 #include "tests.h"
 #include "../src/lib/carp_ht.h"
+#include <stdbool.h>
 
 int main () {
-  carp_bool status;
+  bool status;
   carp_ht h;
   carp_ht_entry *res;
-  char *key = "mykey";
-  char *badkey = "badkey";
+  const char *key = "mykey";
+  const char *badkey = "badkey";
   carp_value value = 17;
 
   plan(NO_PLAN);

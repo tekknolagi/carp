@@ -4,6 +4,46 @@
 #include "carp_instructions.h"
 #include "carp_machine.h"
 
+char carp_reverse_instr[][6] = {
+  "halt",
+  "nop",
+  "loadr",
+  "load",
+  "store",
+  "mov",
+  "add",
+  "sub",
+  "mul",
+  "mod",
+  "shr",
+  "shl",
+  "not",
+  "xor",
+  "or",
+  "and",
+  "incr",
+  "decr",
+  "inc",
+  "dec",
+  "pushr",
+  "push",
+  "pop",
+  "cmp",
+  "lt",
+  "gt",
+  "jz",
+  "rjz",
+  "jnz",
+  "rjnz",
+  "jmp",
+  "rjmp",
+  "call",
+  "ret",
+  "preg",
+  "ptop",
+  "undef",
+};
+
 // yay macros
 
 #define CARP_SPOP(NAME) if (carp_stack_pop(&m->stack, &NAME) == 1) \
@@ -197,4 +237,3 @@ CARP_IDEF (PTOP) {
 
   printf("%" PRId64 "\n", val);
 }
-

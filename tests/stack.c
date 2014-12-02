@@ -1,8 +1,9 @@
 #include "tests.h"
 #include "../src/lib/carp_stack.h"
+#include <stdbool.h>
 
 int main () {
-  carp_bool status = 0;
+  bool status = 0;
   carp_stack s;
   carp_value esp = 0;
   carp_value val = 0;

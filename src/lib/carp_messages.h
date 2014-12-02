@@ -11,4 +11,6 @@
 #define CARP_HT_NO_MEM "Not enough memory."
 #define CARP_HT_CONTENTS_NULL "Could not get. Contents NULL."
 
+#define CARP_CODE_NO_MEM "Could not allocate memory for code."
+
 #endif
