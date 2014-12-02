@@ -49,12 +49,7 @@ typedef enum {
   CARP_NUM_REGS,
 } carp_reg;
 
-static char carp_reverse_reg[][5] = {
-  "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9",
-  "ax","bx","cx","dx","rx",
-  "ip","sp","fp","gbg","run","ext",
-  "undef",
-};
+extern char carp_reverse_reg[][5];
 
 carp_value *carp_reg_get (carp_value [], carp_reg);
 carp_bool carp_reg_set (carp_value [], carp_reg, carp_value);
