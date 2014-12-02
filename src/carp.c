@@ -10,14 +10,6 @@ static void carp_print_warranty ();
 static void carp_print_conditions ();
 static void carp_print_help ();
 
-typedef struct carp_option_s {
-  short int version;
-  short int license;
-  short int warranty;
-  short int conditions;
-  char *file;
-} carp_option;
-
 /*
   Main Carp interpreter.
 */
@@ -32,17 +24,17 @@ int main (int argc, char **argv) {
     {NULL, 0, NULL, 0},
   };
 
-  carp_option opts = {0, 0, 0, 0};
-
   int c;
   int option_index = 0;
   while ((c = getopt_long(argc, argv, "vlwcf:h", long_options, &option_index)) != -1) {
-    int this_option_optind = optind ? optind : 1;
     switch (c) {
     case 0:
       printf("option %s", long_options[option_index].name);
-      if (optarg)
-	printf(" with arg %s", optarg);
+
+      if (optarg) {
+        printf(" with arg %s", optarg);
+      }
+
       putchar('\n');
       break;
 
