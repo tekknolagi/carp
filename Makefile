@@ -1,74 +1,86 @@
-CC ?= gcc #/usr/local/bin/gcc-4.2
-PREFIX = /usr/local
-NDEBUG ?= 
-CFLAGS = -g3 -std=c99 -Wall -Werror -Wno-unused-variable -Wno-format-security $(NDEBUG)
-SRCS = src/carp_registers.c src/carp_instructions.c src/carp_lexer.c \
-	src/carp_machine.c src/carp_tokenizer.c src/lib/carp_stack.c \
-	src/lib/carp_ht.c
-#$(wildcard src/*.c src/lib/*.c)
-OBJS = *.o
-PROG = carp
-TESTS = $(wildcard tests/*.c tests/instr/*.c)
-TESTS_OUTS = $(TESTS:.c=.out)
+PREFIX ?= /usr/local
 
-all: build clean_objs test
+BIN = carp
+LIB = libcarp.a
 
-build:
-	$(CC) -c $(CFLAGS) $(SRCS)
-	ar cr libcarp.a $(OBJS)
-	$(CC) $(CFLAGS) src/carp.c libcarp.a -o $(PROG)
+CFLAGS  += -std=c11 -pedantic -Wall -W -Wextra \
+	   -Wwrite-strings -Wpointer-arith -Wbad-function-cast
+LDFLAGS += -lm
+
+MAIN_SRCS = src/carp.c
+MAIN_OBJS = $(MAIN_SRCS:.c=.o)
+
+# We use carp_* to avoid including carp.c (main)
+LIB_SRCS = $(shell echo src/carp_*.c src/lib/*.c)
+LIB_HDRS = $(shell echo src/carp_*.h src/lib/*.h)
+LIB_OBJS = $(LIB_SRCS:.c=.o)
+
+TEST_SRCS = $(shell echo tests/*.c tests/instr/*.c)
+TEST_OBJS = $(TEST_SRCS:.c=.o)
+TEST_BINS = $(TEST_SRCS:.c=.out)
+TEST_LIBS = $(LIB) tests/libtap/libtap.a
+
+ifeq ($(RELEASE),yes)
+	CFLAGS += -O2
+	CFLAGS += -DNDEBUG
+else
+	CFLAGS  += -g3
+	LDFLAGS += -g
+endif
+
+.PHONY: all clean libtap libtap_clean test install uninstall
+all: $(BIN)
+
+$(BIN): $(MAIN_OBJS) $(LIB)
+	$(CC) $(LDFLAGS) $^ -o $@
+
+$(LIB): $(LIB_OBJS)
+	ar crs $@ $^
+
+src/lib/%.o: src/lib/%.c $(LIB_HDRS)
+src/%.o: src/%.c $(LIB_HDRS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean: libtap_clean
+	rm -rf $(MAIN_OBJS) $(BIN) $(LIB_OBJS) $(LIB) $(TEST_BINS) $(TEST_OBJS)
 
 libtap:
 	cd tests/libtap && make
 
-clean_libtap:
+libtap_clean:
 	cd tests/libtap && make clean
 
-test: build libtap clean_tests $(TESTS_OUTS) run_tests
+tests/instr/%.o: tests/instr/%.c
+tests/%.o: tests/%.c $(LIB_HDRS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-tests/%.out: tests/%.c
-	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
+tests/instr/%.out: tests/instr/%.o
+tests/%.out: tests/%.o $(LIB) libtap
+	$(CC) $(LDFLAGS) $< $(TEST_LIBS) -o $@
 
-tests/instr/%.out: tests/instr/%.c
-	$(CC) $(CFLAGS) $< libcarp.a tests/libtap/libtap.a -o $@
+# To avoid rm tests.o, not really necessary but consistent
+$(TEST_BINS): $(TEST_OBJS)
 
-run_tests:
-	for file in $(TESTS_OUTS); do	\
-		echo $$file;	\
-		./$$file; 	\
-		echo; 		\
+test: $(LIB) libtap $(TEST_BINS)
+	@for file in $(TEST_BINS); do \
+		echo;                 \
+		echo $$file;          \
+		./$$file;             \
 	done
-
-clean_tests:
-	rm -f $(TESTS_OUTS)
-
-uninstall:
-	rm -r $(DESTDIR)$(PREFIX)/include/carp
-	rm $(DESTDIR)$(PREFIX)/lib/libcarp.a
-	rm $(DESTDIR)$(PREFIX)/bin/$(PROG)
 
 install:
 	test -d ${DESTDIR}${PREFIX}/bin || mkdir -p ${DESTDIR}${PREFIX}/bin
 	test -d ${DESTDIR}${PREFIX}/lib || mkdir -p ${DESTDIR}${PREFIX}/lib
-	test -d ${DESTDIR}${PREFIX}/include/carp || mkdir -p ${DESTDIR}${PREFIX}/carp
-	test -d ${DESTDIR}${PREFIX}/include/carp/lib || mkdir -p $(DESTDIR)$(PREFIX)/include/carp/lib
+	test -d ${DESTDIR}${PREFIX}/include/carp || \
+		mkdir -p ${DESTDIR}${PREFIX}/carp
+	test -d ${DESTDIR}${PREFIX}/include/carp/lib || \
+		mkdir -p $(DESTDIR)$(PREFIX)/include/carp/lib
 	cp src/*.h $(DESTDIR)$(PREFIX)/include/carp
 	cp src/lib/*.h $(DESTDIR)$(PREFIX)/include/carp/lib
-	cp libcarp.a $(DESTDIR)$(PREFIX)/lib
-	install -pm 755 $(PROG) $(DESTDIR)$(PREFIX)/bin
+	cp $(LIB) $(DESTDIR)$(PREFIX)/lib
+	install -pm 755 $(BIN) $(DESTDIR)$(PREFIX)/bin
 
-clean_libs:
-	find . -name "*.a"	\
-	| xargs rm -f
-
-clean_objs:
-	find . -name "*.o"	\
-	-o -name "*.dSYM"	\
-	 | xargs rm -rf
-
-clean_outs:
-	find . -name "*.out"	\
-	| xargs rm -f
-
-clean: clean_objs clean_libtap
-	rm -f $(PROG) libcarp.a
+uninstall:
+	rm -r $(DESTDIR)$(PREFIX)/include/carp
+	rm $(DESTDIR)$(PREFIX)/lib/$(LIB)
+	rm $(DESTDIR)$(PREFIX)/bin/$(BIN)
