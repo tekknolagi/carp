@@ -66,7 +66,7 @@ void carp_vm_load (carp_machine_state *m, carp_value code[], carp_value length) 
 
   m->code = calloc(length, sizeof *code);
   if (m->code == NULL)
-    carp_vm_err(m, "Could not allocate memory for code.");
+    carp_vm_err(m, CARP_CODE_NO_MEM);
 
   memcpy(m->code, code, length * sizeof *code);
 }
