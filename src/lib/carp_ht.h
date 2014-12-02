@@ -1,12 +1,11 @@
 #ifndef CARP_HASH_H
 #define CARP_HASH_H
 
+#include "carp_types.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-
-#include "carp_types.h"
+#include <stdbool.h>
 
 #define CARP_HT_KEY_LENGTH 15
 
@@ -21,11 +20,11 @@ typedef struct carp_ht_s {
   carp_ht_entry **buckets;
 } carp_ht;
 
-carp_bool carp_ht_init (carp_ht *, long size);
-carp_bool carp_ht_del (carp_ht *, const char *);
-carp_bool carp_ht_set (carp_ht *, const char *, carp_value);
+bool carp_ht_init (carp_ht *, long size);
+bool carp_ht_del (carp_ht *, const char *);
+bool carp_ht_set (carp_ht *, const char *, carp_value);
 carp_ht_entry *carp_ht_get (carp_ht *, const char *);
-carp_bool carp_ht_resize (carp_ht *);
+bool carp_ht_resize (carp_ht *);
 void carp_ht_print (carp_ht *, FILE *);
 void carp_ht_cleanup (carp_ht *);
 

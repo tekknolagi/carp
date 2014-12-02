@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-
 #include "lib/carp_types.h"
 #include "lib/carp_ht.h"
-
 #include "carp_tokenizer.h"
 #include "carp_lexer.h"
 #include "carp_machine.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdbool.h>
 
 static void carp_lex_cleanup (carp_tok *);
 static void carp_lex_exit (carp_tok *, carp_ht *, int);
@@ -47,7 +46,7 @@ void carp_lex_lex (carp_machine_state *m, carp_tok *tokens) {
       break;
     }
     case CARP_TOK_LBL: {
-      carp_bool status = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
+      bool status = carp_ht_set(&m->labels, tmp->lexeme, tmp->pos);
       if (status != 0) {
         fprintf(stderr, "Could not make label <%s>\n", tmp->lexeme);
         carp_lex_exit(tokens, &m->labels, 1);

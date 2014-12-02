@@ -1,9 +1,9 @@
 #ifndef CARP_REGISTERS_H
 #define CARP_REGISTERS_H
 
-#include <stdio.h>
-
 #include "lib/carp_types.h"
+#include <stdio.h>
+#include <stdbool.h>
 
 // make register numbers easier on the eyes
 typedef enum {
@@ -51,13 +51,13 @@ typedef enum {
 
 extern char carp_reverse_reg[][5];
 
-carp_value *carp_reg_get (carp_value [], carp_reg);
-carp_bool carp_reg_set (carp_value [], carp_reg, carp_value);
-carp_bool carp_reg_add (carp_value [], carp_reg, carp_value);
-carp_bool carp_reg_sub (carp_value [], carp_reg, carp_value);
-carp_bool carp_reg_inc (carp_value [], carp_reg);
-carp_bool carp_reg_dec (carp_value [], carp_reg);
-void carp_reg_print (carp_value [], FILE *);
+carp_value *carp_reg_get(carp_value [], carp_reg);
+bool carp_reg_set(carp_value [], carp_reg, carp_value);
+bool carp_reg_add(carp_value [], carp_reg, carp_value);
+bool carp_reg_sub(carp_value [], carp_reg, carp_value);
+bool carp_reg_inc(carp_value [], carp_reg);
+bool carp_reg_dec(carp_value [], carp_reg);
+void carp_reg_print(carp_value [], FILE *);
 void carp_reg_init(carp_value []);
 
 #endif

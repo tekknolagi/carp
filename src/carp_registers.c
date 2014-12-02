@@ -1,8 +1,8 @@
+#include "carp_registers.h"
 #include <stdlib.h>
+#include <stdbool.h>
 #include <inttypes.h>
 #include <assert.h>
-
-#include "carp_registers.h"
 
 char carp_reverse_reg[][5] = {
   "r0",
@@ -44,7 +44,7 @@ carp_value *carp_reg_get (carp_value regs[], carp_reg reg) {
 /*
   Set the value in a given register. Fails if register is outside bounds.
 */
-carp_bool carp_reg_set (carp_value regs[], carp_reg reg, carp_value value) {
+bool carp_reg_set (carp_value regs[], carp_reg reg, carp_value value) {
   assert(regs != NULL);
 
   carp_value *res = carp_reg_get(regs, reg);
@@ -58,7 +58,7 @@ carp_bool carp_reg_set (carp_value regs[], carp_reg reg, carp_value value) {
 /*
   Adds a value to a register.
 */
-carp_bool carp_reg_add (carp_value regs[], carp_reg reg, carp_value value) {
+bool carp_reg_add (carp_value regs[], carp_reg reg, carp_value value) {
   assert(regs != NULL);
 
   carp_value *res = carp_reg_get(regs, reg);
@@ -72,7 +72,7 @@ carp_bool carp_reg_add (carp_value regs[], carp_reg reg, carp_value value) {
 /*
   Subtracts a value from a register.
 */
-carp_bool carp_reg_sub (carp_value regs[], carp_reg reg, carp_value value) {
+bool carp_reg_sub (carp_value regs[], carp_reg reg, carp_value value) {
   assert(regs != NULL);
 
   carp_value *res = carp_reg_get(regs, reg);
@@ -86,7 +86,7 @@ carp_bool carp_reg_sub (carp_value regs[], carp_reg reg, carp_value value) {
 /*
   Increments a register.
 */
-carp_bool carp_reg_inc (carp_value regs[], carp_reg reg) {
+bool carp_reg_inc (carp_value regs[], carp_reg reg) {
   assert(regs != NULL);
 
   assert(regs != NULL);
@@ -102,7 +102,7 @@ carp_bool carp_reg_inc (carp_value regs[], carp_reg reg) {
 /*
   Decrements a register.
 */
-carp_bool carp_reg_dec (carp_value regs[], carp_reg reg) {
+bool carp_reg_dec (carp_value regs[], carp_reg reg) {
   assert(regs != NULL);
 
   assert(regs != NULL);

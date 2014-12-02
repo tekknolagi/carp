@@ -1,8 +1,9 @@
 #include "tests.h"
 #include "../src/carp_registers.h"
+#include <stdbool.h>
 
 int main () {
-  carp_bool status = 0;
+  bool status = 0;
   carp_value regs[CARP_NUM_REGS];
   carp_value reg = 7;
   carp_value value = 19;

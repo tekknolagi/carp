@@ -1,5 +1,7 @@
-#include <inttypes.h>
 #include "carp_ht.h"
+#include <stdbool.h>
+#include <inttypes.h>
+#include <assert.h>
 
 static unsigned long carp_ht_rhash (const char *);
 static unsigned long carp_ht_hash (const char *, long);
@@ -40,7 +42,7 @@ static short int carp_ht_used (carp_ht *h) {
   return in_use * 100 / h->size;
 }
 
-carp_bool carp_ht_init (carp_ht *h, long size) {
+bool carp_ht_init (carp_ht *h, long size) {
   assert(h != NULL);
   assert(size > 0);
 
@@ -58,7 +60,7 @@ carp_bool carp_ht_init (carp_ht *h, long size) {
   return 0;
 }
 
-carp_bool carp_ht_del (carp_ht *h, const char *key) {
+bool carp_ht_del (carp_ht *h, const char *key) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -93,8 +95,7 @@ carp_bool carp_ht_del (carp_ht *h, const char *key) {
   return 0;
 }
 
-
-carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
+bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
   assert(h != NULL);
   assert(key != NULL);
 
@@ -146,7 +147,7 @@ carp_ht_entry *carp_ht_get (carp_ht *h, const char *key) {
   return base;
 }
 
-carp_bool carp_ht_resize (carp_ht *h) {
+bool carp_ht_resize (carp_ht *h) {
   /* TODO: This probably still leaks memory, did not try to free entry
    * lists...
    */

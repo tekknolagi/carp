@@ -1,12 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <assert.h>
-
 #include "carp_registers.h"
 #include "carp_instructions.h"
 #include "carp_tokenizer.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+#include <errno.h>
 
 char carp_reverse_type[][6] = {
   "undef",
@@ -18,13 +19,13 @@ char carp_reverse_type[][6] = {
   "instr"
 };
 
-static char *file_read (const char *);
-static carp_bool is_sign (char);
-static carp_bool is_num (const char *);
-static carp_bool is_reg (const char *);
-static carp_bool is_label (const char *);
-static carp_bool is_var (const char *);
-static carp_bool is_instr (const char *);
+static char *file_read(const char *);
+static bool is_sign(char);
+static bool is_num(const char *);
+static bool is_reg(const char *);
+static bool is_label(const char *);
+static bool is_var(const char *);
+static bool is_instr(const char *);
 
 /* Reads a whole file into memory (really should change to
  * line-by-line), then goes through and copies lexemes, types, and
@@ -117,26 +118,32 @@ char *file_read (const char *fn) {
 
   char *contents;
   size_t fsize;
+  size_t nread;
+  FILE *fp;
 
-  FILE *fp = fopen(fn, "r");
-  if (fp == NULL) {
-    fprintf(stderr, "Could not open file `%s' for reading.\n", fn);
+  if ((fp = fopen(fn, "r")) == NULL) {
+    fprintf(stderr, "Could not open file `%s' for reading: %s\n",
+            fn, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  fseek(fp, 0, SEEK_END); // go to end
+  /* Figure out file size */
+  fseek(fp, 0, SEEK_END);
   fsize = ftell(fp);
-  fseek(fp, 0, SEEK_SET); // go to beginning
+  fseek(fp, 0, SEEK_SET);
 
-  contents = malloc(fsize * sizeof *contents);
-  if (contents == NULL) {
-    fprintf(stderr, "Could not malloc space for file contents.\n");
+  /* File size in bytes */
+  fsize *= sizeof(*contents);
+
+  if ((contents = malloc(fsize)) == NULL) {
+    fprintf(stderr, "Could not allocate %lu bytes for file contents: %s\n",
+            fsize, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  size_t nread = fread(contents, sizeof *contents, fsize, fp);
-  if (nread != fsize) {
-    fprintf(stderr, "WARNING: Something was wonky while reading this file.\n");
+  if ((nread = fread(contents, sizeof *contents, fsize, fp)) != fsize) {
+    fprintf(stderr, "WARNING: Something was wonky when reading this file: %s\n",
+            strerror(errno));
   }
 
   fclose(fp);
@@ -145,12 +152,12 @@ char *file_read (const char *fn) {
 }
 
 /* Returns true if the character is a numeric sign. */
-carp_bool is_sign (char c) {
+bool is_sign (char c) {
   return c == '+' || c == '-';
 }
 
 /* Returns true if the string contains all numbers (can start with a sign). */
-carp_bool is_num (const char *s) {
+bool is_num (const char *s) {
   assert(s != NULL);
 
   if (!(is_sign(s[0]) || isdigit((unsigned char) s[0]))) return 0;
@@ -162,28 +169,28 @@ carp_bool is_num (const char *s) {
 }
 
 /* Returns true if the string is in the registers list. */
-carp_bool is_reg (const char *s) {
+bool is_reg (const char *s) {
   assert(s != NULL);
 
   return carp_reg_lookup(s) != CARP_REG_UNDEF;
 }
 
 /* Returns true if the string has a : in it. */
-carp_bool is_label (const char *s) {
+bool is_label (const char *s) {
   assert(s != NULL);
 
   return strchr(s, ':') != NULL;
 }
 
 /* Returns true if the string has a $ in it. */
-carp_bool is_var (const char *s) {
+bool is_var (const char *s) {
   assert(s != NULL);
 
   return strchr(s, '$') != NULL;
 }
 
 /* Returns true if the string is in the instructions list. */
-carp_bool is_instr (const char *s) {
+bool is_instr (const char *s) {
   assert(s != NULL);
 
   return carp_instr_lookup(s) != CARP_INSTR_UNDEF;
