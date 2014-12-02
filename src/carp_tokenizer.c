@@ -116,7 +116,7 @@ char *file_read (const char *fn) {
   assert(fn != NULL);
 
   char *contents;
-  long long fsize;
+  size_t fsize;
 
   FILE *fp = fopen(fn, "r");
   if (fp == NULL) {
@@ -157,7 +157,7 @@ carp_bool is_num (const char *s) {
 
   if (!(is_sign(s[0]) || isdigit((unsigned char) s[0]))) return 0;
 
-  for (int i = 1; i < strlen(s); i++)
+  for (size_t i = 1; i < strlen(s); i++)
     if (!isdigit((unsigned char) s[i])) return 0;
 
   return 1;
