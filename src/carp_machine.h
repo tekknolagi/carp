@@ -30,7 +30,8 @@ void carp_vm_exit (carp_machine_state *, int);
 carp_value carp_run_program (const char *);
 
 // shortcut so I don't have to keep copy/pasting declarations & definitions
-#define CARP_IDEF(x) void carp_instr_##x (carp_machine_state *m)
+#define CARP_IDEF(x) void carp_instr_##x \
+  (__attribute__((unused)) carp_machine_state *m)
 // #define CARP_IDECL(x) void carp_instr_##x (carp_machine_state *)
 
 // this is where the declaration/definition macro comes in handy
