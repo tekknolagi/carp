@@ -111,8 +111,8 @@ carp_value carp_vm_next (carp_machine_state *m) {
   Writes an error message to stderr, then signals for the machine
   to cleanly exit.
 */
-void carp_vm_err (carp_machine_state *m, char *e) {
-  fprintf(stderr, e);
+void carp_vm_err (carp_machine_state *m, const char *e) {
+  fprintf(stderr, "%s", e);
   putchar('\n');
   carp_vm_exit(m, EXIT_FAILURE);
 }
