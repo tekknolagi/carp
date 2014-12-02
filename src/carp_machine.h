@@ -23,7 +23,7 @@ void carp_vm_load (carp_machine_state *, carp_value [], carp_value);
 void carp_vm_eval (carp_machine_state *);
 carp_value carp_vm_run (carp_machine_state *);
 carp_value carp_vm_next (carp_machine_state *);
-void carp_vm_err (carp_machine_state *, char *);
+void carp_vm_err (carp_machine_state *, const char *);
 void carp_vm_cleanup (carp_machine_state *);
 void carp_vm_exit (carp_machine_state *, int);
 
