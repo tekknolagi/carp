@@ -71,7 +71,7 @@ carp_bool carp_reg_inc (carp_value regs[], carp_reg reg) {
     return 1;
 
   carp_reg_add(regs, reg, 1);
-  return 0;  
+  return 0;
 }
 
 /*
@@ -87,7 +87,7 @@ carp_bool carp_reg_dec (carp_value regs[], carp_reg reg) {
     return 1;
 
   carp_reg_sub(regs, reg, 1);
-  return 0;  
+  return 0;
 }
 
 void carp_reg_print (carp_value regs[], FILE *fp) {
