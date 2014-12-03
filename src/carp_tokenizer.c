@@ -127,11 +127,13 @@ char *file_read (const char *fn) {
   fsize = ftell(fp);
   fseek(fp, 0, SEEK_SET); // go to beginning
 
-  contents = malloc(fsize * sizeof *contents);
+  size_t nbytes = fsize * sizeof *contents + 1; // includes NUL terminator
+  contents = malloc(nbytes);
   if (contents == NULL) {
     fprintf(stderr, "Could not malloc space for file contents.\n");
     exit(EXIT_FAILURE);
   }
+  memset(contents, 0, nbytes);
 
   size_t nread = fread(contents, sizeof *contents, fsize, fp);
   if (nread != fsize) {

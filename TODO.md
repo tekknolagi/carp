@@ -29,7 +29,6 @@ In no particular order:
 * Brainfuck compiler...
 * `ldstr` method that reads string into memory and pushes address onto the stack
 * Hash lookup for regs and instr names.
-* NUL-terminate in file_read.
 * Add bounds checking on LOAD/STORE, among others
 * Increment IP after instruction fetched?
 * Logical operators (AND, OR) and how to segment from bitwise operators
