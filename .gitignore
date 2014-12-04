@@ -5,6 +5,7 @@
 *.gch
 *\#
 *.\#*
+*.dSYM
 carp.out
 carp
-*.dSYM
+!examples/carp
