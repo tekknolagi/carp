@@ -3,7 +3,7 @@ PREFIX ?= /usr/local
 BIN = carp
 LIB = libcarp.a
 
-CFLAGS  += -std=c11 -pedantic -Wall -W -Wextra \
+CFLAGS  += -std=c99 -pedantic -Wall -W -Wextra \
 	   -Wwrite-strings -Wpointer-arith -Wbad-function-cast
 LDFLAGS += -lm
 
