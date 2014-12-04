@@ -45,6 +45,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
    * a cleaner way to do this
    */
   if (toks == NULL) {
+    free(str);
     exit(EXIT_SUCCESS);
   }
 
