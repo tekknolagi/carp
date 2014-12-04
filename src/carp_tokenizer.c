@@ -116,18 +116,23 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 char *file_read (const char *fn) {
   assert(fn != NULL);
 
+  FILE *fp;
   char *contents;
   size_t fsize;
+  size_t nread;
 
-  FILE *fp = fopen(fn, "r");
-  if (fp == NULL) {
-    fprintf(stderr, "Could not open file `%s' for reading.\n", fn);
+  if ((fp = fopen(fn, "r")) == NULL) {
+    fprintf(stderr, "Could not open file `%s' for reading: %s\n",
+            fn, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  fseek(fp, 0, SEEK_END); // go to end
+  /* Figure out file size */
+  fseek(fp, 0, SEEK_END);
   fsize = ftell(fp);
-  fseek(fp, 0, SEEK_SET); // go to beginning
+  fseek(fp, 0, SEEK_SET);
+
+  fsize *= sizeof(*contents);
 
   /* + 1 is for the NULL terminator */
   if ((contents = malloc(fsize + 1)) == NULL) {
@@ -136,13 +141,18 @@ char *file_read (const char *fn) {
     exit(EXIT_FAILURE);
   }
 
-  size_t nread = fread(contents, sizeof *contents, fsize, fp);
-  if (nread != fsize) {
-    fprintf(stderr, "WARNING: Something was wonky while reading this file.\n");
+  if ((nread = fread(contents, sizeof(*contents), fsize, fp)) != fsize) {
+    fprintf(stderr, "WARNING: There was a problem reading `%s': %s\n",
+            fn, strerror(errno));
   }
 
   contents[nread] = '\0';
-  fclose(fp);
+
+  if (fclose(fp) == EOF) {
+    fprintf(stderr, "WARNING: There was a problem closing `%s': %s\n",
+            fn, strerror(errno));
+    clearerr(fp);
+  }
 
   return contents;
 }
