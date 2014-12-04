@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include <assert.h>
 
 #include "carp_registers.h"
@@ -128,19 +129,19 @@ char *file_read (const char *fn) {
   fsize = ftell(fp);
   fseek(fp, 0, SEEK_SET); // go to beginning
 
-  size_t nbytes = fsize * sizeof *contents + 1; // includes NUL terminator
-  contents = malloc(nbytes);
-  if (contents == NULL) {
-    fprintf(stderr, "Could not malloc space for file contents.\n");
+  /* + 1 is for the NULL terminator */
+  if ((contents = malloc(fsize + 1)) == NULL) {
+    fprintf(stderr, "Could not malloc %lu bytes for file contents: %s\n",
+            fsize + 1, strerror(errno));
     exit(EXIT_FAILURE);
   }
-  memset(contents, 0, nbytes);
 
   size_t nread = fread(contents, sizeof *contents, fsize, fp);
   if (nread != fsize) {
     fprintf(stderr, "WARNING: Something was wonky while reading this file.\n");
   }
 
+  contents[nread] = '\0';
   fclose(fp);
 
   return contents;
