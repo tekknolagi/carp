@@ -58,7 +58,8 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   carp_value i = 0;
 
   if (parsed == NULL) {
-    fprintf(stderr, "Could not allocate memory for token.\n");
+    fprintf(stderr, "Could not allocate memory (%lu bytes) for a token: %s\n",
+            sizeof(*parsed), strerror(errno));
     return NULL;
   }
 
