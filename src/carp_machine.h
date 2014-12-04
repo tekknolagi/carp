@@ -29,8 +29,17 @@ void carp_vm_exit (carp_machine_state *, int);
 
 carp_value carp_run_program (const char *);
 
+// see http://stackoverflow.com/questions/7090998/portable-unused-parameter-macro-used-on-function-signature-for-c-and-c
+
+#if (__GNUC__ > 2) || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
+#       define CARP_GNUC_UNUSED         __attribute__((__unused__))
+#else
+#       define CARP_GNUC_UNUSED
+#endif
+
 // shortcut so I don't have to keep copy/pasting declarations & definitions
-#define CARP_IDEF(x) void carp_instr_##x (carp_machine_state *m)
+#define CARP_IDEF(x) void carp_instr_##x \
+  (CARP_GNUC_UNUSED carp_machine_state *m)
 // #define CARP_IDECL(x) void carp_instr_##x (carp_machine_state *)
 
 // this is where the declaration/definition macro comes in handy
