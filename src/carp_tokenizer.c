@@ -44,6 +44,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
    * a cleaner way to do this
    */
   if (toks == NULL) {
+    free(str);
     exit(EXIT_SUCCESS);
   }
 
@@ -56,6 +57,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   carp_value i = 0;
 
   if (parsed == NULL) {
+    free(str);
     fprintf(stderr, "Could not allocate memory for token.\n");
     return NULL;
   }
