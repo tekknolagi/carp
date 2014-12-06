@@ -23,11 +23,13 @@ TEST_LIBS = $(LIB) tests/libtap/libtap.a
 ifeq ($(RELEASE),yes)
 	CFLAGS += -O2
 	CFLAGS += -DNDEBUG
-else ifeq ($(CDEBUG),yes)
-	CFLAGS += -DCDEBUG
 else
 	CFLAGS  += -g3
 	LDFLAGS += -g
+endif
+
+ifeq ($(CDEBUG),yes)
+	CFLAGS += -DCDEBUG
 endif
 
 .PHONY: all clean libtap libtap_clean test install uninstall
