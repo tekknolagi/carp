@@ -169,6 +169,9 @@ CARP_IDEF (JZ) {
   // zero
   if (!a)
     carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
+  else
+    // do not take the next arg as an instruction
+    carp_vm_next(m);
 }
 
 CARP_IDEF (RJZ) {
@@ -177,6 +180,9 @@ CARP_IDEF (RJZ) {
   // zero
   if (!a)
     carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
+  else
+    // do not take the next arg as an instruction
+    carp_vm_next(m);
 }
 
 CARP_IDEF (JNZ) {
@@ -185,6 +191,9 @@ CARP_IDEF (JNZ) {
   // not zero
   if (a)
     carp_reg_set(m->regs, CARP_IP, carp_vm_next(m));
+  else
+    // do not take the next arg as an instruction
+    carp_vm_next(m);
 }
 
 CARP_IDEF (RJNZ) {
@@ -193,6 +202,9 @@ CARP_IDEF (RJNZ) {
   // not zero
   if (a)
     carp_reg_add(m->regs, CARP_IP, m->code[m->regs[CARP_IP] + 1]);
+  else
+    // do not take the next arg as an instruction
+    carp_vm_next(m);
 }
 
 CARP_IDEF (JMP) {

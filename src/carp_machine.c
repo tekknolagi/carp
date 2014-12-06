@@ -92,8 +92,13 @@ void carp_vm_eval (carp_machine_state *m) {
 carp_value carp_vm_run (carp_machine_state *m) {
   assert(m != NULL);
 
-  while (m->regs[CARP_RUN])
+  while (m->regs[CARP_RUN]) {
+    #ifdef CDEBUG
+    carp_value instr = m->code[m->regs[CARP_IP]+1];
+    printf("i: %s\n", carp_reverse_instr[instr]);
+    #endif
     carp_vm_eval(m);
+  }
 
   return m->regs[CARP_EXT];
 }
