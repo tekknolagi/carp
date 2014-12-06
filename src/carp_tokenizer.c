@@ -60,7 +60,7 @@ carp_tok *carp_lex_tokenize (const char *fn) {
   if (parsed == NULL) {
     free(str);
     fprintf(stderr, "Could not allocate memory (%lu bytes) for a token: %s\n",
-            sizeof(*parsed), strerror(errno));
+            sizeof *parsed, strerror(errno));
     return NULL;
   }
 
@@ -69,17 +69,23 @@ carp_tok *carp_lex_tokenize (const char *fn) {
 
     if (is_num(toks)) {
       type = CARP_TOK_NUM;
-    } else if (is_reg(toks)) {
+    }
+    else if (is_reg(toks)) {
       type = CARP_TOK_REG;
-    } else if (is_label(toks)) {
+    }
+    else if (is_label(toks)) {
       type = CARP_TOK_LBL;
-    } else if (lookbehind != NULL && strcmp(lookbehind->lexeme, "call") == 0) {
+    }
+    else if (lookbehind != NULL && strcmp(lookbehind->lexeme, "call") == 0) {
       type = CARP_TOK_FUNC;
-    } else if (is_var(toks)) {
+    }
+    else if (is_var(toks)) {
       type = CARP_TOK_VAR;
-    } else if (is_instr(toks)) {
+    }
+    else if (is_instr(toks)) {
       type = CARP_TOK_INSTR;
-    } else {
+    }
+    else {
       type = CARP_TOK_UNDEF;
     }
 
@@ -87,11 +93,13 @@ carp_tok *carp_lex_tokenize (const char *fn) {
       /* don't copy colon at end */
       memcpy(parsed->lexeme, toks, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
-    } else if (type == CARP_TOK_VAR) {
+    }
+    else if (type == CARP_TOK_VAR) {
       /* don't copy proposed $ at start */
       memcpy(parsed->lexeme, toks + 1, toks_len - 1);
       parsed->lexeme[toks_len - 1] = 0;
-    } else {
+    }
+    else {
       /* nothing to avoid */
       memcpy(parsed->lexeme, toks, toks_len);
       parsed->lexeme[toks_len] = 0;
@@ -124,7 +132,8 @@ char *file_read (const char *fn) {
   size_t fsize;
   size_t nread;
 
-  if ((fp = fopen(fn, "r")) == NULL) {
+  fp = fopen(fn, "r");
+  if (!fp) {
     fprintf(stderr, "Could not open file `%s' for reading: %s\n",
             fn, strerror(errno));
     exit(EXIT_FAILURE);
@@ -135,16 +144,18 @@ char *file_read (const char *fn) {
   fsize = ftell(fp);
   fseek(fp, 0, SEEK_SET);
 
-  fsize *= sizeof(*contents);
+  fsize *= sizeof *contents;
 
   /* + 1 is for the NULL terminator */
-  if ((contents = malloc(fsize + 1)) == NULL) {
+  contents = malloc(fsize + 1);
+  if (!contents) {
     fprintf(stderr, "Could not malloc %lu bytes for file contents: %s\n",
             fsize + 1, strerror(errno));
     exit(EXIT_FAILURE);
   }
 
-  if ((nread = fread(contents, sizeof(*contents), fsize, fp)) != fsize) {
+  nread = fread(contents, sizeof *contents, fsize, fp);
+  if (nread != fsize) {
     fprintf(stderr, "WARNING: There was a problem reading `%s': %s\n",
             fn, strerror(errno));
   }

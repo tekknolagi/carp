@@ -43,11 +43,10 @@ void carp_vm_make (carp_machine_state *m) {
   assert(m != NULL);
   assert(&m->labels != NULL);
 
-  carp_ht_entry *res;
-
   carp_reg_init(m->regs);
 
-  if ((res = carp_ht_get(&m->labels, "main")) == NULL) {
+  carp_ht_entry *res = carp_ht_get(&m->labels, "main");
+  if (!res) {
     carp_vm_err(m, CARP_VM_NO_MAIN);
   }
 
@@ -55,7 +54,8 @@ void carp_vm_make (carp_machine_state *m) {
 
   m->regs[CARP_RUN] = 1;
 
-  if (carp_stack_init(&m->stack, &m->regs[CARP_SP], 1) == 1) {
+  bool carp_stack_err = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
+  if (carp_stack_err == 1) {
     carp_vm_err(m, CARP_STACK_NO_MEM);
   }
 }
