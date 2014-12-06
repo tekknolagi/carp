@@ -1,0 +1,7 @@
+main:
+  loadr r0, 10
+  pushr r0
+  ptop
+  decr r0
+  jnz 3
+  halt 0
