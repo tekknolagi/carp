@@ -35,27 +35,29 @@ void carp_vm_init (carp_machine_state *m, long stack_height, carp_value main_add
   carp_ht_init(&m->labels, 10);
 }
 
-/*
-  VM initialization for parsed code (since the labels will have already been generated).
-  Would like to rename this at some point.
-*/
+/* VM initialization for parsed code (since the labels will have
+ * already been generated).  Would like to rename this at some
+ * point.
+ */
 void carp_vm_make (carp_machine_state *m) {
   assert(m != NULL);
   assert(&m->labels != NULL);
 
+  carp_ht_entry *res;
+
   carp_reg_init(m->regs);
 
-  carp_ht_entry *res = carp_ht_get(&m->labels, "main");
-  if (res == NULL)
+  if ((res = carp_ht_get(&m->labels, "main")) == NULL) {
     carp_vm_err(m, CARP_VM_NO_MAIN);
+  }
 
   carp_reg_set(m->regs, CARP_IP, res->value - 1);
 
   m->regs[CARP_RUN] = 1;
 
-  int status = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
-  if (status == 1)
+  if (carp_stack_init(&m->stack, &m->regs[CARP_SP], 1) == 1) {
     carp_vm_err(m, CARP_STACK_NO_MEM);
+  }
 }
 
 /*
