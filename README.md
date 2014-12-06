@@ -68,6 +68,7 @@ HALT   | exit code | Sets `ext` to given code, halts, and attempts to clean up s
 NOP    |           | Does nothing. Seriously.
 LOADR  | reg, val  | Loads given integer value into given register.
 LOAD   | diff      | Loads value at location `fp` + diff in the stack.
+STORE  | diff, val | Stores value at location `fp` + diff.
 MOV    | dst, src  | Copies contents of src register into dst register.
 ADD    |           | Pops the top two integers from the stack and pushes their sum.
 SUB    |           | Pops the top two integers from the stack and pushes the difference (lower minus upper).
@@ -87,6 +88,8 @@ PUSHR  | reg       | Pushes value in given register.
 PUSH   | val       | Pushes given value.
 POP    | reg       | Pops an integer from the stack and dumps it into given register.
 CMP    |           | Pops the top two integers from the stack and checks if equal. 0 means equal. Pushes result.
+LT     |           | Pops the top two integers from the stack and checks if lower < upper. Pushes result.
+GT     |           | Pops the top two integers from the stack and checks if lower > upper. Pushes result.
 JZ     | addr      | Jumps to given absolute address if top of the stack is 0.
 RJZ    | diff      | Adds differential to `ip` (relative jump) if top of the stack is 0.
 JNZ    | addr      | Jumps to given absolute address if top of the stack is not 0.
