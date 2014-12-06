@@ -80,7 +80,7 @@ void carp_vm_eval (carp_machine_state *m) {
   carp_reg_inc(m->regs, CARP_IP);
 
   // fetch instruction
-  int instr = m->code[m->regs[CARP_IP]];
+  carp_value instr = m->code[m->regs[CARP_IP]];
 
   // decode, execute
   carp_instructions[instr](m);
