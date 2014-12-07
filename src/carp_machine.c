@@ -49,10 +49,10 @@ void carp_vm_make (carp_machine_state *m) {
   if (!res) {
     carp_vm_err(m, CARP_VM_NO_MAIN);
   }
-
-  carp_reg_set(m->regs, CARP_IP, res->value - 1);
-
-  m->regs[CARP_RUN] = 1;
+  else {
+    carp_reg_set(m->regs, CARP_IP, res->value - 1);
+    m->regs[CARP_RUN] = 1;
+  }
 
   bool carp_stack_err = carp_stack_init(&m->stack, &m->regs[CARP_SP], 1);
   if (carp_stack_err == 1) {
