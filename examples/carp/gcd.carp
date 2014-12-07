@@ -1,0 +1,20 @@
+gcd:
+	load -4
+	load -3
+	pop r1
+	pushr r1
+	mod
+	mov r0, r1
+	pop r1
+	pushr r0
+	pushr r1
+	rjnz -14
+	pop ax
+	ret
+
+main:
+	push 112233
+	push 975555
+	call gcd
+	preg ax
+	halt 0
