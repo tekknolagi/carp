@@ -15,17 +15,19 @@ Example:
 
 ```asm
 add:
-	load -5
-	load -4
-	add
-	ret
+  load -4
+  load -3
+  add
+  pop ax
+  ret
 
 main:
-	push 7
-	push 9
-	call add
-	ptop
-	halt 0
+  push 7
+  push 9
+  call add
+  preg ax
+  halt 0
+
 ```
 
 Would print `16`.
