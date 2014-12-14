@@ -164,7 +164,7 @@ carp_value carp_run_program (const char *fn) {
 // shortcut so I don't have to keep copy/pasting array indices & whatnot
 #define CARP_IASSN(x) [CARP_INSTR_##x] = carp_instr_##x
 
-carp_instruction_f carp_instructions[] = {
+const carp_instruction_f carp_instructions[] = {
   CARP_IASSN(HALT),
   CARP_IASSN(NOP),
   CARP_IASSN(LOADR),

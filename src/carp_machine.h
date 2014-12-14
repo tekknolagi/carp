@@ -88,6 +88,6 @@ typedef void (*carp_instruction_f) (carp_machine_state *);
 
 // create an array of function pointers to the instructions --
 // this is useful in `eval`
-carp_instruction_f carp_instructions[CARP_NUM_INSTRS];
+const carp_instruction_f carp_instructions[CARP_NUM_INSTRS];
 
 #endif
