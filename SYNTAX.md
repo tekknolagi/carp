@@ -15,18 +15,18 @@ Example:
 
 ```asm
 add:
-  load -4
-  load -3
-  add
-  pop ax
-  ret
+	load -4
+	load -3
+	add
+	pop ax
+	ret
 
 main:
-  push 7
-  push 9
-  call add
-  preg ax
-  halt 0
+	push 7
+	push 9
+	call add
+	preg ax
+	halt 0
 
 ```
 
