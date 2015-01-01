@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "lib/carp_types.h"
-#include "lib/carp_ht.h"
+#include "lib/types.h"
+#include "lib/ht.h"
 
-#include "carp_tokenizer.h"
-#include "carp_lexer.h"
-#include "carp_machine.h"
+#include "tokenizer.h"
+#include "lexer.h"
+#include "machine.h"
 
 static void carp_lex_cleanup (carp_tok *);
 static void carp_lex_exit (carp_tok *, carp_ht *, int);

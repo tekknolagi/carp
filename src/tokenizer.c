@@ -5,9 +5,9 @@
 #include <errno.h>
 #include <assert.h>
 
-#include "carp_registers.h"
-#include "carp_instructions.h"
-#include "carp_tokenizer.h"
+#include "registers.h"
+#include "instructions.h"
+#include "tokenizer.h"
 
 char carp_reverse_type[][6] = {
   "undef",

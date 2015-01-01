@@ -1,5 +1,5 @@
 #include <inttypes.h>
-#include "carp_stack.h"
+#include "stack.h"
 
 static bool carp_stack_full (carp_stack *);
 

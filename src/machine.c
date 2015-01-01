@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "lib/carp_messages.h"
-#include "carp_lexer.h"
-#include "carp_machine.h"
+#include "lib/messages.h"
+#include "lexer.h"
+#include "machine.h"
 
 /*
   Initialize the VM - this includes lots of allocation.

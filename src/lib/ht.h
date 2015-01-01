@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "carp_types.h"
+#include "types.h"
 
 #define CARP_HT_KEY_LENGTH 15
 

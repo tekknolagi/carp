@@ -1,8 +1,8 @@
 #include <inttypes.h>
-#include "lib/carp_messages.h"
+#include "lib/messages.h"
 
-#include "carp_instructions.h"
-#include "carp_machine.h"
+#include "instructions.h"
+#include "machine.h"
 
 char carp_reverse_instr[][6] = {
   "halt",

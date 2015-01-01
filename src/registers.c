@@ -2,7 +2,7 @@
 #include <inttypes.h>
 #include <assert.h>
 
-#include "carp_registers.h"
+#include "registers.h"
 
 char carp_reverse_reg[][5] = {
   "r0",

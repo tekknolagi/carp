@@ -7,12 +7,12 @@ CFLAGS  += -std=c99 -pedantic -Wall -W -Werror -Wextra \
 	   -Wwrite-strings -Wpointer-arith -Wbad-function-cast
 LDFLAGS += -lm
 
-MAIN_SRCS = src/carp.c
+MAIN_SRCS = src/main.c
 MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 
 # We use carp_* to avoid including carp.c (main)
-LIB_SRCS = $(shell echo src/carp_*.c src/lib/*.c)
-LIB_HDRS = $(shell echo src/carp_*.h src/lib/*.h)
+LIB_SRCS = $(shell echo src/*.c src/lib/*.c)
+LIB_HDRS = $(shell echo src/*.h src/lib/*.h)
 LIB_OBJS = $(LIB_SRCS:.c=.o)
 
 TEST_SRCS = $(shell echo tests/*.c tests/instr/*.c)

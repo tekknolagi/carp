@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include "lib/carp_types.h"
+#include "lib/types.h"
 
 // make register numbers easier on the eyes
 typedef enum {

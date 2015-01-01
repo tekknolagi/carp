@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#include "carp_types.h"
+#include "types.h"
 
 typedef struct carp_stack {
   carp_value max_height;

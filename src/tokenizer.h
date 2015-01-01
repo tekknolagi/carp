@@ -1,10 +1,10 @@
 #ifndef CARP_TOKENIZER_H
 #define CARP_TOKENIZER_H
 
-#include "lib/carp_types.h"
+#include "lib/types.h"
 
-#include "carp_registers.h"
-#include "carp_instructions.h"
+#include "registers.h"
+#include "instructions.h"
 
 #define CARP_TOK_WORD_LENGTH 10
 

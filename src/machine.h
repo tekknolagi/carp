@@ -1,12 +1,12 @@
 #ifndef CARP_MACHINE_H
 #define CARP_MACHINE_H
 
-#include "lib/carp_types.h"
-#include "lib/carp_stack.h"
-#include "lib/carp_ht.h"
+#include "lib/types.h"
+#include "lib/stack.h"
+#include "lib/ht.h"
 
-#include "carp_registers.h"
-#include "carp_instructions.h"
+#include "registers.h"
+#include "instructions.h"
 
 typedef struct carp_machine_state_s {
   carp_value regs[CARP_NUM_REGS];

@@ -1,6 +1,6 @@
 #include <getopt.h>
 
-#include "carp_machine.h"
+#include "machine.h"
 
 #define CARP_VERSION 0.3
 

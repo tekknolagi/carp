@@ -1,5 +1,5 @@
 #include <inttypes.h>
-#include "carp_ht.h"
+#include "ht.h"
 
 static unsigned long carp_ht_rhash (const char *);
 static unsigned long carp_ht_hash (const char *, long);
