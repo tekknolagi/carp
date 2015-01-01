@@ -19,6 +19,9 @@ char carp_reverse_type[][6] = {
   "instr"
 };
 
+carp_reg in_reg_set (register const char *str);
+carp_instr in_instr_set (register const char *str);
+
 static char *file_read (const char *);
 static carp_bool is_sign (char);
 static carp_bool is_num (const char *);
@@ -188,11 +191,11 @@ carp_bool is_num (const char *s) {
   return 1;
 }
 
-/* Returns true if the string is in the registers list. */
+/* Returns true if the string is in the registers list. Uses gperf. */
 carp_bool is_reg (const char *s) {
   assert(s != NULL);
 
-  return carp_reg_lookup(s) != CARP_REG_UNDEF;
+  return in_reg_set(s) != CARP_REG_UNDEF;
 }
 
 /* Returns true if the string has a : in it. */
@@ -209,31 +212,9 @@ carp_bool is_var (const char *s) {
   return strchr(s, '$') != NULL;
 }
 
-/* Returns true if the string is in the instructions list. */
+/* Returns true if the string is in the instructions list. Uses gperf. */
 carp_bool is_instr (const char *s) {
   assert(s != NULL);
 
-  return carp_instr_lookup(s) != CARP_INSTR_UNDEF;
-}
-
-/* Uses strcmp to look up regs. Could probably use a hashtable. */
-carp_reg carp_reg_lookup (const char *s) {
-  assert(s != NULL);
-
-  for (int i = 0; i < CARP_NUM_REGS; i++)
-    if (!strcmp(carp_reverse_reg[i], s))
-      return i;
-
-  return CARP_REG_UNDEF;
-}
-
-/* Uses strcmp to look up instrs. Could probably use a hashtable. */
-carp_instr carp_instr_lookup (const char *s) {
-  assert(s != NULL);
-
-  for (int i = 0; i < CARP_NUM_INSTRS; i++)
-    if (!strcmp(carp_reverse_instr[i], s))
-      return i;
-
-  return CARP_INSTR_UNDEF;
+  return in_instr_set(s) != CARP_INSTR_UNDEF;
 }
