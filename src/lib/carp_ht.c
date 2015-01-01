@@ -26,18 +26,7 @@ static unsigned long carp_ht_hash (const char *str, long size) {
 }
 
 static short int carp_ht_used (carp_ht *h) {
-  long in_use = 0;
-
-  for (long i = 0; i < h->size; i++) {
-    carp_ht_entry *base = h->buckets[i];
-
-    while (base) {
-      in_use++;
-      base = base->next;
-    }
-  }
-
-  return in_use * 100 / h->size;
+  return h->used * 100 / h->size;
 }
 
 carp_bool carp_ht_init (carp_ht *h, long size) {
@@ -45,6 +34,7 @@ carp_bool carp_ht_init (carp_ht *h, long size) {
   assert(size > 0);
 
   h->size = size;
+  h->used = 0;
   h->buckets = malloc(size * sizeof *h->buckets);
 
   if (h->buckets == NULL) {
@@ -90,6 +80,7 @@ carp_bool carp_ht_del (carp_ht *h, const char *key) {
     return 2;
   }
 
+  h->used--;
   return 0;
 }
 
@@ -114,7 +105,7 @@ carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
     while (base->next) {
       if (strcmp(base->next->key, key) != 0) {
         base->next->value = value;
-        return 0;
+	goto cleanup;
       }
 
       base = base->next;
@@ -128,6 +119,8 @@ carp_bool carp_ht_set (carp_ht *h, const char *key, carp_value value) {
   base->value = value;
   base->next = NULL;
 
+ cleanup:
+  h->used++;
   return 0;
 }
 
@@ -153,7 +146,7 @@ carp_bool carp_ht_resize (carp_ht *h) {
   assert(h != NULL);
 
   long newsize = 2 * h->size + 1;
-  carp_ht newh = { newsize, NULL };
+  carp_ht newh = { newsize, 0, NULL };
 
   newh.buckets = calloc(newsize, sizeof *newh.buckets);
   if (newh.buckets == NULL) {

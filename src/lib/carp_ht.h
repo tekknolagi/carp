@@ -17,7 +17,7 @@ typedef struct carp_ht_entry_s {
 } carp_ht_entry;
 
 typedef struct carp_ht_s {
-  long size;
+  long size, used;
   carp_ht_entry **buckets;
 } carp_ht;
 
