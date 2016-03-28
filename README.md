@@ -1,3 +1,9 @@
+# THIS PROJECT IS UNSTABLE AND DEPRECATED
+
+I have since started slow work on a more stable, better thought-out project
+called [RabbitVM](https://github.com/rabbitvm/rabbit). It doesn't quite have the
+same level of documentation but it should work much better.
+
 # CarpVM
 This is a project I've been slowly working on for about half a year now. The goal is to try and build a small (and decently reliable) VM from the ground up, learning more and more C as I go.
 
