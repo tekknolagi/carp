@@ -125,7 +125,7 @@ void carp_vm_err (carp_machine_state *m, const char *e) {
 }
 
 /*
-  Free the code, stack, varible table, and label table.
+  Free the code, stack, variable table, and label table.
 */
 void carp_vm_cleanup (carp_machine_state *m) {
   assert(m != NULL);
